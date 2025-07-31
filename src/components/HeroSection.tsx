@@ -45,9 +45,7 @@ const HeroSection = () => {
           </Button>
         </div>
         
-        <div className="pt-6 text-sm text-muted-foreground">
-          No credit card required • Free 14-day trial
-        </div>
+        
       </div>
       
       {/* Task Manager UI integrated in hero section with glassmorphic effect */}
@@ -55,106 +53,15 @@ const HeroSection = () => {
         <div className="cosmic-glow relative rounded-xl overflow-hidden border border-border backdrop-blur-sm bg-card shadow-lg">
           {/* Dashboard Header */}
           <div className="bg-card backdrop-blur-md w-full">
-            <div className="flex items-center justify-between p-4 border-b border-border">
-              <div className="flex items-center gap-4">
-                <div className="h-8 w-8 rounded-md bg-muted flex items-center justify-center">
-                  <div className="h-3 w-3 rounded-sm bg-foreground"></div>
-                </div>
-                <span className="text-foreground font-medium">Payment Processing Pipeline</span>
-              </div>
-              
-              <div className="flex items-center gap-3">
-                <div className="flex -space-x-2">
-                  <div className="h-8 w-8 rounded-full bg-muted border-2 border-card"></div>
-                  <div className="h-8 w-8 rounded-full bg-muted/80 border-2 border-card"></div>
-                  <div className="h-8 w-8 rounded-full bg-muted/60 border-2 border-card"></div>
-                  <div className="h-8 w-8 rounded-full bg-muted/40 border-2 border-card flex items-center justify-center text-xs text-foreground">+3</div>
-                </div>
-                
-                <div className="h-8 px-3 rounded-md bg-muted flex items-center justify-center text-foreground text-sm">
-                  Share
-                </div>
-              </div>
-            </div>
+            
             
             {/* Dashboard Content */}
             <div className="flex h-[600px] overflow-hidden">
               {/* Sidebar */}
-              <div className="w-64 border-r border-border p-4 space-y-4 hidden md:block bg-card">
-                <div className="space-y-2">
-                  <div className="text-xs text-muted-foreground uppercase">Navigation</div>
-                  <div className="space-y-1">
-                    <div className="flex items-center gap-3 px-3 py-2 rounded-md bg-muted text-foreground">
-                      <div className="h-3 w-3 rounded-sm bg-foreground"></div>
-                      <span>Payments</span>
-                    </div>
-                    <div className="flex items-center gap-3 px-3 py-2 rounded-md text-muted-foreground hover:bg-muted/50">
-                      <div className="h-3 w-3 rounded-sm bg-muted-foreground/30"></div>
-                      <span>Analytics</span>
-                    </div>
-                    <div className="flex items-center gap-3 px-3 py-2 rounded-md text-muted-foreground hover:bg-muted/50">
-                      <div className="h-3 w-3 rounded-sm bg-muted-foreground/30"></div>
-                      <span>Compliance</span>
-                    </div>
-                    <div className="flex items-center gap-3 px-3 py-2 rounded-md text-muted-foreground hover:bg-muted/50">
-                      <div className="h-3 w-3 rounded-sm bg-muted-foreground/30"></div>
-                      <span>Reports</span>
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="space-y-2 pt-4">
-                  <div className="text-xs text-muted-foreground uppercase">Departments</div>
-                  <div className="space-y-1">
-                    <div className="flex items-center gap-3 px-3 py-2 rounded-md text-muted-foreground hover:bg-muted/50">
-                      <div className="h-3 w-3 rounded-full bg-muted-foreground/60"></div>
-                      <span>Treasury</span>
-                    </div>
-                    <div className="flex items-center gap-3 px-3 py-2 rounded-md text-muted-foreground hover:bg-muted/50">
-                      <div className="h-3 w-3 rounded-full bg-muted-foreground/50"></div>
-                      <span>Risk</span>
-                    </div>
-                    <div className="flex items-center gap-3 px-3 py-2 rounded-md text-muted-foreground hover:bg-muted/50">
-                      <div className="h-3 w-3 rounded-full bg-muted-foreground/40"></div>
-                      <span>Operations</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              
               
               {/* Main Content */}
-              <div className="flex-1 p-4 bg-background overflow-hidden">
-                {/* Board Header */}
-                <div className="flex items-center justify-between mb-6 min-w-0">
-                  <div className="flex items-center gap-2 flex-shrink-0">
-                    <h3 className="font-medium text-foreground">Transactions</h3>
-                    <span className="text-xs bg-muted px-2 py-1 rounded-full text-muted-foreground">23</span>
-                  </div>
-                  
-                  <div className="flex items-center gap-2 flex-shrink-0">
-                    <div className="h-8 w-8 rounded-md bg-muted flex items-center justify-center text-muted-foreground">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M15 12H9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                        <path d="M12 9L12 15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                      </svg>
-                    </div>
-                    <div className="h-8 w-8 rounded-md bg-muted flex items-center justify-center text-muted-foreground">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M17 9L17 17H9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                        <path d="M17 17L7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </div>
-                    <div className="h-8 px-3 rounded-md bg-foreground text-background flex items-center justify-center text-sm font-medium whitespace-nowrap">
-                      New Transaction
-                    </div>
-                  </div>
-                </div>
-                
-                {/* Kanban Board */}
-                <div className="overflow-hidden">
-                  <TaskBoard />
-                </div>
-              </div>
+              
             </div>
           </div>
         </div>

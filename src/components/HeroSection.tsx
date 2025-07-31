@@ -41,7 +41,7 @@ const HeroSection = () => {
             Join the waitlist
           </Button>
           <Button variant="outline" className="border-border text-foreground hover:bg-accent hover:text-accent-foreground text-base h-12 px-8 transition-all duration-200 min-h-[48px]">
-            Book a demo
+            See how it works
           </Button>
         </div>
         

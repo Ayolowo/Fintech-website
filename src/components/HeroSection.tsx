@@ -29,7 +29,7 @@ const HeroSection = () => {
         </div>
         
         <h1 className="text-4xl md:text-6xl lg:text-7xl font-medium tracking-tighter text-balance text-foreground">
-          Financial operations for <span className="text-foreground">growth</span> businesses
+          Bridge money. Anywhere. Instantly.
         </h1>
         
         <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto text-balance">

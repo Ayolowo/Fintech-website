@@ -13,7 +13,7 @@ const Logo = () => {
         <img 
           src="/lovable-uploads/daa305d6-6b1a-47ae-95a1-e28c6872157c.png" 
           alt="Logo" 
-          className="h-20 w-20 object-contain light-mode:hidden dark-mode:block"
+          className="h-20 w-20 object-contain hidden dark-mode:block"
         />
       </div>
     </div>

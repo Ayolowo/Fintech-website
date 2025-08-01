@@ -1,38 +1,38 @@
 import React, { useState } from 'react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { ChevronDown, Layers, Grid3x3, ListCheck, BookOpen, Star, LayoutDashboard } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 const Features = () => {
   const [openFeature, setOpenFeature] = useState<number | null>(null);
   const features = [{
-    title: "Payment Automation",
-    description: "Automate payment processing and reconciliation to reduce manual errors and improve efficiency.",
-    expandedDescription: "Set up automated payment workflows with custom approval chains. Schedule recurring payments, automate invoice processing, and create conditional rules for different transaction types. Reduce manual intervention and ensure compliance with financial regulations.",
-    icon: <Layers size={24} className="text-cosmic-accent" />
+    title: "Instant Global Transfers",
+    description: "Send money anywhere in the world in seconds, not days.",
+    expandedDescription: "Built on Solana's high-speed blockchain infrastructure, PayBridge processes transfers globally in seconds. No waiting for bank processing windows, no delays during weekends or holidays. Money moves at the speed of the internet, 24/7.",
+    icon: <lord-icon src="https://cdn.lordicon.com/slkvcfos.json" trigger="loop" delay="2000" colors="primary:#3b82f6,secondary:#10b981" style={{width:"32px", height:"32px"}}></lord-icon>
   }, {
-    title: "Real-time Analytics",
-    description: "Monitor financial performance with real-time dashboards and comprehensive reporting.",
-    expandedDescription: "Track key financial metrics with customizable dashboards. Monitor cash flow, payment volumes, and transaction success rates in real-time. Generate detailed reports for stakeholders and identify trends before they impact your business.",
-    icon: <Grid3x3 size={24} className="text-cosmic-accent" />
+    title: "Zero Gas Fees",
+    description: "No network fees, no gas costs. Pay almost nothing to move money globally.",
+    expandedDescription: "Traditional crypto transactions can cost $50+ in gas fees. PayBridge eliminates these costs entirely. Send $10 or $10,000 with the same minimal service fee. No hidden charges, no surprise network fees.",
+    icon: <lord-icon src="https://cdn.lordicon.com/kiynvdns.json" trigger="loop" delay="2000" colors="primary:#ef4444,secondary:#f97316" style={{width:"32px", height:"32px"}}></lord-icon>
   }, {
-    title: "Risk Management",
-    description: "Advanced fraud detection and risk assessment tools to protect your business.",
-    expandedDescription: "Utilize machine learning algorithms to detect suspicious transactions and prevent fraud. Set up custom risk rules, monitor transaction patterns, and receive instant alerts for unusual activity. Protect your business with enterprise-grade security measures.",
-    icon: <LayoutDashboard size={24} className="text-cosmic-accent" />
+    title: "Local Currency Experience", 
+    description: "Work entirely in your home currency — we handle the blockchain complexity.",
+    expandedDescription: "Fund your account with CAD, NGN, USD, or other local currencies. See balances and send amounts in familiar terms. PayBridge handles all blockchain conversions and routing automatically behind the scenes.",
+    icon: <lord-icon src="https://cdn.lordicon.com/qhviklyi.json" trigger="loop" delay="2000" colors="primary:#10b981,secondary:#f59e0b" style={{width:"32px", height:"32px"}}></lord-icon>
   }, {
-    title: "Compliance Tools",
-    description: "Built-in compliance features to meet regulatory requirements effortlessly.",
-    expandedDescription: "Stay compliant with financial regulations across multiple jurisdictions. Automated KYC/AML checks, transaction monitoring, and regulatory reporting. Generate audit trails and maintain documentation to meet compliance standards.",
-    icon: <ListCheck size={24} className="text-cosmic-accent" />
+    title: "Diaspora-First Design",
+    description: "Built specifically for sending money home without traditional remittance fees.",
+    expandedDescription: "Skip Western Union, MoneyGram, and bank wire fees that can reach 10% or more. PayBridge connects immigrant communities with their families back home through direct, low-cost transfers that preserve more of what you earn.",
+    icon: <lord-icon src="https://cdn.lordicon.com/eszyyflr.json" trigger="loop" delay="2000" colors="primary:#8b5cf6,secondary:#ec4899" style={{width:"32px", height:"32px"}}></lord-icon>
   }, {
-    title: "Multi-currency Support",
-    description: "Process payments in multiple currencies with real-time exchange rates.",
-    expandedDescription: "Accept and process payments in over 150 currencies with competitive exchange rates. Automatic currency conversion, hedging tools, and multi-currency accounting. Expand your business globally with seamless international payment processing.",
-    icon: <Star size={24} className="text-cosmic-accent" />
+    title: "No Banking Required",
+    description: "Direct peer-to-peer transfers that bypass traditional banking infrastructure.",
+    expandedDescription: "PayBridge connects users directly without requiring traditional bank accounts or lengthy verification processes. Perfect for unbanked or underbanked communities who need reliable money movement options.",
+    icon: <lord-icon src="https://cdn.lordicon.com/nocovwne.json" trigger="loop" delay="2000" colors="primary:#f59e0b,secondary:#ef4444" style={{width:"32px", height:"32px"}}></lord-icon>
   }, {
-    title: "API Integration",
-    description: "Powerful APIs for seamless integration with your existing financial systems.",
-    expandedDescription: "Connect with your ERP, accounting software, and banking systems through our comprehensive APIs. Real-time webhooks, detailed documentation, and SDKs for popular programming languages. Build custom integrations that fit your unique business needs.",
-    icon: <BookOpen size={24} className="text-cosmic-accent" />
+    title: "Enterprise Security",
+    description: "Bank-grade security with the transparency and speed of blockchain technology.",
+    expandedDescription: "Your funds are protected by enterprise-grade security protocols and blockchain immutability. Transactions are transparent and verifiable, while your personal information remains private and secure.",
+    icon: <lord-icon src="https://cdn.lordicon.com/kkvxgpti.json" trigger="loop" delay="2000" colors="primary:#10b981,secondary:#3b82f6" style={{width:"32px", height:"32px"}}></lord-icon>
   }];
   const toggleFeature = (index: number) => {
     setOpenFeature(openFeature === index ? null : index);
@@ -40,8 +40,8 @@ const Features = () => {
   return <section id="features" className="w-full py-12 md:py-16 px-6 md:px-12">
       <div className="max-w-7xl mx-auto space-y-12">
         <div className="text-center space-y-3 max-w-3xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-medium tracking-tighter">Designed to be simple. Powered by Solana.</h2>
-          <p className="text-cosmic-muted text-lg">Your money app should feel as smooth as your favorite mobile wallet — with global reach under the hood.</p>
+          <h2 className="text-3xl md:text-4xl lg:text-[34px] xl:text-[34px] font-e-ukraine-Regular tracking-tighter">Designed to be simple. Powered by Solana.</h2>
+          <p className="sm:text-1xl text-cosmic-muted text-lg font-e-ukraine-Light">Your money app should feel as smooth as your favorite mobile wallet — with global reach under the hood.</p>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

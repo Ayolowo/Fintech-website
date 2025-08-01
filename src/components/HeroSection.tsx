@@ -36,23 +36,28 @@ const HeroSection = () => {
           </span>
         </div>
 
-        <h1 style={{fontSize: 68, fontFamily: "e-Ukraine-Medium"}} className="text-4xl md:text-6xl lg:text-7xl font-medium tracking-tighter text-balance text-foreground">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[68px] font-e-ukraine-Medium text-4xl md:text-6xl lg:text-7xl tracking-tighter text-balance text-foreground">
           Bridge money. Anywhere. Instantly.
         </h1>
 
-        <p style={{fontSize: 20, fontFamily: "e-Ukraine-Light"}} className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto text-balance">
+        <p className="text-base sm:text-lg md:text-xl font-e-ukraine-Light text-muted-foreground text-muted-foreground max-w-2xl mx-auto text-balance">
           International money, made local. Send across countries like it's a
           local transfer. No banks, no delays, no surprises.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center pt-6 items-center">
-          <Button style={{fontSize: 16, fontFamily: "e-Ukraine-Regular", backgroundColor: "#5CEA6A", color: "#1A1A1A"}} className="bg-primary text-primary-foreground hover:bg-primary/80 hover:text-primary-foreground text-base h-12 px-8 transition-all duration-200 min-h-[48px]">
+          <Button
+            style={{
+              backgroundColor: "#5CEA6A",
+              color: "#1A1A1A",
+            }}
+            className="text-sm sm:text-base h-10 sm:h-12 px-6 sm:px-8 font-e-ukraine-Regular bg-primary text-primary-foreground hover:bg-primary/80 hover:text-primary-foreground text-base h-12 px-8 transition-all duration-200 min-h-[48px]"
+          >
             Join the waitlist
           </Button>
           <Button
-            style={{fontSize: 16, fontFamily: "e-Ukraine-Regular"}}
             variant="outline"
-            className="border-border text-foreground hover:bg-accent hover:text-accent-foreground text-base h-12 px-8 transition-all duration-200 min-h-[48px]"
+            className="text-sm sm:text-base h-10 sm:h-12 px-6 sm:px-8 font-e-ukraine-Regular border-border text-foreground hover:bg-accent hover:text-accent-foreground text-base h-12 px-8 transition-all duration-200 min-h-[48px]"
           >
             See how it works
           </Button>
@@ -63,11 +68,27 @@ const HeroSection = () => {
       <div
         className={`w-full max-w-7xl mt-12 z-10 transition-all duration-1000 delay-500 ${
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-20"
-          }`} style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", gap: "40px", marginTop: "100px" }}
+        }`}
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "center",
+          gap: "40px",
+          marginTop: "100px",
+        }}
       >
         {/* Dashboard Header */}
-        <img src={iPhoneFront} alt="PayBridge Home Screen" style={{ width: "400px" }}  />{" "}
-        <img src={iPhoneSide} alt="PayBridge Home Screen Side" style={{ width: "450px" }} />
+        <img
+          src={iPhoneFront}
+          alt="PayBridge Home Screen"
+          style={{ width: "400px" }}
+        />{" "}
+        <img
+          src={iPhoneSide}
+          alt="PayBridge Home Screen Side"
+          style={{ width: "450px" }}
+        />
         {/* Dashboard Content */}
         <div className="flex h-[600px] overflow-hidden">
           {/* Sidebar */}

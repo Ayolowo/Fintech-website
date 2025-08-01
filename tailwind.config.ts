@@ -107,7 +107,10 @@ export default {
 				'gradient-shift': 'gradient-shift 8s ease infinite'
 			},
 			fontFamily: {
-				'inter': ['Inter', 'sans-serif']
+				'inter': ['Inter', 'sans-serif'],
+    			"e-ukraine-Regular": ["e-Ukraine-Regular", "sans-serif"],
+    			"e-ukraine-Medium": ["e-Ukraine-Medium", "sans-serif"],
+    			"e-ukraine-Light": ["e-Ukraine-Light", "sans-serif"],
 			},
 			letterSpacing: {
 				'tighter': '-0.05em',

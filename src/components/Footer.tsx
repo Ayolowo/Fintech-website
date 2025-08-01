@@ -12,7 +12,7 @@ const Footer = () => {
             Registration number: 10165448
           </p>
           <p className="text-muted-foreground font-e-ukraine-Light">
-            Built with ❤️ from Toronto, not Africa
+            Built with ❤️ from Toronto
           </p>
         </div>
 

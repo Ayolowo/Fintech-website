@@ -34,7 +34,7 @@ const CallToAction = () => {
 
         <div className="pt-8">
           <p className="text-sm text-muted-foreground font-e-ukraine-Light">
-            Launching Q2 2025 • Be the first to experience borderless money
+            Launching Q4 2025 • Be the first to experience borderless money
           </p>
         </div>
       </div>

@@ -1,5 +1,7 @@
+"use client";
+
 import React from "react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 
 const Footer = () => {
   return (
@@ -19,13 +21,13 @@ const Footer = () => {
 
         <div className="flex justify-center space-x-6">
           <Link 
-            to="/privacy" 
+            href="/privacy" 
             className="text-sm text-muted-foreground font-e-ukraine-Light hover:text-foreground transition-colors"
           >
             Privacy Policy
           </Link>
           <Link 
-            to="/terms" 
+            href="/terms" 
             className="text-sm text-muted-foreground font-e-ukraine-Light hover:text-foreground transition-colors"
           >
             Terms of Service

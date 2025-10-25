@@ -1,4 +1,7 @@
+"use client";
+
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import TaskBoard from "./TaskBoard";
 import { Loader } from "lucide-react";
@@ -41,7 +44,7 @@ const HeroSection = () => {
         </h1>
 
         <p className="text-base sm:text-lg md:text-xl font-e-ukraine-Light text-muted-foreground text-muted-foreground max-w-2xl mx-auto text-balance">
-          International money, made local. Send across countries like it's a
+          International money, made local. Send across countries like it&apos;s a
           local transfer. No banks, no delays, no surprises.
         </p>
 
@@ -79,15 +82,19 @@ const HeroSection = () => {
         }}
       >
         {/* Dashboard Header */}
-        <img
+        <Image
           src={iPhoneFront}
           alt="PayBridge Home Screen"
-          style={{ width: "400px" }}
-        />{" "}
-        <img
+          width={400}
+          height={800}
+          style={{ width: "400px", height: "auto" }}
+        />
+        <Image
           src={iPhoneSide}
           alt="PayBridge Home Screen Side"
-          style={{ width: "450px" }}
+          width={450}
+          height={900}
+          style={{ width: "450px", height: "auto" }}
         />
         {/* Dashboard Content */}
         <div className="flex h-[600px] overflow-hidden">

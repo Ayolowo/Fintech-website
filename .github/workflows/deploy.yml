@@ -34,8 +34,7 @@ jobs:
       
     - name: Build
       run: |
-        npm run build
-        touch dist/.nojekyll
+        bun run build
       
     - name: Setup Pages
       uses: actions/configure-pages@v4

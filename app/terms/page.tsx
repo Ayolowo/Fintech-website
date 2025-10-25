@@ -1,7 +1,9 @@
+"use client";
+
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
-const Terms = () => {
+export default function Terms() {
   return (
     <div className="min-h-screen flex flex-col bg-background text-foreground">
       <Header />
@@ -19,7 +21,7 @@ const Terms = () => {
           <div className="prose prose-lg max-w-none space-y-8">
             <div className="cosmic-card p-8 rounded-lg">
               <p className="text-foreground font-e-ukraine-Light leading-relaxed text-lg">
-                These Terms of Service ("Terms") govern your access to and use of PayBridge's mobile application, website, and related services (collectively, the "Services"). By creating an account or using our Services, you agree to be bound by these Terms.
+                These Terms of Service (&quot;Terms&quot;) govern your access to and use of PayBridge&apos;s mobile application, website, and related services (collectively, the &quot;Services&quot;). By creating an account or using our Services, you agree to be bound by these Terms.
               </p>
             </div>
 
@@ -28,7 +30,7 @@ const Terms = () => {
                 1. Company Information
               </h2>
               <p className="text-foreground font-e-ukraine-Light leading-relaxed text-lg">
-                PayBridge Inc. ("PayBridge," "we," "us," or "our") is a company incorporated in the State of Delaware, United States.
+                PayBridge Inc. (&quot;PayBridge,&quot; &quot;we,&quot; &quot;us,&quot; or &quot;our&quot;) is a company incorporated in the State of Delaware, United States.
               </p>
             </section>
 
@@ -121,7 +123,7 @@ const Terms = () => {
                 9. Disclaimers
               </h2>
               <ul className="list-disc pl-6 space-y-2 text-foreground font-e-ukraine-Light">
-                <li>PayBridge provides its Services "as is" and "as available," without warranties of any kind.</li>
+                <li>PayBridge provides its Services &quot;as is&quot; and &quot;as available,&quot; without warranties of any kind.</li>
                 <li>We do not guarantee uninterrupted, error-free, or risk-free Services.</li>
                 <li>Digital assets involve risks, including potential loss of value. You are solely responsible for your financial decisions.</li>
               </ul>
@@ -154,7 +156,7 @@ const Terms = () => {
                 12. Changes to These Terms
               </h2>
               <p className="text-foreground font-e-ukraine-Light leading-relaxed text-lg">
-                We may update these Terms from time to time. We will notify you by updating the "Last Updated" date above or by other means. Continued use of our Services after changes take effect constitutes acceptance of the new Terms.
+                We may update these Terms from time to time. We will notify you by updating the &quot;Last Updated&quot; date above or by other means. Continued use of our Services after changes take effect constitutes acceptance of the new Terms.
               </p>
             </section>
           </div>
@@ -163,6 +165,4 @@ const Terms = () => {
       <Footer />
     </div>
   );
-};
-
-export default Terms;
+}

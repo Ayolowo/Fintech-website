@@ -49,7 +49,7 @@ const Testimonials = () => {
                   <span key={i} className="text-primary inline-block mr-1">★</span>
                 ))}
               </div>
-              <p className="text-lg mb-8 text-foreground/90 italic">"{testimonial.quote}"</p>
+              <p className="text-lg mb-8 text-foreground/90 italic">&ldquo;{testimonial.quote}&rdquo;</p>
               <div className="flex items-center gap-4">
                 <div className={`h-12 w-12 rounded-full ${testimonial.avatar} bg-muted`}></div>
                 <div>

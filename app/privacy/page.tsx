@@ -1,7 +1,9 @@
+"use client";
+
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
-const Privacy = () => {
+export default function Privacy() {
   return (
     <div className="min-h-screen flex flex-col bg-background text-foreground">
       <Header />
@@ -19,7 +21,7 @@ const Privacy = () => {
           <div className="prose prose-lg max-w-none space-y-8">
             <div className="cosmic-card p-8 rounded-lg">
               <p className="text-foreground font-e-ukraine-Light leading-relaxed text-lg mb-6">
-                PayBridge, Inc. ("PayBridge," "we," "us," or "our") respects your privacy and is committed to protecting your personal information. This Privacy Policy explains how we collect, use, store, and share your information when you use our website, mobile application, and related services (the "Services").
+                PayBridge, Inc. (&quot;PayBridge,&quot; &quot;we,&quot; &quot;us,&quot; or &quot;our&quot;) respects your privacy and is committed to protecting your personal information. This Privacy Policy explains how we collect, use, store, and share your information when you use our website, mobile application, and related services (the &quot;Services&quot;).
               </p>
               <p className="text-foreground font-e-ukraine-Light leading-relaxed text-lg">
                 By using PayBridge, you agree to the practices described in this Privacy Policy.
@@ -152,7 +154,7 @@ const Privacy = () => {
                 8. Updates to This Privacy Policy
               </h2>
               <p className="text-foreground font-e-ukraine-Light leading-relaxed text-lg">
-                We reserve the right to update this Privacy Policy from time to time. Changes will be posted on our website and app, with the "Last Updated" date adjusted. Continued use of our Services after updates indicates acceptance of the revised policy.
+                We reserve the right to update this Privacy Policy from time to time. Changes will be posted on our website and app, with the &quot;Last Updated&quot; date adjusted. Continued use of our Services after updates indicates acceptance of the revised policy.
               </p>
             </section>
           </div>
@@ -161,6 +163,4 @@ const Privacy = () => {
       <Footer />
     </div>
   );
-};
-
-export default Privacy;
+}

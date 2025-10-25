@@ -1,3 +1,4 @@
+"use client";
 
 import React from 'react';
 import Header from '@/components/Header';
@@ -9,7 +10,7 @@ import FAQ from '@/components/FAQ';
 import CallToAction from '@/components/CallToAction';
 import Footer from '@/components/Footer';
 
-const Index = () => {
+export default function Home() {
   return (
     <div className="min-h-screen flex flex-col bg-background text-foreground">
       <Header />
@@ -24,6 +25,4 @@ const Index = () => {
       <Footer />
     </div>
   );
-};
-
-export default Index;
+}

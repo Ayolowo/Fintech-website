@@ -34,7 +34,7 @@ const WhoItsFor = () => {
       <div className="max-w-7xl mx-auto space-y-12">
         <div className="text-center space-y-3 max-w-3xl mx-auto">
           <h2 className="text-3xl md:text-4xl lg:text-[34px] xl:text-[34px] font-e-ukraine-Regular tracking-tighter">
-            Who It's For
+            Who It&apos;s For
           </h2>
           <p className="sm:text-1xl text-muted-foreground text-lg font-e-ukraine-Light">
             Built for anyone who needs money to move without friction.

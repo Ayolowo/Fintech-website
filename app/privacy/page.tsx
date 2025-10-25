@@ -14,7 +14,7 @@ export default function Privacy() {
               Privacy Policy
             </h1>
             <p className="text-muted-foreground font-e-ukraine-Light text-lg">
-              16th June 2025
+              25th October 2025
             </p>
           </div>
 
@@ -54,7 +54,7 @@ export default function Privacy() {
                   </h3>
                   <ul className="list-disc pl-6 space-y-2 text-foreground font-e-ukraine-Light">
                     <li>Wallet addresses and transaction history</li>
-                    <li>Bank account details when using fiat ramps (via partners such as YellowCard)</li>
+                    <li>Bank account details when using fiat ramps (via partners)</li>
                   </ul>
                 </div>
 
@@ -95,7 +95,7 @@ export default function Privacy() {
                 We may share your information with:
               </p>
               <ul className="list-disc pl-6 space-y-2 text-foreground font-e-ukraine-Light mb-4">
-                <li><strong>Service Providers:</strong> e.g., Persona (identity verification), YellowCard (fiat↔USDC conversions), and cloud hosting providers.</li>
+                <li><strong>Service Providers:</strong> e.g., Persona (identity verification), fiat to USDC conversions, and cloud hosting providers.</li>
                 <li><strong>Regulatory and Legal Authorities:</strong> when required to comply with applicable laws, regulations, or legal processes.</li>
                 <li><strong>Business Transfers:</strong> if PayBridge undergoes a merger, acquisition, or sale of assets.</li>
               </ul>
@@ -136,7 +136,7 @@ export default function Privacy() {
                 <li>Opt out of certain uses of your data</li>
               </ul>
               <p className="text-foreground font-e-ukraine-Light leading-relaxed text-lg">
-                To exercise these rights, contact us at [Insert Email].
+                To exercise these rights, contact us at support@paybridgefinance.com.
               </p>
             </section>
 

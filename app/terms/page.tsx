@@ -14,7 +14,7 @@ export default function Terms() {
               Terms of Service
             </h1>
             <p className="text-muted-foreground font-e-ukraine-Light text-lg">
-              16th June 2025
+              25th October 2025
             </p>
           </div>
 
@@ -103,7 +103,7 @@ export default function Terms() {
                 7. Compliance and Verification
               </h2>
               <ul className="list-disc pl-6 space-y-2 text-foreground font-e-ukraine-Light">
-                <li>We work with third parties like Persona (for KYC) and YellowCard (for fiat ramps). By using our Services, you agree that your information may be shared with them as necessary.</li>
+                <li>We work with third parties like Persona (for KYC) and Bridge (for fiat ramps). By using our Services, you agree that your information may be shared with them as necessary.</li>
                 <li>You must provide accurate and truthful information during registration and verification.</li>
               </ul>
             </section>

@@ -38,6 +38,22 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                const theme = localStorage.getItem('theme');
+                if (theme === 'dark') {
+                  document.documentElement.classList.add('dark-mode');
+                  document.documentElement.classList.remove('light-mode');
+                } else {
+                  document.documentElement.classList.add('light-mode');
+                  document.documentElement.classList.remove('dark-mode');
+                }
+              })();
+            `,
+          }}
+        />
         <script src="https://cdn.gpteng.co/gptengineer.js" type="module" async />
         <script src="https://cdn.lordicon.com/lordicon.js" async />
       </head>

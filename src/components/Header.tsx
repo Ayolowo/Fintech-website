@@ -2,21 +2,30 @@
 
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import LogoDark from "@/assets/dark-logo";
+import Logo from "@/components/Logo";
 import { Sun, Moon } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 
 const Header = () => {
-  const [isDarkMode, setIsDarkMode] = useState(false); // Default to light mode
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    // Initialize from localStorage or default to light mode
+    if (typeof window !== 'undefined') {
+      const savedTheme = localStorage.getItem('theme');
+      return savedTheme === 'dark';
+    }
+    return false;
+  });
 
   useEffect(() => {
     // Apply the theme to the document when it changes
     if (isDarkMode) {
       document.documentElement.classList.remove("light-mode");
       document.documentElement.classList.add("dark-mode");
+      localStorage.setItem('theme', 'dark');
     } else {
       document.documentElement.classList.remove("dark-mode");
       document.documentElement.classList.add("light-mode");
+      localStorage.setItem('theme', 'light');
     }
   }, [isDarkMode]);
 
@@ -27,11 +36,11 @@ const Header = () => {
   return (
     <div className="sticky top-0 z-50 pt-8 px-4">
       <header className="w-full max-w-7xl mx-auto py-3 px-6 md:px-8 flex items-center justify-between">
-        <div
-          className="p-3"
-          style={{ display: "flex", alignItems: "center", gap: "20px" }}
+        <a
+          href="/"
+          className="p-3 flex items-center gap-5 cursor-pointer hover:opacity-80 transition-opacity"
         >
-          <LogoDark />
+          <Logo isDarkMode={isDarkMode} className="h-12 w-12" />
           <span
             style={{
               fontSize: 24,
@@ -41,7 +50,7 @@ const Header = () => {
           >
             PayBridge
           </span>
-        </div>
+        </a>
 
         <div className="flex items-center gap-4">
           {/* Theme toggle */}

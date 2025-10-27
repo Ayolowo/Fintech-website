@@ -10,24 +10,17 @@ import { Inter } from "next/font/google";
 
 const inter = Inter({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: [ "400", "500", "600", "700"],
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Cosmos Tasks | Modern Task Management For Teams",
-  description: "Streamline your workflow with our intuitive task management platform. Designed for modern teams who value clarity, focus, and results.",
-  authors: [{ name: "Cosmos Tasks" }],
+  title: "PayBridge | Money Movement Made Easy",
+  description: "Send and receive money instantly, globally, and securely with PayBridge.",
   openGraph: {
-    title: "Cosmos Tasks | Modern Task Management For Teams",
-    description: "Streamline your workflow with our intuitive task management platform. Designed for modern teams who value clarity, focus, and results.",
-    type: "website",
-    images: ["https://lovable.dev/opengraph-image-p98pqg.png"],
-  },
-  twitter: {
-    card: "summary_large_image",
-    site: "@cosmos_tasks",
-    images: ["https://lovable.dev/opengraph-image-p98pqg.png"],
+    title: "PayBridge | Money Movement Made Easy",
+    description: "Send and receive money instantly, globally, and securely with PayBridge.",
+    url: "https://paybridge.app",
   },
   verification: {
     google: "NxKt5OkRoxqKCxghTBI9aa7TzuaVLyuqkM6S2oNF8x0",

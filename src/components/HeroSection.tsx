@@ -3,10 +3,9 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import TaskBoard from "./TaskBoard";
 import { Loader } from "lucide-react";
-import iPhoneFront from "../assets/iPhone-14-home-front.png";
-import iPhoneSide from "../assets/iPhone-14-home-side.png";
+import iPhoneFront from "../assets/home-front.png";
+import iPhoneSide from "../assets/home-side.png";
 
 const HeroSection = () => {
   const [isVisible, setIsVisible] = useState(false);

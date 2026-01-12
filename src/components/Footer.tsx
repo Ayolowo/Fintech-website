@@ -32,6 +32,12 @@ const Footer = () => {
           >
             Terms of Service
           </Link>
+          <Link 
+            href="/support" 
+            className="text-sm text-muted-foreground font-e-ukraine-Light hover:text-foreground transition-colors"
+          >
+            Support
+          </Link>
         </div>
 
         <div className="pt-6 border-t border-border">

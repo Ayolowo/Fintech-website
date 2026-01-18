@@ -39,7 +39,7 @@ const Footer = () => {
 
         <div className="pt-6 border-t border-border">
           <p className="text-sm text-muted-foreground font-e-ukraine-Light">
-            © 2025 PayBridge Inc. All rights reserved.
+            © 2026 PayBridge Inc. All rights reserved.
           </p>
         </div>
       </div>

@@ -14,9 +14,6 @@ const Footer = () => {
           <p className="text-muted-foreground font-e-ukraine-Light">
             Registration number: 10165448
           </p>
-          <p className="text-muted-foreground font-e-ukraine-Light">
-            Built with ❤️ from Toronto
-          </p>
         </div>
 
         <div className="flex justify-center space-x-6">

@@ -8,6 +8,18 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'lovable.dev',
       },
+      {
+        protocol: 'https',
+        hostname: 'tools.applemediaservices.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'play.google.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'upload.wikimedia.org',
+      },
     ],
   },
   typescript: {

@@ -32,10 +32,10 @@ const WhyPayBridge = () => {
     <section className="w-full py-12 md:py-16 px-6 md:px-12 bg-muted/30">
       <div className="max-w-7xl mx-auto space-y-12">
         <div className="text-center space-y-3 max-w-3xl mx-auto">
-          <h2 className="text-3xl md:text-4xl lg:text-[34px] xl:text-[34px] font-e-ukraine-Regular tracking-tighter">
+          <h2 className="text-3xl md:text-4xl lg:text-[34px] xl:text-[34px] font-normal tracking-tighter">
             Why PayBridge?
           </h2>
-          <p className="sm:text-1xl text-muted-foreground text-lg font-e-ukraine-Light">
+          <p className="sm:text-1xl text-muted-foreground text-lg font-light">
             Built for the diaspora, not the banks.
           </p>
         </div>
@@ -46,10 +46,10 @@ const WhyPayBridge = () => {
               <div className="w-12 h-12 bg-muted rounded-full mx-auto mb-4 flex items-center justify-center">
                 <div className="w-6 h-6 bg-muted-foreground/20 rounded"></div>
               </div>
-              <h3 className="text-xl font-e-ukraine-Regular tracking-tighter">
+              <h3 className="text-xl font-normal tracking-tighter">
                 {feature.title}
               </h3>
-              <p className="text-muted-foreground font-e-ukraine-Light">
+              <p className="text-muted-foreground font-light">
                 {feature.description}
               </p>
             </div>

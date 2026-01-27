@@ -1,82 +1,55 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
+import React from "react";
 import Logo from "@/components/Logo";
-import { Sun, Moon } from "lucide-react";
-import { Switch } from "@/components/ui/switch";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const Header = () => {
-  const [isDarkMode, setIsDarkMode] = useState(() => {
-    // Initialize from localStorage or default to light mode
-    if (typeof window !== 'undefined') {
-      const savedTheme = localStorage.getItem('theme');
-      return savedTheme === 'dark';
-    }
-    return false;
-  });
-
-  useEffect(() => {
-    // Apply the theme to the document when it changes
-    if (isDarkMode) {
-      document.documentElement.classList.remove("light-mode");
-      document.documentElement.classList.add("dark-mode");
-      localStorage.setItem('theme', 'dark');
-    } else {
-      document.documentElement.classList.remove("dark-mode");
-      document.documentElement.classList.add("light-mode");
-      localStorage.setItem('theme', 'light');
-    }
-  }, [isDarkMode]);
-
-  const toggleTheme = () => {
-    setIsDarkMode(!isDarkMode);
-  };
+  const pathname = usePathname();
+  const isBusinessPage = pathname === "/business";
 
   return (
-    <div className="sticky top-0 z-50 pt-8 px-4">
-      <header className="w-full max-w-7xl mx-auto py-3 px-6 md:px-8 flex items-center justify-between">
+    <div className="bg-background px-4 md:px-8">
+      <header className="w-full max-w-8xl mx-auto py-3 flex items-center justify-between">
         <a
           href="/"
-          className="p-3 flex items-center gap-5 cursor-pointer hover:opacity-80 transition-opacity"
+          className="p-3 flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity"
         >
-          <Logo isDarkMode={isDarkMode} className="h-12 w-12" />
+          <Logo className="h-12 w-12" />
           <span
             style={{
-              fontSize: 24,
-              fontFamily: "e-Ukraine-Bold",
+              fontSize: 32,
             }}
-            className="text-4xl md:text-6xl lg:text-7xl font-medium tracking-tighter text-balance text-foreground"
+            className="text-4xl md:text-6xl lg:text-7xl font-extrabold text-black"
           >
             PayBridge
           </span>
         </a>
 
-        <div className="flex items-center gap-4">
-          {/* Theme toggle */}
-          <div className="flex items-center gap-2 rounded-full px-3 py-2">
-            <Moon
-              size={18}
-              className={`${
-                isDarkMode ? "text-primary" : "text-muted-foreground"
-              }`}
-            />
-            <Switch
-              checked={!isDarkMode}
-              onCheckedChange={toggleTheme}
-              className="data-[state=checked]:bg-primary"
-            />
-            <Sun
-              size={18}
-              className={`${
-                !isDarkMode ? "text-primary" : "text-muted-foreground"
-              }`}
-            />
-          </div>
-          {/* <div className="hidden md:block rounded-2xl">
-            <Button variant="ghost" className="text-muted-foreground hover:text-foreground hover:bg-muted">Log in</Button>
-          </div> */}
-        </div>
+        {/* Navigation Tabs */}
+        <nav className="flex items-center gap-2 bg-muted/50 rounded-full p-1">
+          <Link
+            href="/"
+            className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${
+              !isBusinessPage
+                ? "bg-foreground text-background"
+                : "text-foreground hover:bg-muted"
+            }`}
+          >
+            Personal
+          </Link>
+          <Link
+            href="/business"
+            className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${
+              isBusinessPage
+                ? "bg-foreground text-background"
+                : "text-foreground hover:bg-muted"
+            }`}
+          >
+            Business
+          </Link>
+        </nav>
       </header>
     </div>
   );

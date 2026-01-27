@@ -25,13 +25,13 @@ const FAQ = () => {
   ];
 
   return (
-    <section className="w-full py-12 md:py-16 px-6 md:px-12 bg-muted/30">
+    <section className="w-full py-12 md:py-16 px-4 md:px-8 bg-muted/30">
       <div className="max-w-4xl mx-auto space-y-12">
         <div className="text-center space-y-3">
-          <h2 className="text-3xl md:text-4xl lg:text-[34px] xl:text-[34px] font-e-ukraine-Regular tracking-tighter">
+          <h2 className="text-3xl md:text-4xl lg:text-[34px] xl:text-[34px] font-normal tracking-tighter">
             Frequently Asked Questions
           </h2>
-          <p className="sm:text-1xl text-muted-foreground text-lg font-e-ukraine-Light">
+          <p className="sm:text-1xl text-muted-foreground text-lg font-light">
             Everything you need to know about PayBridge.
           </p>
         </div>
@@ -39,10 +39,10 @@ const FAQ = () => {
         <div className="space-y-6">
           {faqs.map((faq, index) => (
             <div key={index} className="bg-background/80 rounded-xl p-6 border border-border/50">
-              <h3 className="text-lg font-e-ukraine-Regular mb-3">
+              <h3 className="text-lg font-normal mb-3">
                 {faq.question}
               </h3>
-              <p className="text-muted-foreground font-e-ukraine-Light">
+              <p className="text-muted-foreground font-light">
                 {faq.answer}
               </p>
             </div>

@@ -5,19 +5,15 @@ import LogoLight from "@/assets/light-logo";
 import React from "react";
 
 interface LogoProps {
-  isDarkMode?: boolean;
   className?: string;
+  variant?: "dark" | "light";
 }
 
-const Logo = ({ isDarkMode, className }: LogoProps) => {
-  return (
-    <>
-      {isDarkMode ? (
-        <LogoLight className={className} />
-      ) : (
-        <LogoDark className={className} />
-      )}
-    </>
+const Logo = ({ className, variant = "dark" }: LogoProps) => {
+  return variant === "light" ? (
+    <LogoLight className={className} />
+  ) : (
+    <LogoDark className={className} />
   );
 };
 

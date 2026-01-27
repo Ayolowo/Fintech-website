@@ -15,15 +15,66 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "PayBridge | Money Movement Made Easy",
-  description: "Send and receive money instantly, globally, and securely with PayBridge.",
+  title: "PayBridge - Send Money Internationally | Virtual USD Account & Currency Exchange",
+  description: "Send and receive money globally with PayBridge. Get your virtual USD account, exchange multiple currencies at competitive rates, and transfer to 140+ countries. Fast, secure international money transfers.",
+  keywords: [
+    "international money transfer",
+    "send money abroad",
+    "virtual USD account",
+    "currency exchange",
+    "receive payments globally",
+    "global payments",
+    "cross-border payments",
+    "money transfer app",
+    "USD account",
+    "multi-currency wallet",
+    "PayBridge",
+    "withdraw to local currency",
+    "freelancer payments",
+    "remote work payments"
+  ],
+  authors: [{ name: "PayBridge Inc." }],
+  creator: "PayBridge Inc.",
+  publisher: "PayBridge Inc.",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
   openGraph: {
-    title: "PayBridge | Money Movement Made Easy",
-    description: "Send and receive money instantly, globally, and securely with PayBridge.",
-    url: "https://paybridge.app",
+    type: "website",
+    locale: "en_US",
+    url: "https://www.paybridgefinance.com",
+    title: "PayBridge - Send Money Internationally | Virtual USD Account",
+    description: "Send and receive money globally with PayBridge. Get your virtual USD account, exchange currencies, and transfer to 140+ countries with competitive rates.",
+    siteName: "PayBridge",
+    images: [
+      {
+        url: "https://www.paybridgefinance.com/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "PayBridge - International Money Transfer",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "PayBridge - Send Money Internationally",
+    description: "Virtual USD account, currency exchange, and global money transfers to 140+ countries.",
+    images: ["https://www.paybridgefinance.com/og-image.png"],
+    creator: "@paybridge",
   },
   verification: {
     google: "NxKt5OkRoxqKCxghTBI9aa7TzuaVLyuqkM6S2oNF8x0",
+  },
+  alternates: {
+    canonical: "https://www.paybridgefinance.com",
   },
 };
 

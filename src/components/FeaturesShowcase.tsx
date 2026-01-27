@@ -8,73 +8,77 @@ import holdImg from "../assets/hold.png";
 
 const FeaturesShowcase = () => {
   return (
-    <div className="w-full">
+    <div className="w-full overflow-hidden">
       <div className="max-w-8xl mx-auto px-4 md:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-20">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-20 gap-y-16 lg:gap-y-0">
           {/* Feature 1 - Virtual Accounts - LEFT COLUMN */}
-          <div className="min-h-screen bg-background py-20 flex flex-col justify-start">
-            <div className="space-y-4 mb-12">
+          <div className="py-12 md:py-20 lg:min-h-screen bg-background flex flex-col justify-start">
+            <div className="space-y-4 mb-8 md:mb-12">
               <p className="text-sm font-medium text-primary uppercase tracking-wider">
-                YOUR GLOBAL ACCOUNT
+                YOUR PERSONAL USD ACCOUNT
               </p>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-foreground">
-                Easily get paid in US dollars
+              <h2 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold leading-tight text-foreground">
+                Receive payments in US dollars
               </h2>
-              <p className="text-lg md:text-xl text-muted-foreground font-light leading-relaxed">
-                Open your own Virtual USD Account to work from anywhere, get
-                paid from clients abroad, and withdraw to your local currency.
+              <p className="text-base md:text-lg lg:text-xl text-muted-foreground font-light leading-relaxed">
+                Create a USD account in your name to accept payments from anywhere,
+                get paid by clients globally, and withdraw to your local currency.
               </p>
             </div>
             <Image
               src={virtualAccountImg}
               alt="Virtual Account Details"
-              className="w-full max-w-[350px] h-auto"
+              width={350}
+              height={700}
+              className="w-full max-w-[280px] md:max-w-[350px] h-auto"
               priority
+              placeholder="blur"
             />
           </div>
 
           {/* Feature 2 - Hold and Convert - RIGHT COLUMN */}
-          <div
-            className="min-h-screen bg-green-50 -mx-4 md:-mx-8 px-4 md:px-8 lg:mx-0 lg:px-10 py-20 flex flex-col justify-start lg:rounded-3xl lg:translate-y-[50%]"
-          >
-            <div className="space-y-4 mb-12">
+          <div className="py-12 md:py-20 lg:min-h-screen bg-green-50 rounded-3xl px-6 md:px-10 flex flex-col justify-start lg:translate-y-0 xl:translate-y-[50%]">
+            <div className="space-y-4 mb-8 md:mb-12">
               <p className="text-sm font-medium text-green-600 uppercase tracking-wider">
-                HOLD AND CONVERT
+                MULTI-CURRENCY WALLET
               </p>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-tight text-foreground">
-                Hold and convert to any currency
+              <h2 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold leading-tight text-foreground">
+                Store and exchange multiple currencies
               </h2>
-              <p className="text-lg md:text-xl text-muted-foreground font-light leading-relaxed">
-                Store your money safely and convert to any currency whenever you need. Get the best rates when you&apos;re ready.
+              <p className="text-base md:text-lg lg:text-xl text-muted-foreground font-light leading-relaxed">
+                Keep your funds secure in PayBridge and exchange between currencies anytime. Access competitive rates when you&apos;re ready to convert.
               </p>
             </div>
             <Image
               src={holdImg}
               alt="Hold and Convert"
-              className="w-full max-w-[350px] h-auto"
-              loading="lazy"
+              width={350}
+              height={700}
+              className="w-full max-w-[280px] md:max-w-[350px] h-auto"
+              placeholder="blur"
             />
           </div>
 
           {/* Feature 3 - Withdraw - LEFT COLUMN */}
-          <div className="min-h-screen bg-yellow-50 -mx-4 md:-mx-8 px-4 md:px-8 lg:mx-0 lg:px-10 py-20 flex flex-col justify-start lg:rounded-3xl lg:translate-y-[10%]">
-            <div className="space-y-4 mb-12">
+          <div className="py-12 md:py-20 lg:min-h-screen bg-yellow-50 rounded-3xl px-6 md:px-10 flex flex-col justify-start lg:translate-y-0 xl:translate-y-[10%]">
+            <div className="space-y-4 mb-8 md:mb-12">
               <p className="text-sm font-medium text-primary uppercase tracking-wider">
-                MOVE MONEY WHEN YOU WANT
+                FLEXIBLE PAYOUTS
               </p>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground">
-                Withdraw whenever you need to
+              <h2 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-foreground">
+                Send money to your local bank
               </h2>
-              <p className="text-lg md:text-xl text-muted-foreground font-light leading-relaxed">
-                Hold your money until rates favor you. Withdraw to your local
-                accounts, so you can spend easily in your local currency.
+              <p className="text-base md:text-lg lg:text-xl text-muted-foreground font-light leading-relaxed">
+                Keep funds in your PayBridge wallet, convert and withdraw when you&apos;re ready.
               </p>
             </div>
             <Image
               src={withdrawMoneyImg}
               alt="Withdraw Money"
-              className="w-full max-w-[450px] h-auto"
-              loading="lazy"
+              width={450}
+              height={900}
+              className="w-full max-w-[300px] md:max-w-[400px] lg:max-w-[450px] h-auto"
+              placeholder="blur"
             />
           </div>
         </div>

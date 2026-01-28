@@ -30,8 +30,8 @@ const Security = () => {
   return (
     <section className="w-full py-16 md:py-24 px-4 md:px-8 bg-background">
       <div className="max-w-8xl mx-auto">
-        <div className="text-center mb-20 mt-20">
-          <h2 className="text-3xl md:text-4xl lg:text-[48px] font-semibold text-foreground">
+        <div className="text-center mb-20">
+          <h2 className="text-3xl md:text-4xl lg:text-[36px] font-bold text-foreground">
             Your security is our top priority
           </h2>
         </div>

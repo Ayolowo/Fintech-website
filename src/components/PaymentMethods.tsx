@@ -1,20 +1,26 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
+import airtelMoney from "../assets/payment-methods/airtel money.jpg";
+import moovMoney from "../assets/payment-methods/moov money.webp";
+import mpesa from "../assets/payment-methods/mpesa.avif";
+import mtn from "../assets/payment-methods/mtn.avif";
+import orange from "../assets/payment-methods/orange.avif";
+import solana from "../assets/payment-methods/solana.avif";
+import spei from "../assets/payment-methods/spei.avif";
+import interac from "../assets/payment-methods/interac.webp"
 
 const PaymentMethods = () => {
   const paymentMethods = [
-    { name: "MTN MoMo", color: "text-yellow-600" },
-    { name: "ACH", color: "text-blue-600" },
-    { name: "SPEI", color: "text-green-600" },
-    { name: "PIX", color: "text-teal-600" },
-    { name: "Interac", color: "text-yellow-500" },
-    { name: "Airtel Money", color: "text-red-600" },
-    { name: "M-Pesa", color: "text-green-700" },
-    { name: "SEPA", color: "text-blue-700" },
-    { name: "Bank Transfer", color: "text-gray-700" },
-    { name: "Visa", color: "text-blue-800" },
-    { name: "Mastercard", color: "text-red-700" },
+    { name: "MTN Mobile Money", logo: mtn },
+    { name: "M-Pesa", logo: mpesa },
+    { name: "Airtel Money", logo: airtelMoney },
+    { name: "Moov Money", logo: moovMoney },
+    { name: "Orange Money", logo: orange },
+    { name: "SPEI", logo: spei },
+    { name: "Solana", logo: solana },
+    { name: "Interac", logo: interac },
   ];
 
   // Duplicate the array to create seamless loop
@@ -23,27 +29,25 @@ const PaymentMethods = () => {
   return (
     <section className="w-full py-20 bg-background overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 md:px-8 mb-12">
-        <div className="text-center">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
-            Built to work with payment methods you use every single day
+        <div className="text-center mb-20 mt-20">
+          <h2 className="text-3xl md:text-4xl lg:text-[36px] font-bold text-foreground">
+            Payment methods you use every single day
           </h2>
-          <p className="text-lg md:text-xl text-muted-foreground">
-            Pay people in 140+ countries
-          </p>
         </div>
       </div>
 
       {/* Auto-scrolling container */}
       <div className="relative">
-        <div className="flex gap-8 animate-scroll items-center">
+        <div className="flex gap-32 animate-scroll items-center">
           {duplicatedMethods.map((method, index) => (
-            <div
-              key={index}
-              className="flex-shrink-0 px-6 py-3 rounded-full bg-muted/50 backdrop-blur-sm"
-            >
-              <p className={`text-lg font-bold whitespace-nowrap ${method.color}`}>
-                {method.name}
-              </p>
+            <div key={index} className="flex-shrink-0">
+              <Image
+                src={method.logo}
+                alt={method.name}
+                width={180}
+                height={90}
+                className="w-auto h-[90px] object-contain"
+              />
             </div>
           ))}
         </div>

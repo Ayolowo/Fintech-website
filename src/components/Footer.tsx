@@ -111,9 +111,10 @@ const Footer = () => {
         {/* Bottom Section */}
         <div className="pt-8 border-t border-background/20">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-background/60 text-sm">
-              © 2026 PayBridge Inc. All rights reserved. Registration number: 10165448
-            </p>
+            <div className="text-background/60 text-sm space-y-1">
+              <p>PayLegacy Technologies Ltd, Inc., Reg No: 1001495790</p>
+              <p>© 2026 PayBridge Inc. All rights reserved. Registration number: 10165448</p>
+            </div>
             <p className="text-background/60 text-sm">
               Made with care for global payments
             </p>

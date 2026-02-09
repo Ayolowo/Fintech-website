@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 
 const BusinessDashboard = () => {
   return (
@@ -22,10 +23,14 @@ const BusinessDashboard = () => {
 
             {/* Bottom - Dashboard Image */}
             <div className="w-full max-w-6xl mx-auto">
-              <img
+              <Image
                 src="/dashboard.png"
                 alt="PayBridge Business Dashboard"
+                width={1291}
+                height={824}
                 className="w-full h-auto rounded-2xl shadow-2xl border border-gray-200"
+                priority
+                quality={85}
               />
             </div>
           </div>

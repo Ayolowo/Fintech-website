@@ -263,7 +263,7 @@ const BusinessCalculator = () => {
                 className="flex items-center gap-2 px-3.5 py-2.5 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors"
                 style={{ backgroundColor: "#16330014" }}
               >
-                <CircleFlag countryCode={fromCountry} height="22" width="22" />
+                <CircleFlag countryCode={fromCountry} height="35" width="35"  />
                 <span className="text-base font-semibold text-gray-900">
                   {fromCurrency}
                 </span>
@@ -319,7 +319,7 @@ const BusinessCalculator = () => {
                 className="flex items-center gap-2 px-3.5 py-2.5 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors"
                 style={{ backgroundColor: "#16330014" }}
               >
-                <CircleFlag countryCode={toCountry} height="22" width="22" />
+                <CircleFlag countryCode={toCountry} height="35" width="35"  />
                 <span className="text-base font-semibold text-gray-900">
                   {toCurrency}
                 </span>
@@ -344,7 +344,7 @@ const BusinessCalculator = () => {
 
         {/* Divider */}
         <div className="border-t border-gray-200 my-8"></div>
-        
+
          {/* Exchange rate */}
         <div className="flex items-center justify-between mb-8 w-full px-4 py-3 rounded-full" style={{backgroundColor: "#16330014"}}>
           <span className="text-[14px] font-normal text-gray-600">Exchange rate</span>

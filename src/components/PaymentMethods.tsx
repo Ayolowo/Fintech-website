@@ -64,7 +64,7 @@ const PaymentMethods = () => {
         }
 
         .animate-scroll {
-          animation: scroll 40s linear infinite;
+          animation: scroll 5s linear infinite;
         }
 
         .animate-scroll:hover {

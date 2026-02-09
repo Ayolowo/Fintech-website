@@ -28,6 +28,15 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: false,
   },
+  // Disable all dev server logging
+  onDemandEntries: {
+    maxInactiveAge: 25 * 1000,
+    pagesBufferLength: 2,
+  },
+  // Suppress dev server output
+  productionBrowserSourceMaps: false,
+  // Reduce logging
+  compress: true,
 }
 
 module.exports = nextConfig

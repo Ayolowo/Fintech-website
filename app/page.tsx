@@ -4,6 +4,7 @@ import React from 'react';
 import Script from 'next/script';
 import Header from '@/components/Header';
 import HeroSection from '@/components/HeroSection';
+import ExchangeRateCalculator from '@/components/ExchangeRateCalculator';
 import Security from '@/components/Security';
 import FeaturesShowcase from '@/components/FeaturesShowcase';
 import PaymentMethods from '@/components/PaymentMethods';
@@ -121,16 +122,11 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteData) }}
       />
 
-      <div className="min-h-screen flex flex-col bg-background text-foreground">
-        <div className="relative bg-background">
-          {/* Cosmic particle effect (background dots) */}
-          <div className="absolute inset-0 cosmic-grid opacity-30"></div>
-          <div className="relative z-10">
-            <Header />
-            <HeroSection />
-          </div>
-        </div>
+      <div className="min-h-screen flex flex-col bg-white text-foreground">
+        <Header />
         <main>
+          <HeroSection />
+          <ExchangeRateCalculator />
           <FeaturesShowcase />
           <PaymentMethods />
           <Security />

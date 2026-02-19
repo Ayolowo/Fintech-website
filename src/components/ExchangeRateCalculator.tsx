@@ -245,7 +245,7 @@ const ExchangeRateCalculator = () => {
                       type="text"
                       value={formatNumberDisplay(fromAmount)}
                       onChange={handleFromAmountChange}
-                      className="flex-1 min-w-0 text-4xl sm:text-5xl font-black outline-none bg-transparent text-left pl-2"
+                      className="flex-1 min-w-0 text-3xl sm:text-4xl md:text-5xl font-black outline-none bg-transparent text-left pl-2"
                       style={{
                         color: "#163300",
                         fontFamily:
@@ -294,7 +294,7 @@ const ExchangeRateCalculator = () => {
                   </label>
                   <div className="flex items-center gap-3 min-w-0">
                     <div
-                      className="flex-1 min-w-0 text-4xl sm:text-5xl font-black text-left pl-2"
+                      className="flex-1 min-w-0 text-3xl sm:text-4xl md:text-5xl font-black text-left pl-2"
                       style={{
                         color: "#163300",
                         fontFamily:

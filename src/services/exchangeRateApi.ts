@@ -1,4 +1,5 @@
-const API_BASE_URL = 'https://paybridge-go.onrender.com';
+// All API calls now go through Next.js API routes
+const API_BASE_URL = '/api';
 
 export interface BridgeExchangeRate {
   currency: string;

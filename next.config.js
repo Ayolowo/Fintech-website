@@ -1,6 +1,26 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  webpack: (config, { isServer }) => {
+    // Fixes for Solana web3.js
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        net: false,
+        tls: false,
+        crypto: false,
+      };
+    }
+
+    config.externals = config.externals || {};
+    config.externals['@solana/kit'] = 'commonjs @solana/kit';
+    config.externals['@solana-program/memo'] = 'commonjs @solana-program/memo';
+    config.externals['@solana-program/system'] = 'commonjs @solana-program/system';
+    config.externals['@solana-program/token'] = 'commonjs @solana-program/token';
+
+    return config;
+  },
   images: {
     unoptimized: true,
     remotePatterns: [

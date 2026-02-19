@@ -169,7 +169,7 @@ const BusinessCalculator = () => {
     const regionOrder = ["Americas", "Europe", "Africa"];
 
     return (
-      <div className="absolute left-0 mt-2 w-72 bg-white border border-gray-200 rounded-2xl shadow-2xl z-50 overflow-hidden">
+      <div className="absolute right-0 mt-2 w-72 bg-white border border-gray-200 rounded-2xl shadow-2xl z-50 overflow-hidden">
         <div className="p-3 border-b border-gray-100 bg-gray-50">
           <div className="flex items-center gap-2 bg-white rounded-lg px-3 py-2.5 border border-gray-200">
             <Search className="w-4 h-4 text-gray-400" />

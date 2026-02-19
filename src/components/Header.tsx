@@ -22,29 +22,51 @@ const Header = () => {
           </span>
         </a>
 
-        {/* Navigation Tabs */}
-        <nav className="flex items-center gap-1 md:gap-2 bg-muted/50 rounded-full p-1 flex-shrink-0">
-          <Link
-            href="/"
-            className={`px-3 md:px-6 py-2 rounded-full text-xs md:text-sm font-medium transition-all whitespace-nowrap ${
-              !isBusinessPage
-                ? "bg-foreground text-background"
-                : "text-foreground hover:bg-muted"
-            }`}
-          >
-            Personal
-          </Link>
-          <Link
-            href="/business"
-            className={`px-3 md:px-6 py-2 rounded-full text-xs md:text-sm font-medium transition-all whitespace-nowrap ${
-              isBusinessPage
-                ? "bg-foreground text-background"
-                : "text-foreground hover:bg-muted"
-            }`}
-          >
-            Business
-          </Link>
-        </nav>
+        <div className="flex items-center gap-3">
+          {/* Navigation Tabs */}
+          <nav className="flex items-center gap-1 md:gap-2 bg-muted/50 rounded-full p-1 flex-shrink-0">
+            <Link
+              href="/"
+              className={`px-3 md:px-6 py-2 rounded-full text-xs md:text-sm font-medium transition-all whitespace-nowrap ${
+                !isBusinessPage
+                  ? "bg-foreground text-background"
+                  : "text-foreground hover:bg-muted"
+              }`}
+            >
+              Personal
+            </Link>
+            <Link
+              href="/business"
+              className={`px-3 md:px-6 py-2 rounded-full text-xs md:text-sm font-medium transition-all whitespace-nowrap ${
+                isBusinessPage
+                  ? "bg-foreground text-background"
+                  : "text-foreground hover:bg-muted"
+              }`}
+            >
+              Business
+            </Link>
+          </nav>
+
+          {/* Business Buttons */}
+          {isBusinessPage && (
+            <div className="flex items-center gap-2">
+              <Link
+                href="/business/register"
+                className="px-4 md:px-6 py-2 rounded-full text-xs md:text-sm font-semibold transition-all hover:opacity-90 whitespace-nowrap"
+                style={{ backgroundColor: "#9FE870", color: "#163300" }}
+              >
+                Sign Up
+              </Link>
+              <Link
+                href="/business/login"
+                className="px-4 md:px-6 py-2 rounded-full text-xs md:text-sm font-semibold text-white transition-all hover:opacity-90 whitespace-nowrap"
+                style={{ backgroundColor: "#163300" }}
+              >
+                Login
+              </Link>
+            </div>
+          )}
+        </div>
       </header>
     </div>
   );

@@ -8,7 +8,6 @@ import BusinessDashboard from '@/components/BusinessDashboard';
 import WhyChoosePayBridge from '@/components/WhyChoosePayBridge';
 import HowYouUsePayBridge from '@/components/HowYouUsePayBridge';
 import BusinessFAQ from '@/components/BusinessFAQ';
-import BusinessCTA from '@/components/BusinessCTA';
 
 export default function Business() {
   return (

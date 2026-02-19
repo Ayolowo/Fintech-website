@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import AppStoreButtons from "./AppStoreButtons";
+import Link from "next/link";
 import BusinessCalculator from "./BusinessCalculator";
 
 const BusinessHero = () => {
@@ -25,11 +25,6 @@ const BusinessHero = () => {
               <p className="text-xl md:text-1xl text-black font-normal">
                 Built for business owners, professionals, and freelancers.
               </p>
-            </div>
-
-            {/* App Store Buttons */}
-            <div className="pt-2">
-              <AppStoreButtons className="justify-center lg:justify-start" />
             </div>
 
             {/* Contact section */}

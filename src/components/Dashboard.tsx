@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 import {
   LayoutDashboard,
   CreditCard,
@@ -355,7 +356,7 @@ const Dashboard = () => {
                             ) : transaction.logoUrl === "copart-component" ? (
                               <Copart className="w-full h-full" />
                             ) : (
-                              <img
+                              <Image
                                 src={transaction.logoUrl}
                                 alt={transaction.merchant}
                                 className="w-full h-full object-contain p-1"

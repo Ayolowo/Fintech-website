@@ -1,3 +1,4 @@
+import './polyfills';
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -6,6 +7,7 @@ import "../src/index.css";
 import { Metadata } from "next";
 import { ReactNode } from "react";
 import ReactQueryProvider from "./providers";
+import Providers from "@/providers/PrivyProvider";
 import { Inter } from "next/font/google";
 
 const inter = Inter({
@@ -54,12 +56,7 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: '/favicon.ico', sizes: 'any' },
-      { url: '/icon.png', type: 'image/png', sizes: '192x192' },
-      { url: '/icon-512.png', type: 'image/png', sizes: '512x512' }
-    ],
-    apple: [
-      { url: '/apple-icon.png', sizes: '180x180', type: 'image/png' }
+      { url: '/favicon.ico', sizes: 'any' }
     ],
   },
   manifest: '/manifest.json',
@@ -116,13 +113,15 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <script src="https://cdn.lordicon.com/lordicon.js" async />
       </head>
       <body className={inter.className}>
-        <ReactQueryProvider>
-          <TooltipProvider>
-            <Toaster />
-            <Sonner />
-            {children}
-          </TooltipProvider>
-        </ReactQueryProvider>
+        <Providers>
+          <ReactQueryProvider>
+            <TooltipProvider>
+              <Toaster />
+              <Sonner />
+              {children}
+            </TooltipProvider>
+          </ReactQueryProvider>
+        </Providers>
       </body>
     </html>
   );

@@ -278,8 +278,8 @@ export function AddMoneyModal({
       const collectionPayload = {
         channelId: channel.id,
         sequenceId,
-        currency: channel.countryCurrency || "NGN", // Lowercase for backend
-        country: "NG", // Lowercase for backend
+        Currency: channel.countryCurrency || "NGN", // Capitalized to match RN app
+        Country: "NG", // Capitalized to match RN app
         localAmount: parseFloat(amount), // Local currency amount in NGN
         userEmail: userEmail, // Backend uses this to fetch KYC profile and build institution metadata
         networkName: undefined, // Only needed for mobile money
@@ -288,8 +288,7 @@ export function AddMoneyModal({
           accountType: "bank", // Bank transfer for Nigeria
         },
         forceAccept: true,
-        // Note: customerType is derived by backend from KYC profile, not sent from frontend
-        // Backend sets it to "institution" for business users automatically
+        customerType: "institution", // Explicitly set for business users
         customerUID: userEmail,
         directSettlement: true, // Enable direct settlement to user's Solana wallet
       };

@@ -188,8 +188,11 @@ export default function BusinessLoginPage() {
                 variant="outline"
                 onClick={() => {
                   setCode('');
+                  setEmail('');
                   setError('');
                   setCodeSent(false);
+                  // Reset Privy's login state
+                  window.location.reload();
                 }}
                 className="w-full"
               >

@@ -30,8 +30,8 @@ const NGN_PERCENTAGE_FEE = 0.007; // 0.7% (0.5% YellowCard + 0.2% partner)
 interface CollectionRequest {
   channelId: string;
   sequenceId: string;
-  currency: string; // lowercase to match backend
-  country: string; // lowercase to match backend
+  currency: string; // lowercase to match Go backend struct tags
+  country: string; // lowercase to match Go backend struct tags
   localAmount: number;
   userEmail: string; // Backend uses this to fetch KYC and build institution metadata
   networkName?: string;
@@ -42,7 +42,7 @@ interface CollectionRequest {
     networkId?: string;
   };
   forceAccept: boolean;
-  // customerType is NOT sent - backend derives it from KYC profile
+  customerType: "institution" | "retail";
   customerUID: string;
   directSettlement: boolean;
 }
@@ -274,12 +274,12 @@ export function AddMoneyModal({
       // Calculate the marked up exchange rate (with 0.7% fee included)
       const userFacingRate = exchangeRate.rate;
 
-      // Create collection request matching RN app format
+      // Create collection request matching backend Go struct (lowercase fields)
       const collectionPayload = {
         channelId: channel.id,
         sequenceId,
-        Currency: channel.countryCurrency || "NGN", // Capitalized to match RN app
-        Country: "NG", // Capitalized to match RN app
+        currency: channel.countryCurrency || "NGN",
+        country: "NG",
         localAmount: parseFloat(amount), // Local currency amount in NGN
         userEmail: userEmail, // Backend uses this to fetch KYC profile and build institution metadata
         networkName: undefined, // Only needed for mobile money
@@ -421,7 +421,12 @@ export function AddMoneyModal({
 
         <button
           onClick={handleReview}
-          disabled={!amount || parseFloat(amount) <= 0}
+          disabled={
+            !amount ||
+            parseFloat(amount) <= 0 ||
+            parseFloat(amount) < MIN_NGN_AMOUNT ||
+            parseFloat(amount) > MAX_NGN_AMOUNT
+          }
           className="w-full py-3 bg-[#9FE870] text-[#163300] rounded-lg font-medium disabled:bg-gray-300 disabled:cursor-not-allowed"
         >
           Continue

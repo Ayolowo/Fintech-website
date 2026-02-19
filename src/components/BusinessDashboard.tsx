@@ -13,7 +13,7 @@ const BusinessDashboard = () => {
             {/* Main heading */}
             <div className="space-y-6">
               <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-black">
-                Your Business Dashboard Is On The Way
+                The Dashboard Your Business Needs!
               </h2>
 
               <p className="text-xl md:text-1xl text-gray-600 font-medium">

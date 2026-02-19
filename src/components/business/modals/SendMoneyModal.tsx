@@ -1,28 +1,96 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { usePrivy } from '@privy-io/react-auth';
-import { useAuth } from '@/hooks/useAuth';
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { usePrivy } from "@privy-io/react-auth";
+import { useWallets, useSignTransaction } from "@privy-io/react-auth/solana";
+import { useAuth } from "@/hooks/useAuth";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Skeleton } from '@/components/ui/skeleton';
-import { ArrowLeft, Plus, Check } from 'lucide-react';
-import { transferUSDC } from '@/lib/solana/transferUSDC';
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Skeleton } from "@/components/ui/skeleton";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { ArrowLeft, Plus, Check } from "lucide-react";
+import { transferUSDC } from "@/lib/solana/transferUSDC";
 
-type Step = 'select_account' | 'recipient' | 'amount' | 'review' | 'processing' | 'success';
+// US States
+const US_STATES = [
+  { code: "AL", name: "Alabama" },
+  { code: "AK", name: "Alaska" },
+  { code: "AZ", name: "Arizona" },
+  { code: "AR", name: "Arkansas" },
+  { code: "CA", name: "California" },
+  { code: "CO", name: "Colorado" },
+  { code: "CT", name: "Connecticut" },
+  { code: "DE", name: "Delaware" },
+  { code: "FL", name: "Florida" },
+  { code: "GA", name: "Georgia" },
+  { code: "HI", name: "Hawaii" },
+  { code: "ID", name: "Idaho" },
+  { code: "IL", name: "Illinois" },
+  { code: "IN", name: "Indiana" },
+  { code: "IA", name: "Iowa" },
+  { code: "KS", name: "Kansas" },
+  { code: "KY", name: "Kentucky" },
+  { code: "LA", name: "Louisiana" },
+  { code: "ME", name: "Maine" },
+  { code: "MD", name: "Maryland" },
+  { code: "MA", name: "Massachusetts" },
+  { code: "MI", name: "Michigan" },
+  { code: "MN", name: "Minnesota" },
+  { code: "MS", name: "Mississippi" },
+  { code: "MO", name: "Missouri" },
+  { code: "MT", name: "Montana" },
+  { code: "NE", name: "Nebraska" },
+  { code: "NV", name: "Nevada" },
+  { code: "NH", name: "New Hampshire" },
+  { code: "NJ", name: "New Jersey" },
+  { code: "NM", name: "New Mexico" },
+  { code: "NY", name: "New York" },
+  { code: "NC", name: "North Carolina" },
+  { code: "ND", name: "North Dakota" },
+  { code: "OH", name: "Ohio" },
+  { code: "OK", name: "Oklahoma" },
+  { code: "OR", name: "Oregon" },
+  { code: "PA", name: "Pennsylvania" },
+  { code: "RI", name: "Rhode Island" },
+  { code: "SC", name: "South Carolina" },
+  { code: "SD", name: "South Dakota" },
+  { code: "TN", name: "Tennessee" },
+  { code: "TX", name: "Texas" },
+  { code: "UT", name: "Utah" },
+  { code: "VT", name: "Vermont" },
+  { code: "VA", name: "Virginia" },
+  { code: "WA", name: "Washington" },
+  { code: "WV", name: "West Virginia" },
+  { code: "WI", name: "Wisconsin" },
+  { code: "WY", name: "Wyoming" },
+];
+
+type Step =
+  | "select_account"
+  | "recipient"
+  | "amount"
+  | "review"
+  | "processing"
+  | "success";
 
 interface BankAccountDetails {
   fullName: string;
   accountNumber: string;
   routingNumber: string;
-  accountType: 'checking' | 'savings';
+  accountType: "checking" | "savings";
   bankName: string;
 }
 
@@ -64,47 +132,52 @@ export function SendMoneyModal({
 }: SendMoneyModalProps) {
   const router = useRouter();
   const { user } = usePrivy();
+  const { wallets } = useWallets();
+  const { signTransaction } = useSignTransaction();
   const { getAuthToken } = useAuth();
 
-  const [step, setStep] = useState<Step>('select_account');
+  const [step, setStep] = useState<Step>("select_account");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   // Account selection
-  const [externalAccounts, setExternalAccounts] = useState<BridgeExternalAccount[]>([]);
+  const [externalAccounts, setExternalAccounts] = useState<
+    BridgeExternalAccount[]
+  >([]);
   const [loadingAccounts, setLoadingAccounts] = useState(true);
-  const [selectedAccount, setSelectedAccount] = useState<BridgeExternalAccount | null>(null);
+  const [selectedAccount, setSelectedAccount] =
+    useState<BridgeExternalAccount | null>(null);
 
   // New account details
   const [bankDetails, setBankDetails] = useState<BankAccountDetails>({
-    fullName: '',
-    accountNumber: '',
-    routingNumber: '',
-    accountType: 'checking',
-    bankName: '',
+    fullName: "",
+    accountNumber: "",
+    routingNumber: "",
+    accountType: "checking",
+    bankName: "",
   });
   const [address, setAddress] = useState<AddressDetails>({
-    street: '',
-    city: '',
-    state: '',
-    postalCode: '',
-    country: 'US',
+    street: "",
+    city: "",
+    state: "",
+    postalCode: "",
+    country: "US",
   });
 
   // Amount
-  const [amount, setAmount] = useState('');
+  const [amount, setAmount] = useState("");
 
-  const userEmail = user?.email?.address || '';
-  const solanaWallet = user?.linkedAccounts?.find(
-    (account: any) =>
-      account.type === 'wallet' &&
-      account.chainType === 'solana' &&
-      account.walletClientType === 'privy'
-  ) as any;
+  const userEmail = user?.email?.address || "";
+
+  // Get the embedded wallet (Privy's way)
+  const embeddedWallet = wallets.find((w) => w.standardWallet && w.standardWallet.name === "Privy");
+
+  // Get wallet address for display/API calls
+  const walletAddress = embeddedWallet?.address || "";
 
   // Load external accounts
   useEffect(() => {
-    if (!open || step !== 'select_account') return;
+    if (!open || step !== "select_account") return;
 
     const loadAccounts = async () => {
       if (!userEmail) return;
@@ -118,7 +191,7 @@ export function SendMoneyModal({
             headers: {
               Authorization: `Bearer ${token}`,
             },
-          }
+          },
         );
 
         if (response.ok) {
@@ -126,7 +199,7 @@ export function SendMoneyModal({
           setExternalAccounts(data.data || []);
         }
       } catch (error) {
-        console.error('Failed to load accounts:', error);
+        console.error("Failed to load accounts:", error);
         setExternalAccounts([]);
       } finally {
         setLoadingAccounts(false);
@@ -137,18 +210,18 @@ export function SendMoneyModal({
   }, [open, step, userEmail, getAuthToken]);
 
   const handleBack = () => {
-    if (step === 'select_account') {
+    if (step === "select_account") {
       onOpenChange(false);
-    } else if (step === 'recipient') {
-      setStep('select_account');
-    } else if (step === 'amount') {
+    } else if (step === "recipient") {
+      setStep("select_account");
+    } else if (step === "amount") {
       if (selectedAccount) {
-        setStep('select_account');
+        setStep("select_account");
       } else {
-        setStep('recipient');
+        setStep("recipient");
       }
-    } else if (step === 'review') {
-      setStep('amount');
+    } else if (step === "review") {
+      setStep("amount");
     }
   };
 
@@ -156,34 +229,34 @@ export function SendMoneyModal({
     const fiatAmount = parseFloat(amount);
 
     if (!amount || fiatAmount <= 0) {
-      setError('Please enter an amount');
+      setError("Please enter an amount");
       return;
     }
 
     if (fiatAmount < 1) {
-      setError('Minimum amount is $1.00');
+      setError("Minimum amount is $1.00");
       return;
     }
 
     const totalCost = fiatAmount + ACH_FEE;
     if (totalCost > walletBalance) {
-      setError('Insufficient balance to cover amount and fee');
+      setError("Insufficient balance to cover amount and fee");
       return;
     }
 
-    setError('');
-    setStep('review');
+    setError("");
+    setStep("review");
   };
 
   const handleSubmit = async () => {
-    if (!solanaWallet) {
-      setError('Missing wallet information');
+    if (!embeddedWallet) {
+      setError("Missing wallet information");
       return;
     }
 
     setLoading(true);
-    setStep('processing');
-    setError('');
+    setStep("processing");
+    setError("");
 
     try {
       let externalAccountId: string;
@@ -191,38 +264,35 @@ export function SendMoneyModal({
       // Create new account if needed
       if (!selectedAccount) {
         const token = await getAuthToken();
-        const response = await fetch(
-          `/api/bridge/external-accounts/create`,
-          {
-            method: 'POST',
-            headers: {
-              Authorization: `Bearer ${token}`,
-              'Content-Type': 'application/json',
+        const response = await fetch(`/api/bridge/external-accounts/create`, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: userEmail,
+            currency: "usd",
+            bank_name: bankDetails.bankName,
+            account_owner_name: bankDetails.fullName,
+            account_type: "us",
+            account: {
+              account_number: bankDetails.accountNumber,
+              routing_number: bankDetails.routingNumber,
+              checking_or_savings: bankDetails.accountType,
             },
-            body: JSON.stringify({
-              email: userEmail,
-              currency: 'usd',
-              bank_name: bankDetails.bankName,
-              account_owner_name: bankDetails.fullName,
-              account_type: 'us',
-              account: {
-                account_number: bankDetails.accountNumber,
-                routing_number: bankDetails.routingNumber,
-                checking_or_savings: bankDetails.accountType,
-              },
-              address: {
-                street_line_1: address.street,
-                city: address.city,
-                state: address.state,
-                postal_code: address.postalCode,
-                country: address.country,
-              },
-            }),
-          }
-        );
+            address: {
+              street_line_1: address.street,
+              city: address.city,
+              state: address.state,
+              postal_code: address.postalCode,
+              country: address.country,
+            },
+          }),
+        });
 
         if (!response.ok) {
-          throw new Error('Failed to create bank account');
+          throw new Error("Failed to create bank account");
         }
 
         const accountData = await response.json();
@@ -236,29 +306,26 @@ export function SendMoneyModal({
       const totalCost = fiatAmount + ACH_FEE;
 
       const token = await getAuthToken();
-      const withdrawalResponse = await fetch(
-        `/api/bridge/withdrawal/create`,
-        {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            email: userEmail,
-            wallet_address: solanaWallet.address,
-            amount_usdc: totalCost.toFixed(2),
-            currency: 'usd',
-            external_account_id: externalAccountId,
-            developer_fee: ACH_FEE.toFixed(2),
-            payment_rail: 'ach_same_day',
-          }),
-        }
-      );
+      const withdrawalResponse = await fetch(`/api/bridge/withdrawal/create`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: userEmail,
+          wallet_address: walletAddress,
+          amount_usdc: totalCost.toFixed(2),
+          currency: "usd",
+          external_account_id: externalAccountId,
+          developer_fee: ACH_FEE.toFixed(2),
+          payment_rail: "ach_same_day",
+        }),
+      });
 
       if (!withdrawalResponse.ok) {
         const errorData = await withdrawalResponse.json();
-        throw new Error(errorData.error || 'Failed to create transfer');
+        throw new Error(errorData.error || "Failed to create transfer");
       }
 
       const transfer = await withdrawalResponse.json();
@@ -267,51 +334,62 @@ export function SendMoneyModal({
       const txSignature = await transferUSDC(
         transfer.deposit_address,
         transfer.deposit_amount.toString(),
-        solanaWallet,
-        getAuthToken
+        embeddedWallet,
+        getAuthToken,
+        async (params) => signTransaction({
+          ...params,
+          options: {
+            uiOptions: {
+              showWalletUIs: false
+            }
+          }
+        })
       );
 
       // Step 4: Save transaction to business_transactions table
-      const recipientName = selectedAccount?.account_owner_name || bankDetails.fullName;
+      const recipientName =
+        selectedAccount?.account_owner_name || bankDetails.fullName;
 
-      await fetch(
-        `/api/business/transactions`,
-        {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            wallet_address: solanaWallet.address,
-            recipient_name: recipientName,
-            recipient_bank_name: selectedAccount?.bank_name || bankDetails.bankName,
-            recipient_account_number: selectedAccount?.account?.account_number || bankDetails.accountNumber,
-            recipient_routing_number: selectedAccount?.account?.routing_number || bankDetails.routingNumber,
-            recipient_address_street: address.street || '',
-            recipient_address_city: address.city || '',
-            recipient_address_state: address.state || '',
-            recipient_address_postal_code: address.postalCode || '',
-            recipient_address_country: address.country || 'US',
-            amount_usdc: totalCost,
-            amount_fiat: fiatAmount,
-            fiat_currency: 'USD',
-            exchange_rate: 1.0,
-            payment_method: 'ach',
-            bridge_transaction_id: transfer.transfer_id,
-            bridge_deposit_address: transfer.deposit_address,
-            bridge_deposit_amount: transfer.deposit_amount,
-            transaction_hash: txSignature.signature,
-            status: 'pending',
-          }),
-        }
-      );
+      await fetch(`/api/business/transactions`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          wallet_address: walletAddress,
+          recipient_name: recipientName,
+          recipient_bank_name:
+            selectedAccount?.bank_name || bankDetails.bankName,
+          recipient_account_number:
+            selectedAccount?.account?.account_number ||
+            bankDetails.accountNumber,
+          recipient_routing_number:
+            selectedAccount?.account?.routing_number ||
+            bankDetails.routingNumber,
+          recipient_address_street: address.street || "",
+          recipient_address_city: address.city || "",
+          recipient_address_state: address.state || "",
+          recipient_address_postal_code: address.postalCode || "",
+          recipient_address_country: address.country || "US",
+          amount_usdc: totalCost,
+          amount_fiat: fiatAmount,
+          fiat_currency: "USD",
+          exchange_rate: 1.0,
+          payment_method: "ach",
+          bridge_transaction_id: transfer.transfer_id,
+          bridge_deposit_address: transfer.deposit_address,
+          bridge_deposit_amount: transfer.deposit_amount,
+          transaction_hash: txSignature.signature,
+          status: "pending",
+        }),
+      });
 
-      setStep('success');
+      setStep("success");
       onSuccess?.();
     } catch (error: any) {
-      setError(error.message || 'Transfer failed. Please try again.');
-      setStep('review');
+      setError(error.message || "Transfer failed. Please try again.");
+      setStep("review");
     } finally {
       setLoading(false);
     }
@@ -329,20 +407,25 @@ export function SendMoneyModal({
         <>
           {externalAccounts.length > 0 && (
             <div className="space-y-2">
-              <p className="text-sm font-medium text-gray-700">Saved Accounts</p>
+              <p className="text-sm font-medium text-gray-700">
+                Saved Accounts
+              </p>
               {externalAccounts.map((account) => (
                 <button
                   key={account.id}
                   onClick={() => {
                     setSelectedAccount(account);
-                    setStep('amount');
+                    setStep("amount");
                   }}
                   className="w-full p-4 bg-gray-50 hover:bg-gray-100 rounded-lg flex items-center justify-between text-left"
                 >
                   <div>
-                    <p className="font-medium text-gray-900">{account.account_owner_name}</p>
+                    <p className="font-medium text-gray-900">
+                      {account.account_owner_name}
+                    </p>
                     <p className="text-sm text-gray-600">
-                      {account.bank_name} ••••{account.account?.account_number.slice(-4)}
+                      {account.bank_name} ••••
+                      {account.account?.account_number.slice(-4)}
                     </p>
                   </div>
                   <div className="text-gray-400">→</div>
@@ -354,7 +437,7 @@ export function SendMoneyModal({
           <button
             onClick={() => {
               setSelectedAccount(null);
-              setStep('recipient');
+              setStep("recipient");
             }}
             className="w-full p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-gray-400 flex items-center justify-center gap-2 text-gray-700"
           >
@@ -374,7 +457,9 @@ export function SendMoneyModal({
           id="fullName"
           placeholder="John Doe"
           value={bankDetails.fullName}
-          onChange={(e) => setBankDetails({ ...bankDetails, fullName: e.target.value })}
+          onChange={(e) =>
+            setBankDetails({ ...bankDetails, fullName: e.target.value })
+          }
         />
       </div>
 
@@ -384,7 +469,9 @@ export function SendMoneyModal({
           id="bankName"
           placeholder="Chase Bank"
           value={bankDetails.bankName}
-          onChange={(e) => setBankDetails({ ...bankDetails, bankName: e.target.value })}
+          onChange={(e) =>
+            setBankDetails({ ...bankDetails, bankName: e.target.value })
+          }
         />
       </div>
 
@@ -394,7 +481,9 @@ export function SendMoneyModal({
           id="accountNumber"
           placeholder="123456789"
           value={bankDetails.accountNumber}
-          onChange={(e) => setBankDetails({ ...bankDetails, accountNumber: e.target.value })}
+          onChange={(e) =>
+            setBankDetails({ ...bankDetails, accountNumber: e.target.value })
+          }
         />
       </div>
 
@@ -404,7 +493,9 @@ export function SendMoneyModal({
           id="routingNumber"
           placeholder="021000021"
           value={bankDetails.routingNumber}
-          onChange={(e) => setBankDetails({ ...bankDetails, routingNumber: e.target.value })}
+          onChange={(e) =>
+            setBankDetails({ ...bankDetails, routingNumber: e.target.value })
+          }
         />
       </div>
 
@@ -412,21 +503,25 @@ export function SendMoneyModal({
         <Label>Account Type</Label>
         <div className="flex gap-2 mt-2">
           <button
-            onClick={() => setBankDetails({ ...bankDetails, accountType: 'checking' })}
+            onClick={() =>
+              setBankDetails({ ...bankDetails, accountType: "checking" })
+            }
             className={`flex-1 py-2 px-4 rounded-lg border ${
-              bankDetails.accountType === 'checking'
-                ? 'bg-[#163300] text-[#9FE870]'
-                : 'bg-gray-50 text-gray-700 border-gray-200'
+              bankDetails.accountType === "checking"
+                ? "bg-[#163300] text-[#9FE870]"
+                : "bg-gray-50 text-gray-700 border-gray-200"
             }`}
           >
             Checking
           </button>
           <button
-            onClick={() => setBankDetails({ ...bankDetails, accountType: 'savings' })}
+            onClick={() =>
+              setBankDetails({ ...bankDetails, accountType: "savings" })
+            }
             className={`flex-1 py-2 px-4 rounded-lg border ${
-              bankDetails.accountType === 'savings'
-                ? 'bg-[#163300] text-[#9FE870]'
-                : 'bg-gray-50 text-gray-700 border-gray-200'
+              bankDetails.accountType === "savings"
+                ? "bg-[#163300] text-[#9FE870]"
+                : "bg-gray-50 text-gray-700 border-gray-200"
             }`}
           >
             Savings
@@ -443,7 +538,9 @@ export function SendMoneyModal({
               id="street"
               placeholder="123 Main St"
               value={address.street}
-              onChange={(e) => setAddress({ ...address, street: e.target.value })}
+              onChange={(e) =>
+                setAddress({ ...address, street: e.target.value })
+              }
             />
           </div>
           <div className="grid grid-cols-2 gap-3">
@@ -453,17 +550,30 @@ export function SendMoneyModal({
                 id="city"
                 placeholder="New York"
                 value={address.city}
-                onChange={(e) => setAddress({ ...address, city: e.target.value })}
+                onChange={(e) =>
+                  setAddress({ ...address, city: e.target.value })
+                }
               />
             </div>
             <div>
               <Label htmlFor="state">State</Label>
-              <Input
-                id="state"
-                placeholder="NY"
+              <Select
                 value={address.state}
-                onChange={(e) => setAddress({ ...address, state: e.target.value })}
-              />
+                onValueChange={(value) =>
+                  setAddress({ ...address, state: value })
+                }
+              >
+                <SelectTrigger id="state">
+                  <SelectValue placeholder="Select state" />
+                </SelectTrigger>
+                <SelectContent>
+                  {US_STATES.map((state) => (
+                    <SelectItem key={state.code} value={state.code}>
+                      {state.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
           </div>
           <div>
@@ -472,14 +582,16 @@ export function SendMoneyModal({
               id="postalCode"
               placeholder="10001"
               value={address.postalCode}
-              onChange={(e) => setAddress({ ...address, postalCode: e.target.value })}
+              onChange={(e) =>
+                setAddress({ ...address, postalCode: e.target.value })
+              }
             />
           </div>
         </div>
       </div>
 
       <button
-        onClick={() => setStep('amount')}
+        onClick={() => setStep("amount")}
         disabled={
           !bankDetails.fullName ||
           !bankDetails.bankName ||
@@ -500,17 +612,19 @@ export function SendMoneyModal({
   const renderAmount = () => (
     <div className="space-y-6">
       <div className="text-center">
-        <div className="flex items-center justify-center gap-2 mb-2">
+        <p className="text-md text-black-50 mb-8">
+          Available balance: ${walletBalance.toFixed(4)}
+        </p>
+        <div className="flex items-center justify-center gap-2 mb-4">
           <span className="text-4xl font-bold">$</span>
-          <Input
+          <input
             type="number"
             placeholder="0.00"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
-            className="text-4xl font-bold text-center border-none shadow-none focus-visible:ring-0"
+            className="text-4xl font-bold text-center border-none outline-none bg-transparent w-[300px]"
           />
         </div>
-        <p className="text-sm text-gray-600">Available: ${walletBalance.toFixed(2)} USDC</p>
       </div>
 
       {error && <p className="text-sm text-red-600 text-center">{error}</p>}
@@ -526,7 +640,7 @@ export function SendMoneyModal({
   );
 
   const renderReview = () => {
-    const fiatAmount = parseFloat(amount || '0');
+    const fiatAmount = parseFloat(amount || "0");
     const totalCost = fiatAmount + ACH_FEE;
     const recipientName = selectedAccount?.account_owner_name || bankDetails.fullName;
     const bankInfo = selectedAccount
@@ -552,7 +666,9 @@ export function SendMoneyModal({
           </div>
           <div className="border-t pt-3 flex justify-between">
             <span className="font-semibold">You&apos;ll send</span>
-            <span className="font-semibold text-[#163300]">${totalCost.toFixed(2)} USDC</span>
+            <span className="font-semibold text-[#163300]">
+              ${totalCost.toFixed(2)} USDC
+            </span>
           </div>
         </div>
 
@@ -563,7 +679,7 @@ export function SendMoneyModal({
           disabled={loading}
           className="w-full py-3 bg-[#9FE870] text-[#163300] rounded-lg font-medium disabled:bg-gray-300 disabled:cursor-not-allowed"
         >
-          {loading ? 'Processing...' : 'Confirm & Send'}
+          {loading ? "Processing..." : "Confirm & Send"}
         </button>
       </div>
     );
@@ -582,13 +698,15 @@ export function SendMoneyModal({
         <Check className="w-8 h-8 text-green-600" />
       </div>
       <h3 className="text-xl font-bold mb-2">Transfer Successful!</h3>
-      <p className="text-gray-600 mb-6">Your money has been sent successfully</p>
+      <p className="text-gray-600 mb-6">
+        Your money has been sent successfully
+      </p>
       <button
         onClick={() => {
           onOpenChange(false);
-          setStep('select_account');
-          setAmount('');
-          setError('');
+          setStep("select_account");
+          setAmount("");
+          setError("");
         }}
         className="w-full py-3 bg-[#9FE870] text-[#163300] rounded-lg font-medium"
       >
@@ -597,14 +715,13 @@ export function SendMoneyModal({
     </div>
   );
 
-
   const titles = {
-    select_account: 'Select Account',
-    recipient: 'Recipient Details',
-    amount: 'Enter Amount',
-    review: 'Review Transfer',
-    processing: 'Processing',
-    success: 'Success',
+    select_account: "Select Account",
+    recipient: "Recipient Details",
+    amount: "Enter Amount",
+    review: "Review Transfer",
+    processing: "Processing",
+    success: "Success",
   };
 
   return (
@@ -612,8 +729,11 @@ export function SendMoneyModal({
       <DialogContent className="max-w-md">
         <DialogHeader>
           <div className="flex items-center gap-3">
-            {step !== 'processing' && step !== 'success' && (
-              <button onClick={handleBack} className="p-1 hover:bg-gray-100 rounded">
+            {step !== "processing" && step !== "success" && (
+              <button
+                onClick={handleBack}
+                className="p-1 hover:bg-gray-100 rounded"
+              >
                 <ArrowLeft className="w-5 h-5" />
               </button>
             )}
@@ -622,12 +742,12 @@ export function SendMoneyModal({
         </DialogHeader>
 
         <div className="mt-4">
-          {step === 'select_account' && renderSelectAccount()}
-          {step === 'recipient' && renderRecipient()}
-          {step === 'amount' && renderAmount()}
-          {step === 'review' && renderReview()}
-          {step === 'processing' && renderProcessing()}
-          {step === 'success' && renderSuccess()}
+          {step === "select_account" && renderSelectAccount()}
+          {step === "recipient" && renderRecipient()}
+          {step === "amount" && renderAmount()}
+          {step === "review" && renderReview()}
+          {step === "processing" && renderProcessing()}
+          {step === "success" && renderSuccess()}
         </div>
       </DialogContent>
     </Dialog>

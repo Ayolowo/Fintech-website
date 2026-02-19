@@ -49,17 +49,17 @@ const Header = () => {
 
           {/* Business Buttons */}
           {isBusinessPage && (
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
               <Link
                 href="/business/register"
-                className="px-4 md:px-6 py-2 rounded-full text-xs md:text-sm font-semibold transition-all hover:opacity-90 whitespace-nowrap"
+                className="px-3 sm:px-4 md:px-6 py-2 rounded-full text-xs md:text-sm font-semibold transition-all hover:opacity-90 whitespace-nowrap"
                 style={{ backgroundColor: "#9FE870", color: "#163300" }}
               >
                 Sign Up
               </Link>
               <Link
                 href="/business/login"
-                className="px-4 md:px-6 py-2 rounded-full text-xs md:text-sm font-semibold text-white transition-all hover:opacity-90 whitespace-nowrap"
+                className="px-3 sm:px-4 md:px-6 py-2 rounded-full text-xs md:text-sm font-semibold text-white transition-all hover:opacity-90 whitespace-nowrap"
                 style={{ backgroundColor: "#163300" }}
               >
                 Login

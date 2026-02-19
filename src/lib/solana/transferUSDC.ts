@@ -27,13 +27,15 @@ const API_URL = '/api';
  * @param amount - Amount of USDC to transfer (as string, e.g., "100.50")
  * @param senderWallet - Privy embedded wallet object
  * @param getAccessToken - Function to get Privy access token
+ * @param signTransactionFn - Optional Privy signTransaction function (for web)
  * @returns Transaction signature and details
  */
 export const transferUSDC = async (
   recipientAddress: string,
   amount: string,
   senderWallet: any,
-  getAccessToken: () => Promise<string>
+  getAccessToken: () => Promise<string>,
+  signTransactionFn?: (params: { transaction: Uint8Array; wallet: any }) => Promise<{ signedTransaction: Uint8Array }>
 ): Promise<{
   signature: string;
   amount: string;
@@ -136,9 +138,6 @@ export const transferUSDC = async (
     );
     instructions.push(transferInstruction);
 
-    // Get provider for signing
-    const provider = await senderWallet.getProvider();
-
     // Create a function to build and sign transaction with fresh blockhash
     const createSignedTransaction = async (): Promise<VersionedTransaction> => {
       // Get fresh blockhash right before creating transaction
@@ -154,22 +153,37 @@ export const transferUSDC = async (
       // Create transaction
       const transaction = new VersionedTransaction(message);
 
-      // Serialize message for signing
-      const serializedMessage = Buffer.from(transaction.message.serialize()).toString('base64');
+      // For Privy web wallets, use the signTransaction hook
+      if (signTransactionFn) {
+        const txBytes = transaction.serialize();
+        const { signedTransaction } = await signTransactionFn({
+          transaction: txBytes,
+          wallet: senderWallet,
+        });
+        return VersionedTransaction.deserialize(signedTransaction);
+      } else if (typeof senderWallet.getProvider === 'function') {
+        // Fallback for RN/Expo Privy wallets
+        const provider = await senderWallet.getProvider();
 
-      // Get user signature
-      const { signature: serializedUserSignature } = await provider.request({
-        method: 'signMessage',
-        params: {
-          message: serializedMessage,
-        },
-      });
+        // Serialize message for signing
+        const serializedMessage = Buffer.from(transaction.message.serialize()).toString('base64');
 
-      // Add user signature to transaction
-      const userSignature = Buffer.from(serializedUserSignature, 'base64');
-      transaction.addSignature(new PublicKey(senderWallet.address), userSignature);
+        // Get user signature
+        const { signature: serializedUserSignature } = await provider.request({
+          method: 'signMessage',
+          params: {
+            message: serializedMessage,
+          },
+        });
 
-      return transaction;
+        // Add user signature to transaction
+        const userSignature = Buffer.from(serializedUserSignature, 'base64');
+        transaction.addSignature(new PublicKey(senderWallet.address), userSignature);
+
+        return transaction;
+      } else {
+        throw new Error('Wallet does not support transaction signing');
+      }
     };
 
     // Function to attempt transaction with retry on stale blockhash

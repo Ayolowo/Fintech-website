@@ -66,7 +66,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
               className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0"
               style={{ backgroundColor: "#163300" }}
             >
-              <span className="text-white font-bold text-sm">
+              <span className="text-white font-bold text-lg">
                 {getBusinessInitials(profile?.business_name)}
               </span>
             </div>

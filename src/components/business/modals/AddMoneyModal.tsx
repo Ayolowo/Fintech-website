@@ -312,18 +312,18 @@ export function AddMoneyModal({
 
       const collectionData = await collectionResponse.json();
 
-      // Extract virtual account details from the response
-      const accountInfo =
-        collectionData.source?.accountDetails || collectionData.accountDetails;
+      // Extract bank account details from YellowCard response
+      // YellowCard returns bank details in the bankInfo field
+      const bankInfo = collectionData.bankInfo;
 
-      if (!accountInfo) {
+      if (!bankInfo || !bankInfo.accountNumber || !bankInfo.name || !bankInfo.accountName) {
         throw new Error("No account details received");
       }
 
       setVirtualAccount({
-        bankName: accountInfo.bankName || "Bank",
-        accountNumber: accountInfo.accountNumber,
-        accountName: accountInfo.accountName || "PayBridge",
+        bankName: bankInfo.name,
+        accountNumber: bankInfo.accountNumber,
+        accountName: bankInfo.accountName,
       });
 
       setStep("accountInfo");

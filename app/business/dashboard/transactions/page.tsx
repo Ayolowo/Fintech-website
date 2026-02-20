@@ -172,8 +172,16 @@ export default function TransactionsPage() {
                   </TableHeader>
                   <TableBody>
                     {paginatedTransactions.map((transaction) => {
-                      const isDeposit = transaction.payment_method === 'ach' && transaction.recipient_name;
-                      const isPayout = !isDeposit;
+                      // Determine transaction type
+                      // For partner_transactions: check 'type' field ("add" = deposit, "withdraw" = payout)
+                      // For business_transactions: check payment_method and recipient_name
+                      const isDeposit = transaction.type === 'add' ||
+                                       (transaction.payment_method === 'ach' && transaction.recipient_name);
+                      const isPayout = transaction.type === 'withdraw' ||
+                                      (transaction.payment_method && !isDeposit);
+
+                      // Get display name
+                      const displayName = transaction.name || transaction.recipient_name;
 
                       return (
                         <TableRow key={transaction.id}>
@@ -193,21 +201,27 @@ export default function TransactionsPage() {
                           <TableCell>
                             <div>
                               <p className="font-medium text-sm">
-                                {isPayout
-                                  ? `To ${transaction.recipient_name}`
-                                  : 'From Bank Account'
+                                {isPayout && displayName
+                                  ? `To ${displayName}`
+                                  : isPayout
+                                  ? 'Payout'
+                                  : 'Bank Deposit'
                                 }
                               </p>
-                              {transaction.recipient_bank_name && (
-                                <p className="text-xs text-gray-500">
-                                  {transaction.recipient_bank_name}
+                              {transaction.payment_method && (
+                                <p className="text-xs text-gray-500 capitalize">
+                                  {transaction.payment_method}
                                 </p>
                               )}
                             </div>
                           </TableCell>
                           <TableCell>
                             <div className="text-xs">
-                              {transaction.bridge_transaction_id ? (
+                              {transaction.transaction_id ? (
+                                <p className="font-mono text-gray-600">
+                                  {transaction.transaction_id.slice(0, 12)}...
+                                </p>
+                              ) : transaction.bridge_transaction_id ? (
                                 <p className="font-mono text-gray-600">
                                   {transaction.bridge_transaction_id.slice(0, 12)}...
                                 </p>
@@ -234,15 +248,15 @@ export default function TransactionsPage() {
                           <TableCell>
                             <Badge
                               variant={
-                                transaction.status === 'completed'
+                                transaction.status === 'success'
                                   ? 'default'
-                                  : transaction.status === 'pending'
+                                  : transaction.status === 'pending' || transaction.status === 'processing'
                                   ? 'secondary'
                                   : 'destructive'
                               }
                               className="capitalize"
                             >
-                              {transaction.status}
+                              {transaction.status === 'success' ? 'Completed' : transaction.status}
                             </Badge>
                           </TableCell>
                         </TableRow>

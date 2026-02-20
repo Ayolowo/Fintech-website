@@ -162,54 +162,92 @@ export default function TransactionsPage() {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Date</TableHead>
-                      <TableHead>Merchant</TableHead>
-                      <TableHead>Payment Method</TableHead>
-                      <TableHead>Amount</TableHead>
-                      <TableHead>Currency</TableHead>
+                      <TableHead>Date & Time</TableHead>
+                      <TableHead>Type</TableHead>
+                      <TableHead>Details</TableHead>
+                      <TableHead>Reference</TableHead>
+                      <TableHead className="text-right">Amount</TableHead>
                       <TableHead>Status</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {paginatedTransactions.map((transaction) => (
-                      <TableRow key={transaction.id}>
-                        <TableCell className="font-medium">
-                          {formatDate(transaction.created_at)}
-                        </TableCell>
-                        <TableCell>
-                          <div>
-                            <p className="font-medium">{transaction.recipient_name || 'Transaction'}</p>
-                            {transaction.recipient_wallet && (
-                              <p className="text-xs text-gray-500">
-                                {transaction.recipient_wallet.slice(0, 8)}...{transaction.recipient_wallet.slice(-8)}
+                    {paginatedTransactions.map((transaction) => {
+                      const isDeposit = transaction.payment_method === 'ach' && transaction.recipient_name;
+                      const isPayout = !isDeposit;
+
+                      return (
+                        <TableRow key={transaction.id}>
+                          <TableCell>
+                            <div className="text-sm">
+                              <p className="font-medium">{formatDate(transaction.created_at)}</p>
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <Badge
+                              variant="outline"
+                              className={`capitalize ${isPayout ? 'bg-orange-50 text-orange-700 border-orange-200' : 'bg-green-50 text-green-700 border-green-200'}`}
+                            >
+                              {isPayout ? 'Payout' : 'Deposit'}
+                            </Badge>
+                          </TableCell>
+                          <TableCell>
+                            <div>
+                              <p className="font-medium text-sm">
+                                {isPayout
+                                  ? `To ${transaction.recipient_name}`
+                                  : 'From Bank Account'
+                                }
                               </p>
-                            )}
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <Badge variant="outline" className="capitalize">
-                            {transaction.payment_method || 'N/A'}
-                          </Badge>
-                        </TableCell>
-                        <TableCell className="font-medium">
-                          {formatCurrency(transaction.amount_fiat, transaction.fiat_currency)}
-                        </TableCell>
-                        <TableCell>{transaction.fiat_currency}</TableCell>
-                        <TableCell>
-                          <Badge
-                            variant={
-                              transaction.status === 'completed'
-                                ? 'default'
-                                : transaction.status === 'pending'
-                                ? 'secondary'
-                                : 'destructive'
-                            }
-                          >
-                            {transaction.status}
-                          </Badge>
-                        </TableCell>
-                      </TableRow>
-                    ))}
+                              {transaction.recipient_bank_name && (
+                                <p className="text-xs text-gray-500">
+                                  {transaction.recipient_bank_name}
+                                </p>
+                              )}
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <div className="text-xs">
+                              {transaction.bridge_transaction_id ? (
+                                <p className="font-mono text-gray-600">
+                                  {transaction.bridge_transaction_id.slice(0, 12)}...
+                                </p>
+                              ) : transaction.transaction_hash ? (
+                                <p className="font-mono text-gray-600">
+                                  {transaction.transaction_hash.slice(0, 8)}...
+                                </p>
+                              ) : (
+                                <p className="text-gray-400">—</p>
+                              )}
+                            </div>
+                          </TableCell>
+                          <TableCell className="text-right">
+                            <div>
+                              <p className={`font-semibold text-sm ${isPayout ? 'text-orange-600' : 'text-green-600'}`}>
+                                {isPayout ? '- ' : '+ '}
+                                {formatCurrency(transaction.amount_fiat, transaction.fiat_currency)}
+                              </p>
+                              <p className="text-xs text-gray-500">
+                                ${transaction.amount_usdc?.toFixed(2)} USDC
+                              </p>
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <Badge
+                              variant={
+                                transaction.status === 'completed'
+                                  ? 'default'
+                                  : transaction.status === 'pending'
+                                  ? 'secondary'
+                                  : 'destructive'
+                              }
+                              className="capitalize"
+                            >
+                              {transaction.status}
+                            </Badge>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
                   </TableBody>
                 </Table>
               </div>

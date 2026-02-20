@@ -60,6 +60,38 @@ export default function BusinessOnboardingPage() {
       return;
     }
 
+    // Validate and format phone number for Nigeria
+    let formattedPhone = data.phone || '';
+    if (formattedPhone && data.country === 'Nigeria') {
+      // Remove all non-digit characters except +
+      const cleaned = formattedPhone.replace(/[^\d+]/g, '');
+
+      // Check if it starts with +234
+      if (!cleaned.startsWith('+234')) {
+        toast({
+          title: 'Invalid Phone Number',
+          description: 'Nigerian phone numbers must start with +234',
+          variant: 'destructive',
+        });
+        return;
+      }
+
+      // Extract digits after +234
+      const digitsAfter234 = cleaned.substring(4);
+
+      // Ensure no leading zero after +234
+      if (digitsAfter234.startsWith('0')) {
+        toast({
+          title: 'Invalid Phone Number',
+          description: 'Remove the leading 0 after +234. Format: +234XXXXXXXXX',
+          variant: 'destructive',
+        });
+        return;
+      }
+
+      formattedPhone = cleaned;
+    }
+
     // Match RN app payload structure for /api/save-kyc
     const profileData = {
       customer_type: 'business' as const,
@@ -67,7 +99,7 @@ export default function BusinessOnboardingPage() {
       business_name: data.business_name,
       business_type: data.business_type,
       registration_no: data.registration_no,
-      phone_number: data.phone,
+      phone_number: formattedPhone,
       country: data.country,
       email: user.email.address, // Privy authentication email
       business_email: data.business_email, // Business communication email
@@ -221,8 +253,17 @@ export default function BusinessOnboardingPage() {
                   <FormItem>
                     <FormLabel>Phone Number (Optional)</FormLabel>
                     <FormControl>
-                      <Input type="tel" placeholder="+234 XXX XXX XXXX" {...field} />
+                      <Input
+                        type="tel"
+                        placeholder={form.watch('country') === 'Nigeria' ? '+234 812 345 6789' : '+1 XXX XXX XXXX'}
+                        {...field}
+                      />
                     </FormControl>
+                    {form.watch('country') === 'Nigeria' && (
+                      <FormDescription>
+                        Must start with +234 (no 0 after +234)
+                      </FormDescription>
+                    )}
                     <FormMessage />
                   </FormItem>
                 )}

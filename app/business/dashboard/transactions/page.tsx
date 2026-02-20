@@ -56,7 +56,8 @@ export default function TransactionsPage() {
 
   const filteredTransactions = transactionsData?.data?.filter((transaction) => {
     const matchesSearch = searchQuery
-      ? (transaction.recipient_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      ? (transaction.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+         transaction.recipient_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
          transaction.payment_method?.toLowerCase().includes(searchQuery.toLowerCase()))
       : true;
 

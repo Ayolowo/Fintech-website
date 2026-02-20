@@ -204,7 +204,7 @@ export default function BusinessDashboardPage() {
     <div className="space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
+        <h1 className="text-3xl font-bold text-black">Dashboard</h1>
         <p className="text-gray-600 mt-1">
           View and manage all your business transactions
         </p>
@@ -236,7 +236,7 @@ export default function BusinessDashboardPage() {
           <div className="flex flex-col gap-3">
             <button
               onClick={() => setAddMoneyOpen(true)}
-              className="w-full px-4 py-2.5 bg-white border border-gray-200 rounded-lg text-sm font-medium text-gray-900 hover:bg-gray-50 flex items-center justify-start"
+              className="w-full px-4 py-2.5 bg-white border border-gray-200 rounded-lg text-sm font-medium text-black hover:bg-gray-50 flex items-center justify-start"
             >
               <ArrowDownLeft className="mr-2 h-4 w-4" />
               Add Money
@@ -258,7 +258,7 @@ export default function BusinessDashboardPage() {
         {/* Table Header */}
         <div className="p-4 md:p-6 border-b border-gray-200">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <h2 className="text-xl font-bold text-gray-900">
+            <h2 className="text-xl font-bold text-black">
               All Transactions
             </h2>
             <div className="relative w-full md:w-auto">
@@ -285,87 +285,66 @@ export default function BusinessDashboardPage() {
             <table className="w-full">
               <thead>
                 <tr className="border-b border-gray-200">
-                  <th className="text-left py-3 px-6 text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    <input type="checkbox" className="rounded" />
-                  </th>
-                  <th className="text-left py-3 px-6 text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Merchant
-                  </th>
-                  <th className="text-left py-3 px-6 text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Transaction Date
-                  </th>
-                  <th className="text-left py-3 px-6 text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Amount
-                  </th>
-                  <th className="text-left py-3 px-6 text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Payment Type
-                  </th>
+                  <th className="text-left py-4 px-6 text-sm font-semibold text-black">Date</th>
+                  <th className="text-left py-4 px-6 text-sm font-semibold text-black">Type</th>
+                  <th className="text-left py-4 px-6 text-sm font-semibold text-black">Description</th>
+                  <th className="text-left py-4 px-6 text-sm font-semibold text-black">Payment Method</th>
+                  <th className="text-left py-4 px-6 text-sm font-semibold text-black">Amount</th>
+                  <th className="text-left py-4 px-6 text-sm font-semibold text-black">USD Equivalent</th>
+                  <th className="text-left py-4 px-6 text-sm font-semibold text-black">Status</th>
                 </tr>
               </thead>
               <tbody>
-                {transactionsData.data.map((transaction) => (
-                  <tr
-                    key={transaction.id}
-                    className="border-b border-gray-100 hover:bg-gray-50 transition-colors"
-                  >
-                    <td className="py-4 px-6">
-                      <input type="checkbox" className="rounded" />
-                    </td>
-                    <td className="py-4 px-6">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center text-sm font-semibold text-gray-600">
-                          {transaction.recipient_name
-                            ?.substring(0, 2)
-                            .toUpperCase() || "TX"}
-                        </div>
-                        <div>
-                          <div className="font-medium text-gray-900">
-                            {transaction.recipient_name || "Transaction"}
-                          </div>
-                          <div className="text-sm text-gray-500">
-                            {transaction.payment_method || "Payment"}
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="py-4 px-6">
-                      <div className="text-sm text-gray-900">
-                        {new Date(transaction.created_at).toLocaleDateString(
-                          "en-US",
-                          {
-                            month: "short",
-                            day: "numeric",
-                            year: "numeric",
-                          },
-                        )}
-                      </div>
-                      <div className="text-sm text-gray-500">
-                        {new Date(transaction.created_at).toLocaleTimeString(
-                          "en-US",
-                          {
-                            hour: "numeric",
-                            minute: "2-digit",
-                            hour12: true,
-                          },
-                        )}
-                      </div>
-                    </td>
-                    <td className="py-4 px-6">
-                      <span className="font-semibold text-gray-900">
-                        -
-                        {formatCurrency(
-                          transaction.amount_fiat,
-                          transaction.fiat_currency,
-                        )}
-                      </span>
-                    </td>
-                    <td className="py-4 px-6">
-                      <span className="text-sm text-gray-600 capitalize">
-                        {transaction.status}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
+                {transactionsData.data.slice(0, 5).map((transaction) => {
+                  const isDeposit = transaction.type === 'add' ||
+                                   (transaction.payment_method === 'ach' && transaction.recipient_name);
+                  const isPayout = transaction.type === 'withdraw' ||
+                                  (transaction.payment_method && !isDeposit);
+                  const displayName = transaction.name || transaction.recipient_name;
+
+                  return (
+                    <tr key={transaction.id} className="border-b border-gray-100">
+                      <td className="py-5 px-6 text-sm text-black">
+                        {new Date(transaction.created_at).toLocaleDateString("en-GB", {
+                          day: "numeric",
+                          month: "short",
+                          year: "numeric",
+                        })}
+                      </td>
+                      <td className="py-5 px-6 text-sm text-black">
+                        {isPayout ? 'Payout' : 'Deposit'}
+                      </td>
+                      <td className="py-5 px-6 text-sm text-black">
+                        {isPayout && displayName
+                          ? `Sent to ${displayName}`
+                          : isPayout
+                          ? 'Sent to Bank account'
+                          : displayName || 'Deposit'
+                        }
+                      </td>
+                      <td className="py-5 px-6 text-sm text-black capitalize">
+                        {transaction.payment_method || '—'}
+                      </td>
+                      <td className="py-5 px-6 text-sm font-medium text-black">
+                        {formatCurrency(transaction.amount_fiat, transaction.fiat_currency)}
+                      </td>
+                      <td className="py-5 px-6 text-sm text-black">
+                        ${transaction.amount_usdc?.toFixed(2)}
+                      </td>
+                      <td className="py-5 px-6">
+                        <span className={`inline-block px-3 py-1 rounded-md text-sm ${
+                          transaction.status === 'success'
+                            ? 'bg-green-50 text-green-700'
+                            : transaction.status === 'pending' || transaction.status === 'processing'
+                            ? 'bg-yellow-50 text-yellow-700'
+                            : 'bg-red-50 text-red-700'
+                        }`}>
+                          {transaction.status === 'success' ? 'Successful' : transaction.status === 'processing' ? 'Processing' : 'Pending'}
+                        </span>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           ) : (

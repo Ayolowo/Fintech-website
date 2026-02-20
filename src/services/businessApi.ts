@@ -73,7 +73,7 @@ export const businessApi = {
     if (filters?.offset) params.append('offset', filters.offset.toString());
 
     const queryString = params.toString();
-    const endpoint = `/business/transactions?${queryString}`;
+    const endpoint = `/api/business/transactions?${queryString}`;
 
     return authenticatedFetch<{ success: boolean; data: Transaction[]; pagination: { limit: number; offset: number } }>(
       endpoint,
@@ -96,7 +96,7 @@ export const businessApi = {
     if (filters?.offset) params.append('offset', filters.offset.toString());
 
     const queryString = params.toString();
-    const endpoint = `/business/partner-transactions?${queryString}`;
+    const endpoint = `/api/business/partner-transactions?${queryString}`;
 
     return authenticatedFetch<{ success: boolean; data: any[]; pagination: { limit: number; offset: number } }>(
       endpoint,

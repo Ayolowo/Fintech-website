@@ -516,7 +516,7 @@ export function AddMoneyModal({
     return (
       <div className="space-y-6">
         <div className="p-6 bg-gray-50 rounded-lg space-y-4">
-          <div>
+          <div className="w-full p-4 bg-white rounded-lg border border-gray-200">
             <p className="text-sm text-gray-600 mb-1">Bank Name</p>
             <p className="font-semibold text-lg">{virtualAccount.bankName}</p>
           </div>
@@ -540,9 +540,9 @@ export function AddMoneyModal({
             </div>
           </button>
 
-          <div>
+          <div className="w-full p-4 bg-white rounded-lg border border-gray-200">
             <p className="text-sm text-gray-600 mb-1">Account Name</p>
-            <p className="font-semibold">{virtualAccount.accountName}</p>
+            <p className="font-semibold text-lg">{virtualAccount.accountName}</p>
           </div>
         </div>
 

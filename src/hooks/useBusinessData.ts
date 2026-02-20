@@ -119,17 +119,24 @@ export function useTransactions(
       }
       const token = await getAuthToken();
 
+      console.log('Fetching transactions for wallet:', walletAddress);
+
       // Fetch both business transactions and partner transactions
       const [businessTxs, partnerTxs] = await Promise.all([
         businessApi.getTransactions(token, walletAddress, filters),
         businessApi.getPartnerTransactions(token, walletAddress, filters),
       ]);
 
+      console.log('Business transactions:', businessTxs);
+      console.log('Partner transactions:', partnerTxs);
+
       // Merge and sort by created_at
       const allTransactions = [
         ...(businessTxs.data || []),
         ...(partnerTxs.data || []),
       ].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+
+      console.log('All merged transactions:', allTransactions);
 
       return {
         success: true,

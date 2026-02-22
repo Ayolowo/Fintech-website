@@ -304,12 +304,21 @@ export default function BusinessDashboardPage() {
 
                   return (
                     <tr key={transaction.id} className="border-b border-gray-100">
-                      <td className="py-5 px-6 text-sm text-black">
-                        {new Date(transaction.created_at).toLocaleDateString("en-GB", {
-                          day: "numeric",
-                          month: "short",
-                          year: "numeric",
-                        })}
+                      <td className="py-5 px-6">
+                        <p className="text-sm text-black">
+                          {new Date(transaction.created_at).toLocaleDateString("en-GB", {
+                            day: "numeric",
+                            month: "short",
+                            year: "numeric",
+                          })}
+                        </p>
+                        <p className="text-sm text-gray-500">
+                          {new Date(transaction.created_at).toLocaleTimeString("en-US", {
+                            hour: "numeric",
+                            minute: "2-digit",
+                            hour12: true,
+                          })}
+                        </p>
                       </td>
                       <td className="py-5 px-6 text-sm text-black">
                         {isPayout ? 'Payout' : 'Deposit'}

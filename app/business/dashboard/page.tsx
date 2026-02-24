@@ -332,7 +332,7 @@ export default function BusinessDashboardPage() {
                         }
                       </td>
                       <td className="py-5 px-6 text-sm text-black capitalize">
-                        {transaction.payment_method || '—'}
+                        {transaction.payment_method === 'ach' || transaction.payment_method === 'ach_same_day' ? 'Bank' : transaction.payment_method || '—'}
                       </td>
                       <td className="py-5 px-6 text-sm font-medium text-black">
                         {formatCurrency(transaction.amount_fiat, transaction.fiat_currency)}

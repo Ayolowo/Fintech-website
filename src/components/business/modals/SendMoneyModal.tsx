@@ -169,6 +169,9 @@ export function SendMoneyModal({
     country: "US",
   });
 
+  // Wire message (optional, max 140 chars)
+  const [wireMessage, setWireMessage] = useState("");
+
   // Amount
   const [amount, setAmount] = useState("");
 
@@ -284,7 +287,7 @@ export function SendMoneyModal({
             currency: "usd",
             bank_name: bankDetails.bankName,
             account_owner_name: bankDetails.fullName,
-            account_type: "us",
+            account_type: transferType === "wire" ? "us_wire" : "us",
             account: {
               account_number: bankDetails.accountNumber,
               routing_number: bankDetails.routingNumber,
@@ -329,6 +332,9 @@ export function SendMoneyModal({
           external_account_id: externalAccountId,
           developer_fee: currentFee.toFixed(2),
           payment_rail: transferType === "wire" ? "wire" : "ach_same_day",
+          ...(transferType === "wire" && wireMessage.trim()
+            ? { destination: { wire_message: wireMessage.trim() } }
+            : {}),
         }),
       });
 
@@ -723,6 +729,28 @@ export function SendMoneyModal({
           </div>
         </div>
 
+        {transferType === "wire" && (
+          <div>
+            <p className="text-sm font-medium text-black mb-1">Wire message (optional)</p>
+            <p className="text-xs text-black/60 mb-2">
+              This message will be sent with your wire transfer. Max 140 characters.
+            </p>
+            <textarea
+              placeholder="Add a message for the recipient"
+              value={wireMessage}
+              onChange={(e) => {
+                if (e.target.value.length <= 140) {
+                  setWireMessage(e.target.value);
+                }
+              }}
+              maxLength={140}
+              rows={3}
+              className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm outline-none focus:border-black/30 resize-none"
+            />
+            <p className="text-xs text-black/40 text-right mt-1">{wireMessage.length}/140</p>
+          </div>
+        )}
+
         {error && <p className="text-sm text-red-600 text-center">{error}</p>}
 
         <button
@@ -757,6 +785,7 @@ export function SendMoneyModal({
           onOpenChange(false);
           setStep("transfer_type");
           setAmount("");
+          setWireMessage("");
           setError("");
         }}
         className="w-full py-3 bg-[#9FE870] text-[#163300] rounded-lg font-medium"

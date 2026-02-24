@@ -553,7 +553,7 @@ export function AddMoneyModal({
               Send exactly NGN {parseFloat(amount).toLocaleString()} to the bank
               account above. Once you&apos;ve completed the transfer, tap &apos;Done&apos;
               below. It will be automatically deposited into your wallet. Note:
-              Name on Bank Account must match your registered name on PayBridge
+              Name on Business Bank Account must match your registered Business name on PayBridge
             </p>
           </div>
         </div>

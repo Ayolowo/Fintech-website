@@ -348,7 +348,7 @@ export default function BusinessDashboardPage() {
                             ? 'bg-yellow-50 text-yellow-700'
                             : 'bg-red-50 text-red-700'
                         }`}>
-                          {transaction.status === 'success' ? 'Successful' : transaction.status === 'processing' ? 'Processing' : 'Pending'}
+                          {transaction.status === 'success' ? 'Successful' : transaction.status === 'failed' ? 'Failed' : transaction.status === 'processing' ? 'Processing' : 'Pending'}
                         </span>
                       </td>
                     </tr>

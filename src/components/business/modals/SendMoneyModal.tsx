@@ -79,12 +79,15 @@ const US_STATES = [
 ];
 
 type Step =
+  | "transfer_type"
   | "select_account"
   | "recipient"
   | "amount"
   | "review"
   | "processing"
   | "success";
+
+type TransferType = "ach" | "wire";
 
 interface BankAccountDetails {
   fullName: string;
@@ -122,7 +125,8 @@ interface SendMoneyModalProps {
   onSuccess?: () => void;
 }
 
-const ACH_FEE = 15; // $15 fee for business ACH transfers
+const ACH_FEE = 10; // $10 fee for ACH transfers
+const WIRE_FEE = 15; // $15 fee for wire transfers
 
 export function SendMoneyModal({
   open,
@@ -136,9 +140,10 @@ export function SendMoneyModal({
   const { signTransaction } = useSignTransaction();
   const { getAuthToken } = useAuth();
 
-  const [step, setStep] = useState<Step>("select_account");
+  const [step, setStep] = useState<Step>("transfer_type");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [transferType, setTransferType] = useState<TransferType>("ach");
 
   // Account selection
   const [externalAccounts, setExternalAccounts] = useState<
@@ -209,9 +214,13 @@ export function SendMoneyModal({
     loadAccounts();
   }, [open, step, userEmail, getAuthToken]);
 
+  const currentFee = transferType === "wire" ? WIRE_FEE : ACH_FEE;
+
   const handleBack = () => {
-    if (step === "select_account") {
+    if (step === "transfer_type") {
       onOpenChange(false);
+    } else if (step === "select_account") {
+      setStep("transfer_type");
     } else if (step === "recipient") {
       setStep("select_account");
     } else if (step === "amount") {
@@ -238,7 +247,7 @@ export function SendMoneyModal({
       return;
     }
 
-    const totalCost = fiatAmount + ACH_FEE;
+    const totalCost = fiatAmount + currentFee;
     if (totalCost > walletBalance) {
       setError("Insufficient balance to cover amount and fee");
       return;
@@ -303,7 +312,7 @@ export function SendMoneyModal({
 
       // Create withdrawal
       const fiatAmount = parseFloat(amount);
-      const totalCost = fiatAmount + ACH_FEE;
+      const totalCost = fiatAmount + currentFee;
 
       const token = await getAuthToken();
       const withdrawalResponse = await fetch(`/api/bridge/withdrawal/create`, {
@@ -318,8 +327,8 @@ export function SendMoneyModal({
           amount_usdc: totalCost.toFixed(2),
           currency: "usd",
           external_account_id: externalAccountId,
-          developer_fee: ACH_FEE.toFixed(2),
-          payment_rail: "ach_same_day",
+          developer_fee: currentFee.toFixed(2),
+          payment_rail: transferType === "wire" ? "wire" : "ach_same_day",
         }),
       });
 
@@ -376,7 +385,7 @@ export function SendMoneyModal({
           amount_fiat: fiatAmount,
           fiat_currency: "USD",
           exchange_rate: 1.0,
-          payment_method: "ach",
+          payment_method: transferType === "wire" ? "wire" : "ach",
           bridge_transaction_id: transfer.transfer_id,
           bridge_deposit_address: transfer.deposit_address,
           bridge_deposit_amount: transfer.deposit_amount,
@@ -395,6 +404,48 @@ export function SendMoneyModal({
     }
   };
 
+  const renderTransferType = () => (
+    <div className="space-y-4">
+      <p className="text-sm text-black/60">Choose how you want to send money</p>
+
+      <button
+        onClick={() => {
+          setTransferType("ach");
+          setStep("select_account");
+        }}
+        className="w-full p-5 bg-white border-2 border-gray-200 hover:border-black rounded-xl text-left transition-colors"
+      >
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="font-semibold text-black text-base">To a Bank Account</p>
+            <p className="text-sm text-black/60 mt-1">$10 fee</p>
+          </div>
+          <svg className="w-5 h-5 text-black/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </div>
+      </button>
+
+      <button
+        onClick={() => {
+          setTransferType("wire");
+          setStep("select_account");
+        }}
+        className="w-full p-5 bg-white border-2 border-gray-200 hover:border-black rounded-xl text-left transition-colors"
+      >
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="font-semibold text-black text-base">To a Copart Account</p>
+            <p className="text-sm text-black/60 mt-1">$15 fee</p>
+          </div>
+          <svg className="w-5 h-5 text-black/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </div>
+      </button>
+    </div>
+  );
+
   const renderSelectAccount = () => (
     <div className="space-y-4">
       {loadingAccounts ? (
@@ -407,7 +458,7 @@ export function SendMoneyModal({
         <>
           {externalAccounts.length > 0 && (
             <div className="space-y-2">
-              <p className="text-sm font-medium text-gray-700">
+              <p className="text-sm font-medium text-black/70">
                 Saved Accounts
               </p>
               {externalAccounts.map((account) => (
@@ -420,15 +471,15 @@ export function SendMoneyModal({
                   className="w-full p-4 bg-gray-50 hover:bg-gray-100 rounded-lg flex items-center justify-between text-left"
                 >
                   <div>
-                    <p className="font-medium text-gray-900">
+                    <p className="font-medium text-black">
                       {account.account_owner_name}
                     </p>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-black/60">
                       {account.bank_name} ••••
                       {account.account?.account_number.slice(-4)}
                     </p>
                   </div>
-                  <div className="text-gray-400">→</div>
+                  <div className="text-black/40">→</div>
                 </button>
               ))}
             </div>
@@ -439,7 +490,7 @@ export function SendMoneyModal({
               setSelectedAccount(null);
               setStep("recipient");
             }}
-            className="w-full p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-gray-400 flex items-center justify-center gap-2 text-gray-700"
+            className="w-full p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-gray-400 flex items-center justify-center gap-2 text-black/70"
           >
             <Plus className="w-5 h-5" />
             <span className="font-medium">Add New Account</span>
@@ -509,7 +560,7 @@ export function SendMoneyModal({
             className={`flex-1 py-2 px-4 rounded-lg border ${
               bankDetails.accountType === "checking"
                 ? "bg-[#163300] text-[#9FE870]"
-                : "bg-gray-50 text-gray-700 border-gray-200"
+                : "bg-gray-50 text-black/70 border-gray-200"
             }`}
           >
             Checking
@@ -521,7 +572,7 @@ export function SendMoneyModal({
             className={`flex-1 py-2 px-4 rounded-lg border ${
               bankDetails.accountType === "savings"
                 ? "bg-[#163300] text-[#9FE870]"
-                : "bg-gray-50 text-gray-700 border-gray-200"
+                : "bg-gray-50 text-black/70 border-gray-200"
             }`}
           >
             Savings
@@ -530,7 +581,7 @@ export function SendMoneyModal({
       </div>
 
       <div className="pt-4 border-t">
-        <p className="text-sm font-medium text-gray-700 mb-3">Address</p>
+        <p className="text-sm font-medium text-black/70 mb-3">Address</p>
         <div className="space-y-3">
           <div>
             <Label htmlFor="street">Street Address</Label>
@@ -641,7 +692,7 @@ export function SendMoneyModal({
 
   const renderReview = () => {
     const fiatAmount = parseFloat(amount || "0");
-    const totalCost = fiatAmount + ACH_FEE;
+    const totalCost = fiatAmount + currentFee;
     const recipientName = selectedAccount?.account_owner_name || bankDetails.fullName;
     const bankInfo = selectedAccount
       ? `${selectedAccount.bank_name} ••••${selectedAccount.account?.account_number.slice(-4)}`
@@ -650,19 +701,19 @@ export function SendMoneyModal({
     return (
       <div className="space-y-6">
         <div className="p-4 bg-gray-50 rounded-lg">
-          <p className="text-sm text-gray-600 mb-1">Sending to</p>
+          <p className="text-sm text-black/60 mb-1">Sending to</p>
           <p className="font-semibold text-lg">{recipientName}</p>
-          <p className="text-sm text-gray-600">{bankInfo}</p>
+          <p className="text-sm text-black/60">{bankInfo}</p>
         </div>
 
         <div className="space-y-3">
           <div className="flex justify-between">
-            <span className="text-gray-600">Recipient gets</span>
+            <span className="text-black/60">Recipient gets</span>
             <span className="font-medium">${fiatAmount.toFixed(2)} USD</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-gray-600">Transfer fee</span>
-            <span className="font-medium">${ACH_FEE.toFixed(2)} USDC</span>
+            <span className="text-black/60">Transfer fee</span>
+            <span className="font-medium">${currentFee.toFixed(2)} USDC</span>
           </div>
           <div className="border-t pt-3 flex justify-between">
             <span className="font-semibold">You&apos;ll send</span>
@@ -688,7 +739,7 @@ export function SendMoneyModal({
   const renderProcessing = () => (
     <div className="py-12 text-center">
       <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#163300] mx-auto mb-4"></div>
-      <p className="text-gray-600">Processing your transfer...</p>
+      <p className="text-black/60">Processing your transfer...</p>
     </div>
   );
 
@@ -698,13 +749,13 @@ export function SendMoneyModal({
         <Check className="w-8 h-8 text-green-600" />
       </div>
       <h3 className="text-xl font-bold mb-2">Transfer Successful!</h3>
-      <p className="text-gray-600 mb-6">
+      <p className="text-black/60 mb-6">
         Your money has been sent successfully
       </p>
       <button
         onClick={() => {
           onOpenChange(false);
-          setStep("select_account");
+          setStep("transfer_type");
           setAmount("");
           setError("");
         }}
@@ -715,7 +766,8 @@ export function SendMoneyModal({
     </div>
   );
 
-  const titles = {
+  const titles: Record<Step, string> = {
+    transfer_type: "Send Money",
     select_account: "Select Account",
     recipient: "Recipient Details",
     amount: "Enter Amount",
@@ -742,6 +794,7 @@ export function SendMoneyModal({
         </DialogHeader>
 
         <div className="mt-4">
+          {step === "transfer_type" && renderTransferType()}
           {step === "select_account" && renderSelectAccount()}
           {step === "recipient" && renderRecipient()}
           {step === "amount" && renderAmount()}

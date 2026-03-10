@@ -153,6 +153,9 @@ export function SendMoneyModal({
   const [selectedAccount, setSelectedAccount] =
     useState<BridgeExternalAccount | null>(null);
 
+  const [savingAccount, setSavingAccount] = useState(false);
+  const [accountSaved, setAccountSaved] = useState(false);
+
   // New account details
   const [bankDetails, setBankDetails] = useState<BankAccountDetails>({
     fullName: "",
@@ -206,8 +209,7 @@ export function SendMoneyModal({
           const data = await response.json();
           setExternalAccounts(data.data || []);
         }
-      } catch (error) {
-        console.error("Failed to load accounts:", error);
+      } catch {
         setExternalAccounts([]);
       } finally {
         setLoadingAccounts(false);
@@ -260,6 +262,79 @@ export function SendMoneyModal({
     setStep("review");
   };
 
+  const handleRecipientSubmit = async () => {
+    setSavingAccount(true);
+    setError("");
+
+    try {
+      const token = await getAuthToken();
+      const response = await fetch(`/api/bridge/external-accounts/create`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: userEmail,
+          currency: "usd",
+          bank_name: bankDetails.bankName,
+          account_owner_name: bankDetails.fullName,
+          account_type: "us",
+          account: {
+            account_number: bankDetails.accountNumber,
+            routing_number: bankDetails.routingNumber,
+            checking_or_savings: bankDetails.accountType,
+          },
+          address: {
+            street_line_1: address.street,
+            city: address.city,
+            state: address.state,
+            postal_code: address.postalCode,
+            country: address.country,
+          },
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error("Failed to save account. Please try again.");
+      }
+
+      const accountData = await response.json();
+
+      // Set as selected account for the transfer
+      setSelectedAccount({
+        id: accountData.id,
+        customer_id: accountData.customer_id,
+        currency: accountData.currency,
+        account_owner_name: bankDetails.fullName,
+        bank_name: bankDetails.bankName,
+        account: {
+          account_number: bankDetails.accountNumber,
+          routing_number: bankDetails.routingNumber,
+        },
+        address: {
+          street: address.street,
+          city: address.city,
+          state: address.state,
+          postalCode: address.postalCode,
+          country: address.country,
+        },
+      });
+
+      // Show confirmation briefly then advance
+      setAccountSaved(true);
+      setTimeout(() => {
+        setAccountSaved(false);
+        setSavingAccount(false);
+        setStep("amount");
+      }, 1500);
+    } catch (err: any) {
+      setError("Failed to save account. Please try again.");
+      setSavingAccount(false);
+    }
+  };
+
   const handleSubmit = async () => {
     if (!embeddedWallet) {
       setError("Missing wallet information");
@@ -271,12 +346,25 @@ export function SendMoneyModal({
     setError("");
 
     try {
-      let externalAccountId: string;
+      const externalAccountId = selectedAccount!.id;
+      const fiatAmount = parseFloat(amount);
+      const token = await getAuthToken();
+      const recipientName = selectedAccount!.account_owner_name;
 
-      // Create new account if needed
-      if (!selectedAccount) {
-        const token = await getAuthToken();
-        const response = await fetch(`/api/bridge/external-accounts/create`, {
+      if (transferType === "wire") {
+        // --- Wire flow: use Liquidation Addresses API ---
+
+        // 1. Fetch fee wallet address
+        const feeWalletResponse = await fetch(`/api/bridge/fee-wallet`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (!feeWalletResponse.ok) {
+          throw new Error("Transfer failed. Please try again.");
+        }
+        const { fee_wallet: feeWalletAddress } = await feeWalletResponse.json();
+
+        // 2. Create liquidation address with wire message
+        const liqResponse = await fetch(`/api/bridge/liquidation-address/create`, {
           method: "POST",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -284,126 +372,159 @@ export function SendMoneyModal({
           },
           body: JSON.stringify({
             email: userEmail,
-            currency: "usd",
-            bank_name: bankDetails.bankName,
-            account_owner_name: bankDetails.fullName,
-            account_type: transferType === "wire" ? "us_wire" : "us",
-            account: {
-              account_number: bankDetails.accountNumber,
-              routing_number: bankDetails.routingNumber,
-              checking_or_savings: bankDetails.accountType,
-            },
-            address: {
-              street_line_1: address.street,
-              city: address.city,
-              state: address.state,
-              postal_code: address.postalCode,
-              country: address.country,
-            },
+            wallet_address: walletAddress,
+            external_account_id: externalAccountId,
+            destination_wire_message: wireMessage.trim(),
           }),
         });
 
-        if (!response.ok) {
-          throw new Error("Failed to create bank account");
+        if (!liqResponse.ok) {
+          const errorData = await liqResponse.json();
+          throw new Error("Transfer failed. Please try again.");
         }
 
-        const accountData = await response.json();
-        externalAccountId = accountData.id;
+        const liqData = await liqResponse.json();
+
+        // 3. Send transfer amount USDC to Bridge liquidation address
+        const txSignature = await transferUSDC(
+          liqData.address,
+          fiatAmount.toFixed(2),
+          embeddedWallet,
+          getAuthToken,
+          async (params) => signTransaction({
+            ...params,
+            options: { uiOptions: { showWalletUIs: false } },
+          })
+        );
+
+        // 4. Send $15 fee USDC to PayBridge fee wallet
+        await transferUSDC(
+          feeWalletAddress,
+          WIRE_FEE.toFixed(2),
+          embeddedWallet,
+          getAuthToken,
+          async (params) => signTransaction({
+            ...params,
+            options: { uiOptions: { showWalletUIs: false } },
+          })
+        );
+
+        // 5. Save transaction record
+        await fetch(`/api/business/transactions`, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            wallet_address: walletAddress,
+            recipient_name: recipientName,
+            recipient_bank_name:
+              selectedAccount?.bank_name || bankDetails.bankName,
+            recipient_account_number:
+              selectedAccount?.account?.account_number ||
+              bankDetails.accountNumber,
+            recipient_routing_number:
+              selectedAccount?.account?.routing_number ||
+              bankDetails.routingNumber,
+            recipient_address_street: address.street || "",
+            recipient_address_city: address.city || "",
+            recipient_address_state: address.state || "",
+            recipient_address_postal_code: address.postalCode || "",
+            recipient_address_country: address.country || "US",
+            amount_usdc: fiatAmount + WIRE_FEE,
+            amount_fiat: fiatAmount,
+            fiat_currency: "USD",
+            exchange_rate: 1.0,
+            payment_method: "wire",
+            bridge_transaction_id: liqData.id,
+            bridge_deposit_address: liqData.address,
+            bridge_deposit_amount: fiatAmount.toFixed(2),
+            transaction_hash: txSignature.signature,
+            status: "pending",
+          }),
+        });
       } else {
-        externalAccountId = selectedAccount.id;
+        // --- ACH flow: existing Transfers API (unchanged) ---
+        const totalCost = fiatAmount + currentFee;
+
+        const withdrawalResponse = await fetch(`/api/bridge/withdrawal/create`, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: userEmail,
+            wallet_address: walletAddress,
+            amount_usdc: totalCost.toFixed(2),
+            currency: "usd",
+            external_account_id: externalAccountId,
+            developer_fee: currentFee.toFixed(2),
+            payment_rail: "ach_same_day",
+          }),
+        });
+
+        if (!withdrawalResponse.ok) {
+          const errorData = await withdrawalResponse.json();
+          throw new Error("Transfer failed. Please try again.");
+        }
+
+        const transfer = await withdrawalResponse.json();
+
+        // Send USDC on-chain to Bridge deposit address
+        const txSignature = await transferUSDC(
+          transfer.deposit_address,
+          transfer.deposit_amount.toString(),
+          embeddedWallet,
+          getAuthToken,
+          async (params) => signTransaction({
+            ...params,
+            options: { uiOptions: { showWalletUIs: false } },
+          })
+        );
+
+        // Save transaction to business_transactions table
+        await fetch(`/api/business/transactions`, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            wallet_address: walletAddress,
+            recipient_name: recipientName,
+            recipient_bank_name:
+              selectedAccount?.bank_name || bankDetails.bankName,
+            recipient_account_number:
+              selectedAccount?.account?.account_number ||
+              bankDetails.accountNumber,
+            recipient_routing_number:
+              selectedAccount?.account?.routing_number ||
+              bankDetails.routingNumber,
+            recipient_address_street: address.street || "",
+            recipient_address_city: address.city || "",
+            recipient_address_state: address.state || "",
+            recipient_address_postal_code: address.postalCode || "",
+            recipient_address_country: address.country || "US",
+            amount_usdc: totalCost,
+            amount_fiat: fiatAmount,
+            fiat_currency: "USD",
+            exchange_rate: 1.0,
+            payment_method: "ach",
+            bridge_transaction_id: transfer.transfer_id,
+            bridge_deposit_address: transfer.deposit_address,
+            bridge_deposit_amount: transfer.deposit_amount,
+            transaction_hash: txSignature.signature,
+            status: "pending",
+          }),
+        });
       }
-
-      // Create withdrawal
-      const fiatAmount = parseFloat(amount);
-      const totalCost = fiatAmount + currentFee;
-
-      const token = await getAuthToken();
-      const withdrawalResponse = await fetch(`/api/bridge/withdrawal/create`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: userEmail,
-          wallet_address: walletAddress,
-          amount_usdc: totalCost.toFixed(2),
-          currency: "usd",
-          external_account_id: externalAccountId,
-          developer_fee: currentFee.toFixed(2),
-          payment_rail: transferType === "wire" ? "wire" : "ach_same_day",
-          ...(transferType === "wire" && wireMessage.trim()
-            ? { destination: { wire_message: wireMessage.trim() } }
-            : {}),
-        }),
-      });
-
-      if (!withdrawalResponse.ok) {
-        const errorData = await withdrawalResponse.json();
-        throw new Error(errorData.error || "Failed to create transfer");
-      }
-
-      const transfer = await withdrawalResponse.json();
-
-      // Step 3: Send USDC on-chain to Bridge deposit address
-      const txSignature = await transferUSDC(
-        transfer.deposit_address,
-        transfer.deposit_amount.toString(),
-        embeddedWallet,
-        getAuthToken,
-        async (params) => signTransaction({
-          ...params,
-          options: {
-            uiOptions: {
-              showWalletUIs: false
-            }
-          }
-        })
-      );
-
-      // Step 4: Save transaction to business_transactions table
-      const recipientName =
-        selectedAccount?.account_owner_name || bankDetails.fullName;
-
-      await fetch(`/api/business/transactions`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          wallet_address: walletAddress,
-          recipient_name: recipientName,
-          recipient_bank_name:
-            selectedAccount?.bank_name || bankDetails.bankName,
-          recipient_account_number:
-            selectedAccount?.account?.account_number ||
-            bankDetails.accountNumber,
-          recipient_routing_number:
-            selectedAccount?.account?.routing_number ||
-            bankDetails.routingNumber,
-          recipient_address_street: address.street || "",
-          recipient_address_city: address.city || "",
-          recipient_address_state: address.state || "",
-          recipient_address_postal_code: address.postalCode || "",
-          recipient_address_country: address.country || "US",
-          amount_usdc: totalCost,
-          amount_fiat: fiatAmount,
-          fiat_currency: "USD",
-          exchange_rate: 1.0,
-          payment_method: transferType === "wire" ? "wire" : "ach",
-          bridge_transaction_id: transfer.transfer_id,
-          bridge_deposit_address: transfer.deposit_address,
-          bridge_deposit_amount: transfer.deposit_amount,
-          transaction_hash: txSignature.signature,
-          status: "pending",
-        }),
-      });
 
       setStep("success");
       onSuccess?.();
     } catch (error: any) {
-      setError(error.message || "Transfer failed. Please try again.");
+      setError("Transfer failed. Please try again.");
       setStep("review");
     } finally {
       setLoading(false);
@@ -647,22 +768,32 @@ export function SendMoneyModal({
         </div>
       </div>
 
-      <button
-        onClick={() => setStep("amount")}
-        disabled={
-          !bankDetails.fullName ||
-          !bankDetails.bankName ||
-          !bankDetails.accountNumber ||
-          !bankDetails.routingNumber ||
-          !address.street ||
-          !address.city ||
-          !address.state ||
-          !address.postalCode
-        }
-        className="w-full py-3 bg-[#9FE870] text-[#163300] rounded-lg font-medium disabled:bg-gray-300 disabled:cursor-not-allowed"
-      >
-        Continue
-      </button>
+      {error && <p className="text-sm text-red-600 text-center">{error}</p>}
+
+      {accountSaved ? (
+        <div className="w-full py-3 bg-green-100 text-green-700 rounded-lg font-medium text-center flex items-center justify-center gap-2">
+          <Check className="w-5 h-5" />
+          Account details saved!
+        </div>
+      ) : (
+        <button
+          onClick={handleRecipientSubmit}
+          disabled={
+            savingAccount ||
+            !bankDetails.fullName ||
+            !bankDetails.bankName ||
+            !bankDetails.accountNumber ||
+            !bankDetails.routingNumber ||
+            !address.street ||
+            !address.city ||
+            !address.state ||
+            !address.postalCode
+          }
+          className="w-full py-3 bg-[#9FE870] text-[#163300] rounded-lg font-medium disabled:bg-gray-300 disabled:cursor-not-allowed"
+        >
+          {savingAccount ? "Saving account..." : "Continue"}
+        </button>
+      )}
     </div>
   );
 
@@ -718,11 +849,17 @@ export function SendMoneyModal({
             <span className="font-medium">${fiatAmount.toFixed(2)} USD</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-black/60">Transfer fee</span>
+            <span className="text-black/60">Transfer amount</span>
+            <span className="font-medium">${fiatAmount.toFixed(2)} USDC</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="text-black/60">
+              {transferType === "wire" ? "Wire transfer fee" : "ACH transfer fee"}
+            </span>
             <span className="font-medium">${currentFee.toFixed(2)} USDC</span>
           </div>
           <div className="border-t pt-3 flex justify-between">
-            <span className="font-semibold">You&apos;ll send</span>
+            <span className="font-semibold">Total</span>
             <span className="font-semibold text-[#163300]">
               ${totalCost.toFixed(2)} USDC
             </span>
@@ -787,6 +924,9 @@ export function SendMoneyModal({
           setAmount("");
           setWireMessage("");
           setError("");
+          setSavingAccount(false);
+          setAccountSaved(false);
+          setSelectedAccount(null);
         }}
         className="w-full py-3 bg-[#9FE870] text-[#163300] rounded-lg font-medium"
       >

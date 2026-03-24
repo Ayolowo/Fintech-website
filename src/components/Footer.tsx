@@ -21,7 +21,7 @@ const Footer = () => {
             </p>
             {/* Social Links */}
             <div className="flex gap-4 pt-2">
-              <a href="https://twitter.com/paybridge" target="_blank" rel="noopener noreferrer" className="hover:opacity-70 transition-opacity">
+              <a href="https://twitter.com/paybridgee" target="_blank" rel="noopener noreferrer" className="hover:opacity-70 transition-opacity">
                 <X size={20} />
               </a>
               <a href="https://linkedin.com/company/paybridgefinance" target="_blank" rel="noopener noreferrer" className="hover:opacity-70 transition-opacity">
@@ -31,7 +31,7 @@ const Footer = () => {
                   <circle cx="4" cy="4" r="2"></circle>
                 </svg>
               </a>
-              <a href="https://instagram.com/paybridge" target="_blank" rel="noopener noreferrer" className="hover:opacity-70 transition-opacity">
+              <a href="https://instagram.com/usepaybridge" target="_blank" rel="noopener noreferrer" className="hover:opacity-70 transition-opacity">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
                   <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>

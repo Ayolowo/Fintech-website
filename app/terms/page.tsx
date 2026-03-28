@@ -95,6 +95,8 @@ export default function Terms() {
                 <li>Engage in fraud, scams, money laundering, or terrorist financing.</li>
                 <li>Interfere with or disrupt the security of our Services.</li>
                 <li>Use PayBridge in any way that could harm us, our partners, or other users.</li>
+                <li><strong>Abusive Use of Transaction Flows:</strong> Initiating a high volume of transaction attempts without completing them, or otherwise using our payment infrastructure in a manner that places undue strain on our systems or disrupts service for other users. Such activity may result in automatic account suspension.</li>
+                <li><strong>Platform Manipulation:</strong> Repeatedly initiating, cancelling, or abandoning transactions in a pattern that is inconsistent with genuine transactional intent, or that is designed to test, probe, or exploit our payment systems.</li>
               </ul>
             </section>
 

@@ -3,7 +3,7 @@ import Image from "next/image";
 
 const QRWidget = () => {
   return (
-    <div className="fixed bottom-6 items-center justify-center right-6 z-50">
+    <div className="hidden md:block fixed bottom-6 right-6 z-50">
       <div
         className="rounded-xl shadow-2xl items-center justify-center  p-1 gap-2 border w-[120px]"
       >

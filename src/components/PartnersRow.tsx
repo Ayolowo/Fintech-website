@@ -23,8 +23,8 @@ const PartnersRow = () => {
 
   return (
     <section className="w-full py-16" style={{ backgroundColor: "#faf9f9" }}>
-      <div className="max-w-4xl mx-auto text-center mb-20">
-        <h2 className="text-2xl md:text-5xl text-[70px] text-black font-semibold">
+      <div className="max-w-4xl mx-auto text-center mb-12 px-6 md:px-16 lg:px-24">
+        <h2 className="text-2xl sm:text-3xl md:text-5xl text-black font-semibold">
           Built with financial institutions
           <br /> <span className="font-[800]">you already trust</span>
         </h2>

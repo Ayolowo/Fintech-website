@@ -5,19 +5,19 @@ import { CircleFlag } from "react-circle-flags";
 
 const testimonials = [
   {
-    name: "James Harrington",
+    name: "Stephen Olisemenogor",
     country: "England",
     countryCode: "gb",
-    role: "Freelance Designer",
+    role: "Student",
     review:
-      "PayBridge has completely changed how I receive payments from my international clients. Fast, reliable, and the rates are unbeatable.",
+      "Amazing app. fast, reliable and user friendly, with the current best rate of any other exchange app as of 10th march 2026",
     rating: 5,
   },
   {
-    name: "Sophie Dubois",
+    name: "Purity",
     country: "France",
     countryCode: "fr",
-    role: "E-commerce Entrepreneur",
+    role: "Student & Entrepreneur",
     review:
       "I've tried many platforms but PayBridge is by far the easiest. Sending money to my suppliers across borders has never been this seamless.",
     rating: 5,
@@ -32,12 +32,12 @@ const testimonials = [
     rating: 5,
   },
   {
-    name: "Adaeze Okonkwo",
-    country: "Nigeria",
-    countryCode: "ng",
-    role: "Content Creator",
+    name: "Hafsat",
+    country: "Canada",
+    countryCode: "ca",
+    role: "Healthcare Professional",
     review:
-      "Finally an app that understands the African market. I receive payments from brands worldwide and withdraw to my local account instantly.",
+      "Cheapest exchange rate I have come across. Also, transactions are very fast.",
     rating: 5,
   },
 ];
@@ -53,7 +53,7 @@ const Stars = ({ count }: { count: number }) => (
 );
 
 const TestimonialCard = ({ testimonial }: { testimonial: typeof testimonials[0] }) => (
-  <div className="flex flex-col gap-4 p-10 rounded-2xl border border-black/8 bg-white shrink-0 w-[380px]">
+  <div className="flex flex-col gap-4 p-6 md:p-10 rounded-2xl border border-black/8 bg-white shrink-0 w-[300px] sm:w-[340px] md:w-[380px]">
     <Stars count={testimonial.rating} />
     <p className="text-black text-lg leading-relaxed flex-1">
       "{testimonial.review}"
@@ -74,7 +74,7 @@ const Testimonials = () => {
   return (
     <section className="w-full py-20" style={{ backgroundColor: "#faf9f9" }}>
       <div className="max-w-5xl mx-auto px-6 md:px-16 lg:px-24 mb-12 text-center">
-        <h2 className="text-3xl md:text-5xl text-[70px] font-semibold text-black mb-4">
+        <h2 className="text-2xl sm:text-3xl md:text-5xl font-semibold text-black mb-4">
           What our customers are saying
         </h2>
         <p className="text-black text-lg max-w-xl mx-auto" style={{color: "#163300"}}>

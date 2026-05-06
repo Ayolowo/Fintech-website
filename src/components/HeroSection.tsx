@@ -2,65 +2,54 @@
 
 import React from "react";
 import Image from "next/image";
-import { Loader } from "lucide-react";
-import iPhoneFront from "../assets/home-front.png";
-import AppStoreButtons from "./AppStoreButtons";
+import { ArrowUpRight } from "lucide-react";
+import instagram from "../assets/hero/instagram.jpeg";
+import hands from "../assets/hero/hands.jpeg";
+import boy from "../assets/hero/boy.jpeg";
 
 const HeroSection = () => {
   return (
-    <section className="relative w-full py-8 md:py-12 lg:py-0 px-4 md:px-28 overflow-hidden">
-      {/* Gradient glow effect */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full">
-        <div className="w-full h-full opacity-10 bg-primary blur-[120px]"></div>
+    <section className="relative w-full min-h-screen overflow-hidden" style={{ backgroundColor: "#faf9f9" }}>
+
+      {/* Text content */}
+      <div className="relative z-10 flex flex-col items-center text-center px-6 md:px-16 lg:px-24 pt-40 pb-10">
+        <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-[96px] font-black text-black mb-6" style={{lineHeight: 0.99}}>
+          Bridge money. <br /> Anywhere. Instantly.<br /> At ultra low cost.
+        </h1>
+
+        <p className="text-md md:text-lg font-normal mb-6 max-w-md leading-relaxed" style={{color: "#163300"}}>
+          Send, receive, and hold digital dollars. All in one app, built with regulated partners.
+        </p>
+
+        <a
+          href="https://apps.apple.com/app/paybridge/id6749968512"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 px-7 py-4 rounded-full text-md font-bold transition-all hover:opacity-90"
+          style={{ backgroundColor: "#9FE870", color: "#163300" }}
+        >
+          Download the app
+          <ArrowUpRight className="w-5 h-5" />
+        </a>
       </div>
 
-      <div className="relative z-10 w-full max-w-8xl mx-auto">
-        <div className="flex flex-col lg:flex-row items-center w-full gap-8 lg:gap-0">
-          {/* Left side - Text content */}
-          <div className="w-full lg:w-1/2 space-y-4 text-center lg:text-left flex flex-col items-center lg:items-start">
-            <div className="flex justify-center lg:justify-start">
-              <span className="inline-flex items-center gap-2 px-3 py-1 text-xs font-medium rounded-full bg-muted text-primary">
-                <span className="flex h-2 w-2 rounded-full bg-primary"></span>
-                Launching new payment features
-                <Loader className="h-3 w-3 animate-spin text-primary" />
-              </span>
-            </div>
-
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[75px] font-bold">
-              Bridge money. Anywhere. Instantly.
-            </h1>
-
-            <p className="text-base sm:text-lg md:text-xl font-normal text-muted-foreground max-w-xl">
-              Send, receive, and hold digital dollars. <br/> All in one app, built with regulated partners.
-            </p>
-
-            {/* App Store Buttons - Hidden on mobile, shown on desktop */}
-            <div className="pt-4 hidden lg:block">
-              <AppStoreButtons />
-            </div>
-          </div>
-
-          {/* Right side - Mobile app screenshot */}
-          <div className="w-full lg:w-1/2 flex flex-col items-center lg:items-end gap-6">
-            <div className="px-8 md:px-40 lg:px-40 py-8 md:py-12 flex items-center justify-center" >
-              <Image
-                src={iPhoneFront}
-                alt="PayBridge Home Screen"
-                width={300}
-                height={600}
-                className="w-full max-w-[280px] sm:max-w-[320px] md:max-w-[350px] h-auto"
-                priority
-              />
-            </div>
-
-            {/* App Store Buttons - Mobile only, shown below image */}
-            <div className="lg:hidden">
-              <AppStoreButtons />
-            </div>
-          </div>
+      {/* Image row — full width, outside any max-width container */}
+      <div className="flex gap-2 w-full h-[580px] px-6 md:px-16 lg:px-24 pb-16">
+        <div className="flex-1 rounded-3xl overflow-hidden">
+          <Image src={instagram} alt="" width={900} height={600} className="w-full h-full object-cover object-center" />
+        </div>
+        <div className="flex-1 rounded-2xl overflow-hidden">
+          <Image src={hands} alt="" width={900} height={600} className="w-full h-full object-cover object-center" />
+        </div>
+        
+        
+        <div className="flex-1 rounded-2xl overflow-hidden">
+          <Image src={boy} alt="" width={900} height={600} className="w-full h-full object-cover object-center" />
         </div>
       </div>
+
     </section>
   );
 };
+
 export default HeroSection;

@@ -11,10 +11,12 @@ import BusinessFAQ from '@/components/BusinessFAQ';
 
 export default function Business() {
   return (
-    <div className="min-h-screen flex flex-col bg-white text-foreground">
-      <Header />
-      <main>
+    <div className="flex flex-col bg-white text-foreground">
+      <div className="relative">
+        <Header />
         <BusinessHero />
+      </div>
+      <main>
         <BusinessDashboard />
         <WhyChoosePayBridge />
         <HowYouUsePayBridge />

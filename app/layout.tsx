@@ -8,11 +8,11 @@ import { Metadata } from "next";
 import { ReactNode } from "react";
 import ReactQueryProvider from "./providers";
 import Providers from "@/providers/PrivyProvider";
-import { Inter } from "next/font/google";
+import { Poppins } from "next/font/google";
 
-const inter = Inter({
+const inter = Poppins({
   subsets: ["latin"],
-  weight: [ "400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700", "800", "900"],
   display: "swap",
 });
 
@@ -109,7 +109,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <head>
-        <script src="https://cdn.gpteng.co/gptengineer.js" type="module" async />
         <script src="https://cdn.lordicon.com/lordicon.js" async />
       </head>
       <body className={inter.className}>

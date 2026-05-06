@@ -1,63 +1,95 @@
+"use client";
 
-import React from 'react';
+import React from "react";
+import { CircleFlag } from "react-circle-flags";
+
+const testimonials = [
+  {
+    name: "James Harrington",
+    country: "England",
+    countryCode: "gb",
+    role: "Freelance Designer",
+    review:
+      "PayBridge has completely changed how I receive payments from my international clients. Fast, reliable, and the rates are unbeatable.",
+    rating: 5,
+  },
+  {
+    name: "Sophie Dubois",
+    country: "France",
+    countryCode: "fr",
+    role: "E-commerce Entrepreneur",
+    review:
+      "I've tried many platforms but PayBridge is by far the easiest. Sending money to my suppliers across borders has never been this seamless.",
+    rating: 5,
+  },
+  {
+    name: "Liam Tremblay",
+    country: "Canada",
+    countryCode: "ca",
+    role: "Software Engineer",
+    review:
+      "The virtual USD account is a game changer. I get paid in dollars and convert when the rate is right. Absolutely love this app.",
+    rating: 5,
+  },
+  {
+    name: "Adaeze Okonkwo",
+    country: "Nigeria",
+    countryCode: "ng",
+    role: "Content Creator",
+    review:
+      "Finally an app that understands the African market. I receive payments from brands worldwide and withdraw to my local account instantly.",
+    rating: 5,
+  },
+];
+
+const Stars = ({ count }: { count: number }) => (
+  <div className="flex gap-0.5">
+    {Array.from({ length: count }).map((_, i) => (
+      <svg key={i} className="w-4 h-4" fill="#163300" viewBox="0 0 20 20">
+        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+      </svg>
+    ))}
+  </div>
+);
+
+const TestimonialCard = ({ testimonial }: { testimonial: typeof testimonials[0] }) => (
+  <div className="flex flex-col gap-4 p-10 rounded-2xl border border-black/8 bg-white shrink-0 w-[380px]">
+    <Stars count={testimonial.rating} />
+    <p className="text-black text-lg leading-relaxed flex-1">
+      "{testimonial.review}"
+    </p>
+    <div className="flex items-center gap-3 pt-2 border-t border-black/5">
+      <CircleFlag countryCode={testimonial.countryCode} height={36} width={36} />
+      <div>
+        <p className="text-md text-black font-semibold">{testimonial.name}</p>
+        <p className="text-sm text-gray-700">{testimonial.role} · {testimonial.country}</p>
+      </div>
+    </div>
+  </div>
+);
 
 const Testimonials = () => {
-  const testimonials = [
-    {
-      quote: "Our payment processing efficiency increased by 40% and transaction failures dropped to near zero. The automation features are game-changing.",
-      author: "Sarah Johnson",
-      position: "CFO at TechCorp",
-      avatar: "bg-cosmic-light/30"
-    },
-    {
-      quote: "The real-time analytics and fraud detection capabilities have saved us millions. We can spot issues before they become problems.",
-      author: "Michael Chen",
-      position: "Head of Risk at FinanceFlow",
-      avatar: "bg-cosmic-light/20"
-    },
-    {
-      quote: "Compliance used to be a nightmare. Now our regulatory reporting is automated and we're always audit-ready.",
-      author: "Leila Rodriguez",
-      position: "Operations Director at GlobalPay",
-      avatar: "bg-cosmic-light/40"
-    }
-  ];
-  
+  const items = [...testimonials, ...testimonials, ...testimonials];
+
   return (
-    <section className="w-full py-20 px-6 md:px-12 bg-card relative overflow-hidden">
-      {/* Background grid */}
-      <div className="absolute inset-0 cosmic-grid opacity-20"></div>
-      
-      <div className="max-w-7xl mx-auto space-y-16 relative z-10">
-        <div className="text-center space-y-4 max-w-3xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-medium tracking-tighter text-foreground">
-            Trusted by finance teams worldwide
-          </h2>
-          <p className="text-muted-foreground text-lg">
-            See how our platform transforms financial operations for businesses
-          </p>
-        </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {testimonials.map((testimonial, index) => (
-            <div 
-              key={index}
-              className="p-6 rounded-xl border border-border bg-background/80 backdrop-blur-sm hover:border-border/60 transition-all duration-300"
-            >
-              <div className="mb-6">
-                {[...Array(5)].map((_, i) => (
-                  <span key={i} className="text-primary inline-block mr-1">★</span>
-                ))}
-              </div>
-              <p className="text-lg mb-8 text-foreground/90 italic">&ldquo;{testimonial.quote}&rdquo;</p>
-              <div className="flex items-center gap-4">
-                <div className={`h-12 w-12 rounded-full ${testimonial.avatar} bg-muted`}></div>
-                <div>
-                  <h4 className="font-medium text-foreground">{testimonial.author}</h4>
-                  <p className="text-sm text-muted-foreground">{testimonial.position}</p>
-                </div>
-              </div>
-            </div>
+    <section className="w-full py-20" style={{ backgroundColor: "#faf9f9" }}>
+      <div className="max-w-5xl mx-auto px-6 md:px-16 lg:px-24 mb-12 text-center">
+        <h2 className="text-3xl md:text-5xl text-[70px] font-semibold text-black mb-4">
+          What our customers are saying
+        </h2>
+        <p className="text-black text-lg max-w-xl mx-auto" style={{color: "#163300"}}>
+          People trust PayBridge to move money across borders — here's what they have to say.
+        </p>
+      </div>
+
+      <div className="relative overflow-hidden">
+        {/* Edge fades */}
+        <div className="absolute left-0 top-0 bottom-0 w-24 z-10 pointer-events-none" style={{ background: "linear-gradient(to right, #faf9f9, transparent)" }} />
+        <div className="absolute right-0 top-0 bottom-0 w-24 z-10 pointer-events-none" style={{ background: "linear-gradient(to left, #faf9f9, transparent)" }} />
+
+        <div className="flex gap-4 animate-scroll hover:[animation-play-state:paused] w-max px-6">
+          {items.map((t, i) => (
+            <TestimonialCard key={i} testimonial={t} />
           ))}
         </div>
       </div>

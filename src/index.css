@@ -147,3 +147,14 @@
     @apply bg-accent/20 transition-all duration-300;
   }
 }
+
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-scroll {
+  animation: scroll 60s linear infinite;
+  width: max-content;
+  will-change: transform;
+}

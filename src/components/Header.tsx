@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import Logo from "@/components/Logo";
+import Logo from "../assets/light-logo";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
@@ -9,104 +9,148 @@ import { Menu, X } from "lucide-react";
 const Header = () => {
   const pathname = usePathname();
   const isBusinessPage = pathname === "/business";
+  const isHeroPage = false; // cream background — always use dark nav text
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  const textColor = isHeroPage ? "text-white" : "text-black";
+  const mutedText = isHeroPage ? "text-white/70" : "text-gray-500";
+  const hoverText = isHeroPage ? "hover:text-white" : "hover:text-black";
+  const hamburgerColor = isHeroPage ? "text-white" : "text-black";
+  const hamburgerHover = isHeroPage ? "hover:bg-white/10" : "hover:bg-black/10";
+
   return (
-    <div className="px-4 md:px-20">
-      <header className="w-full max-w-8xl mx-auto py-3 flex items-center justify-between gap-2">
+    <div className="absolute top-0 left-0 right-0 z-50 px-6 md:px-8 lg:px-14">
+      <header className="w-full mx-auto py-5 flex items-center justify-between gap-4 relative">
+
+        {/* Logo */}
         <a
           href="/"
-          className="p-1 md:p-3 flex items-center gap-1 md:gap-2 cursor-pointer hover:opacity-80 transition-opacity"
+          className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity"
         >
-          <Logo className="h-8 w-8 md:h-12 md:w-12" />
-          <span className="text-xl md:text-1xl lg:text-2xl font-extrabold text-black whitespace-nowrap">
+          <Logo />
+          <span className={`text-[22px] font-extrabold whitespace-nowrap ${textColor}`} style={{color: "#163300"}}>
             PayBridge
           </span>
         </a>
 
-        <div className="flex items-center gap-3">
-          {/* Navigation Tabs */}
-          <nav className="flex items-center gap-1 md:gap-2 bg-muted/50 rounded-full p-1 flex-shrink-0">
-            <Link
-              href="/"
-              className={`px-3 md:px-6 py-2 rounded-full text-xs md:text-sm font-medium transition-all whitespace-nowrap ${
-                !isBusinessPage
-                  ? "bg-foreground text-background"
-                  : "text-foreground hover:bg-muted"
-              }`}
-            >
-              Personal
-            </Link>
-            <Link
-              href="/business"
-              className={`px-3 md:px-6 py-2 rounded-full text-xs md:text-sm font-medium transition-all whitespace-nowrap ${
-                isBusinessPage
-                  ? "bg-foreground text-background"
-                  : "text-foreground hover:bg-muted"
-              }`}
-            >
-              Business
-            </Link>
-          </nav>
+        {/* Center nav — absolutely centred in the header */}
+        <nav className="hidden md:flex items-center gap-2 absolute left-1/2 -translate-x-1/2">
+          <Link
+            href="/"
+            className="text-[16px] font-medium whitespace-nowrap px-4 py-2 rounded-full transition-colors hover:bg-[#9FE870]/30 hover:rounded-full"
+            style={{color: "#163300"}}
+          >
+            Personal
+          </Link>
+          <Link
+            href="/business"
+            className="text-[16px] font-medium whitespace-nowrap px-4 py-2 rounded-full transition-colors hover:bg-[#9FE870]/30 hover:rounded-full"
+            style={{color: "#163300"}}
+          >
+            Business
+          </Link>
+        </nav>
 
-          {/* Business Buttons - Desktop */}
-          {isBusinessPage && (
-            <div className="hidden md:flex items-center gap-2 flex-shrink-0">
-              <Link
-                href="/business/register"
-                className="px-6 py-2 rounded-full text-sm font-semibold transition-all hover:opacity-90 whitespace-nowrap"
-                style={{ backgroundColor: "#9FE870", color: "#163300" }}
-              >
-                Sign Up
-              </Link>
+        {/* Right side */}
+        <div className="flex items-center gap-4">
+          {isBusinessPage ? (
+            <>
               <Link
                 href="/business/login"
-                className="px-6 py-2 rounded-full text-sm font-semibold text-white transition-all hover:opacity-90 whitespace-nowrap"
-                style={{ backgroundColor: "#163300" }}
+                className="hidden md:inline-flex px-4 py-2 rounded-full text-base font-medium transition-colors whitespace-nowrap hover:bg-[#9FE870]/30 hover:rounded-full"
+                style={{color: "#163300"}}
               >
-                Login
+                Log in
               </Link>
-            </div>
+              <Link
+                href="/business/register"
+                className="hidden md:inline-flex px-5 py-2.5 rounded-full text-base font-bold transition-all whitespace-nowrap hover:opacity-90"
+                style={{ backgroundColor: "#9FE870", color: "#163300" }}
+              >
+                Sign up
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link
+                href="/login"
+                className="hidden md:inline-flex px-4 py-2 rounded-full text-base font-medium transition-colors whitespace-nowrap hover:bg-[#9FE870]/30 hover:rounded-full"
+                style={{color: "#163300"}}
+              >
+                Log in
+              </Link>
+              <Link
+                href="/register"
+                className="hidden md:inline-flex px-5 py-2.5 rounded-full text-base font-[600] transition-all whitespace-nowrap hover:opacity-90"
+                style={{ backgroundColor: "#9FE870", color: "#163300" }}
+              >
+                Sign up
+              </Link>
+            </>
           )}
 
-          {/* Hamburger Menu - Mobile */}
-          {isBusinessPage && (
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 hover:bg-gray-100 rounded-lg transition-colors"
-              aria-label="Toggle menu"
-            >
-              {mobileMenuOpen ? (
-                <X className="w-6 h-6 text-gray-700" />
-              ) : (
-                <Menu className="w-6 h-6 text-gray-700" />
-              )}
-            </button>
-          )}
+          {/* Mobile hamburger */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className={`md:hidden p-2 rounded-lg transition-colors ${hamburgerHover}`}
+            aria-label="Toggle menu"
+          >
+            {mobileMenuOpen
+              ? <X className={`w-6 h-6 ${hamburgerColor}`} />
+              : <Menu className={`w-6 h-6 ${hamburgerColor}`} />
+            }
+          </button>
         </div>
       </header>
 
-      {/* Mobile Menu Dropdown */}
-      {isBusinessPage && mobileMenuOpen && (
-        <div className="md:hidden px-4 py-3 bg-white border-t border-gray-200 shadow-lg">
-          <div className="flex flex-col gap-2">
+      {/* Mobile menu */}
+      {mobileMenuOpen && (
+        <div
+          className="md:hidden px-4 py-4 border-t flex flex-col gap-1"
+          style={isHeroPage ? { backgroundColor: "#163300", borderColor: "rgba(255,255,255,0.1)" } : { backgroundColor: "white", borderColor: "#f3f4f6" }}
+        >
+          <Link
+            href="/"
+            onClick={() => setMobileMenuOpen(false)}
+            className={`px-4 py-3 text-sm font-medium rounded-lg transition-colors ${!isBusinessPage ? textColor : `${mutedText} ${hoverText}`}`}
+          >
+            Personal
+          </Link>
+          <Link
+            href="/business"
+            onClick={() => setMobileMenuOpen(false)}
+            className={`px-4 py-3 text-sm font-medium rounded-lg transition-colors ${isBusinessPage ? textColor : `${mutedText} ${hoverText}`}`}
+          >
+            Business
+          </Link>
+          {isBusinessPage ? (
+            <>
+              <Link
+                href="/business/login"
+                onClick={() => setMobileMenuOpen(false)}
+                className={`px-4 py-3 text-sm font-medium rounded-lg ${textColor}`}
+              >
+                Log in
+              </Link>
+              <Link
+                href="/business/register"
+                onClick={() => setMobileMenuOpen(false)}
+                className="mt-2 px-4 py-3 rounded-full text-sm font-bold text-center hover:opacity-90"
+                style={{ backgroundColor: "#9FE870", color: "#163300" }}
+              >
+                Sign up
+              </Link>
+            </>
+          ) : (
             <Link
-              href="/business/register"
+              href="/register"
               onClick={() => setMobileMenuOpen(false)}
-              className="w-full px-4 py-3 rounded-lg text-sm font-semibold text-center transition-all hover:opacity-90"
+              className="mt-2 px-4 py-3 rounded-full text-sm font-bold text-center hover:opacity-90"
               style={{ backgroundColor: "#9FE870", color: "#163300" }}
             >
-              Sign Up
+              Sign up
             </Link>
-            <Link
-              href="/business/login"
-              onClick={() => setMobileMenuOpen(false)}
-              className="w-full px-4 py-3 rounded-lg text-sm font-semibold text-white text-center transition-all hover:opacity-90"
-              style={{ backgroundColor: "#163300" }}
-            >
-              Login
-            </Link>
-          </div>
+          )}
         </div>
       )}
     </div>

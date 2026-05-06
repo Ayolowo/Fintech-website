@@ -73,11 +73,11 @@ const Testimonials = () => {
 
   return (
     <section className="w-full py-20" style={{ backgroundColor: "#faf9f9" }}>
-      <div className="max-w-5xl mx-auto px-6 md:px-16 lg:px-24 mb-12 text-center">
-        <h2 className="text-2xl sm:text-3xl md:text-5xl font-semibold text-black mb-4">
+      <div className="max-w-5xl mx-auto px-6 md:px-16 lg:px-24 mb-20 text-center">
+        <h2 className="text-4xl sm:text-5xl md:text-6xl font-semibold text-black mb-4">
           What our customers are saying
         </h2>
-        <p className="text-black text-lg max-w-xl mx-auto" style={{color: "#163300"}}>
+        <p className="text-black text-lg max-w-xl mx-auto">
           People trust PayBridge to move money across borders &mdash; here&rsquo;s what they have to say.
         </p>
       </div>

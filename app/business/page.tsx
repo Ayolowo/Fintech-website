@@ -1,8 +1,11 @@
 import React from 'react';
 import Header from '@/components/Header';
 import BusinessHeroSection from '@/components/BusinessHeroSection';
-import PartnersRow from '@/components/PartnersRow';
+import BusinessStatement from '@/components/BusinessStatement';
+import BusinessPartnersRow from '@/components/BusinessPartnersRow';
+import Testimonials from '@/components/Testimonials';
 import BusinessFeatures from '@/components/BusinessFeatures';
+import BusinessCTA from '@/components/BusinessCTA';
 import Footer from '@/components/Footer';
 import QRWidget from '@/components/QRWidget';
 
@@ -13,8 +16,11 @@ export default function Business() {
         <Header />
         <BusinessHeroSection />
       </div>
-      <PartnersRow />
+      <BusinessPartnersRow />
+      <BusinessStatement />
+      <Testimonials />
       <BusinessFeatures />
+      <BusinessCTA />
       <Footer />
       <QRWidget />
     </div>

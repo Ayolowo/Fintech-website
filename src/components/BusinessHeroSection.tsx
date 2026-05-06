@@ -1,11 +1,14 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
-import fashion from "../assets/hero/fashion.jpeg";
-import hands from "../assets/hero/hands.jpeg";
-import boy from "../assets/hero/boy.jpeg";
+
+const videos = [
+  "/videos/craft-working.mp4",
+  "/videos/farmer-working.mp4",
+  "/videos/man-calculating.mp4",
+  "/videos/packing-boxes.mp4",
+];
 
 const BusinessHeroSection = () => {
   return (
@@ -14,7 +17,7 @@ const BusinessHeroSection = () => {
       {/* Text content */}
       <div className="relative z-10 flex flex-col items-center text-center px-6 md:px-16 lg:px-24 pt-28 sm:pt-32 md:pt-40 pb-8 md:pb-10">
         <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-[96px] font-black text-black mb-5 md:mb-6" style={{ lineHeight: 0.99 }}>
-           Pay teams.<br /> Pay suppliers.<br /> Move money cheap.
+          Pay teams.<br /> Pay suppliers.<br /> Move money cheap.
         </h1>
 
         <p className="text-sm md:text-lg font-normal mb-6 max-w-lg leading-relaxed" style={{ color: "#163300" }}>
@@ -40,17 +43,24 @@ const BusinessHeroSection = () => {
         </div>
       </div>
 
-      {/* Image row */}
-      <div className="flex gap-2 w-full px-4 sm:px-6 md:px-16 lg:px-24 pb-10 md:pb-16">
-        <div className="flex-1 rounded-2xl md:rounded-3xl overflow-hidden h-[240px] sm:h-[340px] md:h-[580px]">
-          <Image src={fashion} alt="" width={900} height={600} className="w-full h-full object-cover object-center" />
-        </div>
-        <div className="hidden md:block flex-1 rounded-2xl overflow-hidden h-[580px]">
-          <Image src={hands} alt="" width={900} height={600} className="w-full h-full object-cover object-center" />
-        </div>
-        <div className="hidden md:block flex-1 rounded-2xl overflow-hidden h-[580px]">
-          <Image src={boy} alt="" width={900} height={600} className="w-full h-full object-cover object-center" />
-        </div>
+      {/* Video row */}
+      <div className="flex w-full pb-10 md:pb-16">
+        {videos.map((src, i) => (
+          <div
+            key={i}
+            className={`${i === 0 ? "flex-1" : "hidden md:block flex-1"} overflow-hidden h-[240px] sm:h-[340px] md:h-[580px]`}
+          >
+            <video
+              src={src}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload={i === 0 ? "auto" : "none"}
+              className="w-full h-full object-cover object-center"
+            />
+          </div>
+        ))}
       </div>
 
     </section>

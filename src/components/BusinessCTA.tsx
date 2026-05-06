@@ -1,30 +1,35 @@
-"use client";
-
 import React from "react";
+import { ArrowUpRight } from "lucide-react";
 
 const BusinessCTA = () => {
   return (
-    <section className="w-full py-24 md:py-32 lg:py-40 px-4 md:px-8 bg-gradient-to-br from-gray-900 via-slate-900 to-gray-900 relative overflow-hidden">
-      {/* Subtle background effects */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(59,130,246,0.1),transparent_50%)]"></div>
-      <div className="absolute inset-0 bg-[radial-gradient(#374151_1px,transparent_1px)] [background-size:24px_24px] opacity-20"></div>
-
-      <div className="max-w-5xl mx-auto text-center space-y-10 relative z-10">
-        {/* Heading */}
-        <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.1] tracking-tight text-white px-4">
-          Ready to Upgrade How Your Business Pays Globally?
+    <section className="w-full min-h-[60vh] px-6 md:px-16 lg:px-24 flex items-center justify-center" style={{ backgroundColor: "#083400" }}>
+      <div className="text-center max-w-3xl">
+        <h2
+          className="text-5xl sm:text-6xl md:text-7xl font-black text-white mb-6"
+          style={{ lineHeight: 1.0 }}
+        >
+          Ready to move money <span style={{ color: "#9FE870" }}>without limits?</span>
         </h2>
-
-        {/* Subheading */}
-        <p className="text-xl md:text-2xl lg:text-3xl text-gray-300 max-w-3xl mx-auto leading-relaxed font-medium">
-          Join growing businesses using PayBridge to move money faster, cheaper, and safer.
+        <p className="text-lg mb-10 max-w-xl mx-auto leading-relaxed" style={{ color: "rgba(255,255,255,0.6)" }}>
+          Join businesses using PayBridge to pay suppliers, run global payroll, and hold digital dollars — all in one place.
         </p>
-
-        {/* CTA Button */}
-        <div className="pt-6">
-          <button className="px-12 py-5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg rounded-xl transition-all shadow-2xl hover:shadow-blue-500/50 hover:scale-105">
-            Sign me up!
-          </button>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a
+            href="/business/register"
+            className="inline-flex items-center gap-2 px-7 py-4 rounded-full font-bold text-base transition-all hover:opacity-90"
+            style={{ backgroundColor: "#9FE870", color: "#083400" }}
+          >
+            Get started for free
+            <ArrowUpRight className="w-5 h-5" />
+          </a>
+          <a
+            href="mailto:support@paybridgefinance.com"
+            className="inline-flex items-center gap-2 px-7 py-4 rounded-full font-bold text-base transition-all hover:bg-white/10"
+            style={{ color: "white", border: "1px solid rgba(255,255,255,0.25)" }}
+          >
+            Contact sales
+          </a>
         </div>
       </div>
     </section>

@@ -16,7 +16,7 @@ const Footer = () => {
               <Logo className="h-10 w-10" variant="light" />
               <span className="text-2xl font-bold">PayBridge</span>
             </div>
-            <p className="text-background/70 text-sm">
+            <p className="text-white text-sm">
               Bridge money. Anywhere. Instantly.
             </p>
             {/* Social Links */}
@@ -46,17 +46,17 @@ const Footer = () => {
             <h4 className="font-semibold text-lg">Product</h4>
             <ul className="space-y-2">
               <li>
-                <Link href="/" className="text-background/70 hover:text-background text-sm transition-colors">
+                <Link href="/" className="text-white hover:text-background text-sm transition-colors">
                   Personal
                 </Link>
               </li>
               <li>
-                <Link href="/business" className="text-background/70 hover:text-background text-sm transition-colors">
+                <Link href="/business" className="text-white hover:text-background text-sm transition-colors">
                   Business
                 </Link>
               </li>
               <li>
-                <Link href="/pricing" className="text-background/70 hover:text-background text-sm transition-colors">
+                <Link href="/pricing" className="text-white hover:text-background text-sm transition-colors">
                   Pricing
                 </Link>
               </li>
@@ -68,17 +68,17 @@ const Footer = () => {
             <h4 className="font-semibold text-lg">Company</h4>
             <ul className="space-y-2">
               <li>
-                <Link href="/about" className="text-background/70 hover:text-background text-sm transition-colors">
+                <Link href="/about" className="text-white hover:text-background text-sm transition-colors">
                   About Us
                 </Link>
               </li>
               <li>
-                <Link href="/careers" className="text-background/70 hover:text-background text-sm transition-colors">
+                <Link href="/careers" className="text-white hover:text-background text-sm transition-colors">
                   Careers
                 </Link>
               </li>
               <li>
-                <Link href="/support" className="text-background/70 hover:text-background text-sm transition-colors">
+                <Link href="/support" className="text-white hover:text-background text-sm transition-colors">
                   Support
                 </Link>
               </li>
@@ -90,17 +90,17 @@ const Footer = () => {
             <h4 className="font-semibold text-lg">Legal</h4>
             <ul className="space-y-2">
               <li>
-                <Link href="/privacy" className="text-background/70 hover:text-background text-sm transition-colors">
+                <Link href="/privacy" className="text-white hover:text-background text-sm transition-colors">
                   Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link href="/terms" className="text-background/70 hover:text-background text-sm transition-colors">
+                <Link href="/terms" className="text-white hover:text-background text-sm transition-colors">
                   Terms of Service
                 </Link>
               </li>
               <li>
-                <Link href="/cookies" className="text-background/70 hover:text-background text-sm transition-colors">
+                <Link href="/cookies" className="text-white hover:text-background text-sm transition-colors">
                   Cookie Policy
                 </Link>
               </li>
@@ -111,11 +111,11 @@ const Footer = () => {
         {/* Bottom Section */}
         <div className="pt-8 border-t border-background/20">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <div className="text-background/60 text-sm space-y-1">
+            <div className="text-white text-sm space-y-1">
               <p>PayLegacy Technologies Ltd, Inc., Reg No: 1001495790</p>
               <p>© 2026 PayBridge Inc. All rights reserved. Registration number: 10165448</p>
             </div>
-            <p className="text-background/60 text-sm">
+            <p className="text-white text-sm">
               Made with care for global payments
             </p>
           </div>

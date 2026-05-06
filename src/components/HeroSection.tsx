@@ -35,7 +35,6 @@ const HeroSection = () => {
 
       {/* Image row */}
       <div className="flex gap-2 w-full px-4 sm:px-6 md:px-16 lg:px-24 pb-10 md:pb-16">
-        {/* On mobile: show only first image full width. On md+: show all 3 */}
         <div className="flex-1 rounded-2xl md:rounded-3xl overflow-hidden h-[240px] sm:h-[340px] md:h-[580px]">
           <Image src={instagram} alt="" width={900} height={600} className="w-full h-full object-cover object-center" />
         </div>

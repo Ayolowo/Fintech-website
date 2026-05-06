@@ -1,21 +1,14 @@
 import React from "react";
 import Stripe from "../assets/hero/partners/stripe";
-import Persona from "../assets/hero/partners/persona";
+import Quidax from "../assets/hero/partners/quidax";
 import Bridge from "../assets/hero/partners/bridge";
+import Persona from "../assets/hero/partners/persona";
 
 const partners = [
-  {
-    name: "Stripe",
-    logo: <Stripe />,
-  },
-  {
-    name: "Bridge",
-    logo: <Bridge />,
-  },
-  {
-    name: "Persona",
-    logo: <Persona />,
-  },
+  { name: "Stripe", logo: <Stripe /> },
+  { name: "Quidax", logo: <Quidax /> },
+  { name: "Bridge", logo: <Bridge /> },
+  { name: "Persona", logo: <Persona /> },
 ];
 
 const PartnersRow = () => {

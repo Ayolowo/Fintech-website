@@ -21,14 +21,23 @@ const BusinessHeroSection = () => {
           Global payments built for businesses. Send to 140+ countries, hold digital dollars, and settle faster than your bank.
         </p>
 
-        <a
-          href="/business/register"
-          className="inline-flex items-center gap-2 px-6 py-3.5 md:px-7 md:py-4 rounded-full text-sm md:text-md font-bold transition-all hover:opacity-90"
-          style={{ backgroundColor: "#9FE870", color: "#163300" }}
-        >
-          Get started for free
-          <ArrowUpRight className="w-4 h-4 md:w-5 md:h-5" />
-        </a>
+        <div className="flex items-center gap-6">
+          <a
+            href="/business/register"
+            className="inline-flex items-center gap-2 px-6 py-3.5 md:px-7 md:py-4 rounded-full text-md md:text-md font-bold transition-all hover:opacity-90"
+            style={{ backgroundColor: "#9FE870", color: "#163300" }}
+          >
+            Get started for free
+            <ArrowUpRight className="w-4 h-4 md:w-5 md:h-5" />
+          </a>
+          <a
+            href="mailto:business@paybridgefinance.com"
+            className="text-sm md:text-base font-medium underline underline-offset-4 transition-opacity hover:opacity-70"
+            style={{ color: "#163300" }}
+          >
+            Contact sales
+          </a>
+        </div>
       </div>
 
       {/* Image row */}

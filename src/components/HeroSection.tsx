@@ -3,7 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
-import instagram from "../assets/hero/instagram.jpeg";
+import instagram from "../assets/hero/Instagram.jpeg";
 import hands from "../assets/hero/hands.jpeg";
 import boy from "../assets/hero/boy.jpeg";
 

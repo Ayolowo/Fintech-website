@@ -28,7 +28,7 @@ const testimonials = [
     countryCode: "fr",
     role: "Student & Entrepreneur",
     review:
-      "I've tried many platforms but PayBridge is by far the easiest. Sending money to my suppliers across borders has never been this seamless.",
+      "I think I found my favorite app to carry out all my money transactions in one place. Absolutely love this app. Definitely a 10/10 for me 👏👏",
     rating: 5,
   },
   {

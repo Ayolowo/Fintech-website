@@ -1,29 +1,22 @@
-"use client";
-
 import React from 'react';
 import Header from '@/components/Header';
+import BusinessHeroSection from '@/components/BusinessHeroSection';
+import PartnersRow from '@/components/PartnersRow';
+import BusinessFeatures from '@/components/BusinessFeatures';
 import Footer from '@/components/Footer';
-import BusinessHero from '@/components/BusinessHero';
-import BusinessDashboard from '@/components/BusinessDashboard';
-import WhyChoosePayBridge from '@/components/WhyChoosePayBridge';
-import HowYouUsePayBridge from '@/components/HowYouUsePayBridge';
-import BusinessFAQ from '@/components/BusinessFAQ';
+import QRWidget from '@/components/QRWidget';
 
 export default function Business() {
   return (
     <div className="flex flex-col bg-white text-foreground">
       <div className="relative">
         <Header />
-        <BusinessHero />
+        <BusinessHeroSection />
       </div>
-      <main>
-        <BusinessDashboard />
-        <WhyChoosePayBridge />
-        <HowYouUsePayBridge />
-        <BusinessFAQ />
-        {/* <BusinessCTA /> */}
-      </main>
+      <PartnersRow />
+      <BusinessFeatures />
       <Footer />
+      <QRWidget />
     </div>
   );
 }

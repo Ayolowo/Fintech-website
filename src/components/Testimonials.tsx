@@ -5,12 +5,21 @@ import { CircleFlag } from "react-circle-flags";
 
 const testimonials = [
   {
-    name: "Stephen Olisemenogor",
+    name: "Stephen O.",
     country: "England",
     countryCode: "gb",
     role: "Student",
     review:
       "Amazing app. fast, reliable and user friendly, with the current best rate of any other exchange app as of 10th march 2026",
+    rating: 5,
+  },
+  {
+    name: "Samuel O.",
+    country: "Nigeria",
+    countryCode: "ng",
+    role: "Senior Pastor",
+    review:
+      "Wow, that was so fast and easy",
     rating: 5,
   },
   {
@@ -20,15 +29,6 @@ const testimonials = [
     role: "Student & Entrepreneur",
     review:
       "I've tried many platforms but PayBridge is by far the easiest. Sending money to my suppliers across borders has never been this seamless.",
-    rating: 5,
-  },
-  {
-    name: "Liam Tremblay",
-    country: "Canada",
-    countryCode: "ca",
-    role: "Software Engineer",
-    review:
-      "The virtual USD account is a game changer. I get paid in dollars and convert when the rate is right. Absolutely love this app.",
     rating: 5,
   },
   {
@@ -56,7 +56,7 @@ const TestimonialCard = ({ testimonial }: { testimonial: typeof testimonials[0] 
   <div className="flex flex-col gap-4 p-6 md:p-10 rounded-2xl border border-black/8 bg-white shrink-0 w-[300px] sm:w-[340px] md:w-[380px]">
     <Stars count={testimonial.rating} />
     <p className="text-black text-lg leading-relaxed flex-1">
-      "{testimonial.review}"
+      &ldquo;{testimonial.review}&rdquo;
     </p>
     <div className="flex items-center gap-3 pt-2 border-t border-black/5">
       <CircleFlag countryCode={testimonial.countryCode} height={36} width={36} />
@@ -78,7 +78,7 @@ const Testimonials = () => {
           What our customers are saying
         </h2>
         <p className="text-black text-lg max-w-xl mx-auto" style={{color: "#163300"}}>
-          People trust PayBridge to move money across borders — here's what they have to say.
+          People trust PayBridge to move money across borders &mdash; here&rsquo;s what they have to say.
         </p>
       </div>
 

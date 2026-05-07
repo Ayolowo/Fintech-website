@@ -166,19 +166,35 @@ export function SendMoneyModal({ open, onOpenChange, walletBalance, onSuccess }:
 
   // Load exchange rate for YellowCard countries
   const loadRate = useCallback(async () => {
-    if (!selectedCountry || selectedCountry.provider !== 'yellowcard') return;
+    if (!selectedCountry) return;
     setLoadingRate(true);
     try {
       const token = await getAuthToken();
-      const res = await fetch(`/api/business/rates?currency=${selectedCountry.currency}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      if (!res.ok) throw new Error("Failed to load rate");
-      const data = await res.json();
-      const rates = data.rates || data;
-      const rate = rates.find((r: any) => r.code === selectedCountry.currency);
-      if (!rate) throw new Error("Rate not found");
-      setExchangeRate(rate.sell * (1 - YC_PERCENTAGE_FEE));
+
+      if (selectedCountry.provider === 'yellowcard') {
+        const res = await fetch(`/api/business/rates?currency=${selectedCountry.currency}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (!res.ok) throw new Error("Failed to load rate");
+        const data = await res.json();
+        const rates = data.rates || data;
+        const rate = rates.find((r: any) => r.code === selectedCountry.currency);
+        if (!rate) throw new Error("Rate not found");
+        // sell rate = how many local currency units per 1 USD (user sends USD, recipient gets local)
+        setExchangeRate(rate.sell * (1 - YC_PERCENTAGE_FEE));
+      } else if (selectedCountry.provider === 'bridge') {
+        if (selectedCountry.currency === 'USD') {
+          setExchangeRate(1.0);
+        } else {
+          const res = await fetch(`/api/public/bridge/exchange-rates?currency=${selectedCountry.currency.toLowerCase()}&direction=usd_to_fiat`);
+          if (!res.ok) throw new Error("Failed to load rate");
+          const data = await res.json();
+          // buy_rate = fiat per 1 USD (user sends USDC, recipient gets fiat)
+          const rate = data.buy_rate || data.midmarket_rate || data.sell_rate;
+          if (!rate) throw new Error("Rate not found");
+          setExchangeRate(rate);
+        }
+      }
     } catch {
       setError("Failed to load exchange rate");
     } finally {
@@ -187,7 +203,7 @@ export function SendMoneyModal({ open, onOpenChange, walletBalance, onSuccess }:
   }, [selectedCountry, getAuthToken]);
 
   useEffect(() => {
-    if (open && step === "yc_recipient" && selectedCountry?.provider === 'yellowcard') loadRate();
+    if (open && step === "amount" && selectedCountry) loadRate();
   }, [open, step, selectedCountry, loadRate]);
 
   // Load YellowCard banks when entering yc_recipient step (bank flow)

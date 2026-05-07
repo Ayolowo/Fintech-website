@@ -109,18 +109,27 @@ export function AddMoneyModal({ open, onOpenChange, onSuccess }: AddMoneyModalPr
         const rates = data.rates || data;
         const rate = rates.find((r: any) => r.code === selectedCountry.currency);
         if (!rate) throw new Error("Rate not found");
+        // buy rate = how many local currency units per 1 USD (user deposits local, receives USD)
         setExchangeRate(rate.buy * (1 + YC_PERCENTAGE_FEE));
       } else if (selectedCountry.provider === 'bridge') {
-        const res = await fetch(`/api/public/bridge/exchange-rates?currency=${selectedCountry.currency}`);
-        if (!res.ok) throw new Error("Failed to load rate");
-        const data = await res.json();
-        // Bridge returns rate as fiat per USDC
-        const rate = data.rate || data[selectedCountry.currency.toLowerCase()] || data.exchange_rate;
-        setExchangeRate(rate);
+        if (selectedCountry.currency === 'USD') {
+          setExchangeRate(1.0);
+        } else {
+          // currency must be lowercase; response has buy_rate / sell_rate / midmarket_rate
+          const res = await fetch(`/api/public/bridge/exchange-rates?currency=${selectedCountry.currency.toLowerCase()}&direction=fiat_to_usd`);
+          if (!res.ok) throw new Error("Failed to load rate");
+          const data = await res.json();
+          // sell_rate = fiat per 1 USD (user sends fiat, receives USDC)
+          const rate = data.sell_rate || data.midmarket_rate || data.buy_rate;
+          if (!rate) throw new Error("Rate not found");
+          setExchangeRate(rate);
+        }
       } else if (selectedCountry.provider === 'paytrie') {
-        const res = await fetch(`/api/public/paytrie/price-quote?baseCurrency=CAD&quoteCurrency=USDC`);
+        // leftSideLabel=CAD, leftSideValue=1, rightSideLabel=USDC
+        const res = await fetch(`/api/public/paytrie/price-quote?leftSideLabel=CAD&leftSideValue=1&rightSideLabel=USDC`);
         if (!res.ok) throw new Error("Failed to load rate");
         const data = await res.json();
+        // price = how many USDC per 1 CAD
         setExchangeRate(data.price || data.rate);
       }
       setCountdown(30);
@@ -175,7 +184,10 @@ export function AddMoneyModal({ open, onOpenChange, onSuccess }: AddMoneyModalPr
 
   const calculateUSDReceived = (localAmount: number): number => {
     if (!exchangeRate || exchangeRate === 0) return 0;
+    // Paytrie rate = USDC per 1 CAD → multiply
+    // YellowCard/Bridge rate = local fiat per 1 USD → divide
     if (selectedCountry?.provider === 'paytrie') return localAmount * exchangeRate;
+    if (selectedCountry?.currency === 'USD') return localAmount;
     return localAmount / exchangeRate;
   };
 

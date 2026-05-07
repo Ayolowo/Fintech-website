@@ -221,7 +221,6 @@ export default function BusinessDashboardPage() {
               {formatCurrency(walletBalance || 0, "USD")}
             </div>
           )}
-          <p className="text-sm text-gray-400">USDC · Solana wallet</p>
         </div>
         <div className="flex items-center gap-3 shrink-0">
           <button

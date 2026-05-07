@@ -6,6 +6,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { Skeleton } from "@/components/ui/skeleton";
 import { SendMoneyModal } from "@/components/business/modals/SendMoneyModal";
 import { AddMoneyModal } from "@/components/business/modals/AddMoneyModal";
+import { SendToUserModal } from "@/components/business/modals/SendToUserModal";
 import { Search } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
@@ -31,6 +32,7 @@ export default function BusinessDashboardPage() {
   const [walletLoading, setWalletLoading] = useState(true);
   const [sendMoneyOpen, setSendMoneyOpen] = useState(false);
   const [addMoneyOpen, setAddMoneyOpen] = useState(false);
+  const [sendToUserOpen, setSendToUserOpen] = useState(false);
   const [showTOS, setShowTOS] = useState(false);
   const [showKYCPrompt, setShowKYCPrompt] = useState(false);
   const [tosLink, setTosLink] = useState("");
@@ -222,7 +224,7 @@ export default function BusinessDashboardPage() {
             </div>
           )}
         </div>
-        <div className="flex items-center gap-3 shrink-0">
+        <div className="flex items-center gap-3 shrink-0 flex-wrap">
           <button
             onClick={() => setAddMoneyOpen(true)}
             className="px-6 py-3 rounded-full text-sm font-bold transition-opacity hover:opacity-90"
@@ -235,6 +237,12 @@ export default function BusinessDashboardPage() {
             className="px-6 py-3 rounded-full text-sm font-bold bg-white/10 text-white hover:bg-white/20 transition-colors"
           >
             Send money
+          </button>
+          <button
+            onClick={() => setSendToUserOpen(true)}
+            className="px-6 py-3 rounded-full text-sm font-bold bg-white/10 text-white hover:bg-white/20 transition-colors"
+          >
+            Send to user
           </button>
         </div>
       </div>
@@ -375,6 +383,16 @@ export default function BusinessDashboardPage() {
         walletBalance={walletBalance || 0}
         onSuccess={() => {
           // Invalidate queries to refetch data
+          queryClient.invalidateQueries({ queryKey: ['transactions'] });
+        }}
+      />
+
+      {/* Send to PayBridge User Modal */}
+      <SendToUserModal
+        open={sendToUserOpen}
+        onOpenChange={setSendToUserOpen}
+        walletBalance={walletBalance || 0}
+        onSuccess={() => {
           queryClient.invalidateQueries({ queryKey: ['transactions'] });
         }}
       />

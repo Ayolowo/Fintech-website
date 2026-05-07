@@ -12,7 +12,7 @@ const videos = [
 
 const BusinessHeroSection = () => {
   return (
-    <section className="relative w-full min-h-screen overflow-hidden" style={{ backgroundColor: "#faf9f9" }}>
+    <section className="relative w-full overflow-hidden" style={{ backgroundColor: "#faf9f9" }}>
 
       {/* Text content */}
       <div className="relative z-10 flex flex-col items-center text-center px-6 md:px-16 lg:px-24 pt-28 sm:pt-32 md:pt-40 pb-8 md:pb-10">
@@ -24,17 +24,17 @@ const BusinessHeroSection = () => {
           Global payments built for businesses. Send to 140+ countries, hold digital dollars, and settle faster than your bank.
         </p>
 
-        <div className="flex items-center gap-6">
+        <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
           <a
             href="/business/register"
-            className="inline-flex items-center gap-2 px-6 py-3.5 md:px-7 md:py-4 rounded-full text-md md:text-md font-bold transition-all hover:opacity-90"
+            className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-6 py-3.5 md:px-7 md:py-4 rounded-full text-sm md:text-md font-bold transition-all hover:opacity-90"
             style={{ backgroundColor: "#9FE870", color: "#163300" }}
           >
             Get started for free
             <ArrowUpRight className="w-4 h-4 md:w-5 md:h-5" />
           </a>
           <a
-            href="mailto:business@paybridgefinance.com"
+            href="mailto:support@paybridgefinance.com"
             className="text-sm md:text-base font-medium underline underline-offset-4 transition-opacity hover:opacity-70"
             style={{ color: "#163300" }}
           >
@@ -48,7 +48,7 @@ const BusinessHeroSection = () => {
         {videos.map((src, i) => (
           <div
             key={i}
-            className={`${i === 0 ? "flex-1" : "hidden md:block flex-1"} overflow-hidden h-[240px] sm:h-[340px] md:h-[580px]`}
+            className="flex-1 overflow-hidden h-[180px] sm:h-[340px] md:h-[580px]"
           >
             <video
               src={src}
@@ -56,7 +56,7 @@ const BusinessHeroSection = () => {
               muted
               loop
               playsInline
-              preload={i === 0 ? "auto" : "none"}
+              preload="none"
               className="w-full h-full object-cover object-center"
             />
           </div>

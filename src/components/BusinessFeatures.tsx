@@ -70,7 +70,7 @@ const BusinessFeatures = () => {
 
         {/* Header */}
         <div className="mb-20 text-center">
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-semibold text-black mb-4 max-w-5xl mx-auto" style={{ lineHeight: 1.05 }}>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-black mb-4 max-w-4xl mx-auto" style={{ lineHeight: 1.05 }}>
             The safest, fastest and cheapest way to move money for your business
           </h2>
           <p className="text-base text-black md:text-lg leading-relaxed max-w-2xl mx-auto" >

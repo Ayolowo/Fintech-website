@@ -17,10 +17,10 @@ const BusinessHeroSection = () => {
       {/* Text content */}
       <div className="relative z-10 flex flex-col items-center text-center px-6 md:px-16 lg:px-24 pt-28 sm:pt-32 md:pt-40 pb-8 md:pb-10">
         <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-[96px] font-black text-black mb-5 md:mb-6" style={{ lineHeight: 0.99 }}>
-          Pay teams.<br /> Pay suppliers.<br /> Move money cheap.
+          Pay teams.<br /> Pay suppliers.<br /> Move money with <span className="underline"> ease.</span>
         </h1>
 
-        <p className="text-sm md:text-lg font-normal mb-6 max-w-lg leading-relaxed" style={{ color: "#163300" }}>
+        <p className="text-sm md:text-lg font-normal mb-6 max-w-xl leading-relaxed" style={{ color: "#163300" }}>
           Global payments built for businesses. Send to 140+ countries, hold digital dollars, and settle faster than your bank.
         </p>
 

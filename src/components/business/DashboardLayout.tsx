@@ -27,7 +27,7 @@ interface DashboardLayoutProps {
 }
 
 const navItems = [
-  { href: "/business/dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/business/dashboard", label: "Home", icon: LayoutDashboard },
   {
     href: "/business/dashboard/transactions",
     label: "Transactions",
@@ -98,11 +98,11 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                 href={item.href}
                 className={cn(
                   "flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors",
-                  isActive ? "text-white" : "text-gray-700 hover:bg-gray-100",
+                  isActive ? "font-semibold" : "text-gray-700 hover:bg-gray-100",
                 )}
                 style={
                   isActive
-                    ? { backgroundColor: "#163300", color: "#9FE870" }
+                    ? { backgroundColor: "#e8f5e1", color: "#163300" }
                     : {}
                 }
               >
@@ -184,10 +184,10 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                     className={cn(
                       "flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors",
                       isActive
-                        ? "text-white"
+                        ? "font-semibold"
                         : "text-gray-700 hover:bg-gray-100",
                     )}
-                    style={isActive ? { backgroundColor: "#163300" } : {}}
+                    style={isActive ? { backgroundColor: "#e8f5e1", color: "#163300" } : {}}
                   >
                     <Icon className="h-5 w-5" />
                     <span>{item.label}</span>

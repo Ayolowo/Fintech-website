@@ -6,12 +6,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { Skeleton } from "@/components/ui/skeleton";
 import { SendMoneyModal } from "@/components/business/modals/SendMoneyModal";
 import { AddMoneyModal } from "@/components/business/modals/AddMoneyModal";
-import {
-  ArrowUpRight,
-  ArrowDownLeft,
-  Search,
-} from "lucide-react";
-import { CircleFlag } from "react-circle-flags";
+import { Search } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -200,56 +195,48 @@ export default function BusinessDashboardPage() {
     });
   };
 
+  const profile = queryClient.getQueryData(['business-profile', user?.email?.address]) as any;
+  const displayName = profile?.business_name ?? user?.email?.address?.split('@')[0] ?? 'there';
+
   return (
     <div className="space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-black">Dashboard</h1>
-        <p className="text-gray-600 mt-1">
-          View and manage all your business transactions
+        <h1 className="text-3xl font-bold text-black">
+          Welcome, {displayName}
+        </h1>
+        <p className="text-gray-500 mt-1">
+          Here&apos;s an overview of your account activity.
         </p>
       </div>
 
-      {/* USD Balance Card */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white rounded-2xl p-8 ring-1 ring-gray-200">
-          <div className="flex items-center justify-between mb-5">
-            <div className="flex items-center gap-2">
-              <CircleFlag countryCode="us" height="24" width="24" />
-              <span className="text-[15px] font-medium text-black">
-                USD Balance
-              </span>
-            </div>
-          </div>
+      {/* Total Balance Card */}
+      <div className="rounded-2xl p-8 flex flex-col md:flex-row md:items-center md:justify-between gap-6" style={{ backgroundColor: '#111' }}>
+        <div>
+          <p className="text-xs font-semibold tracking-widest uppercase mb-3" style={{ color: '#9FE870' }}>Total Balance</p>
           {walletLoading ? (
-            <Skeleton className="h-10 w-32 mb-2" />
+            <Skeleton className="h-12 w-40 mb-2 bg-white/10" />
           ) : (
-            <div className="text-4xl font-bold text-black mb-2">
+            <div className="text-5xl font-black text-white mb-2">
               {formatCurrency(walletBalance || 0, "USD")}
             </div>
           )}
+          <p className="text-sm text-gray-400">USDC · Solana wallet</p>
         </div>
-
-        {/* Quick Actions */}
-        <div className="bg-white rounded-2xl p-8 border border-gray-200">
-          <h3 className="text-[15px] font-medium mb-4">Quick Actions</h3>
-          <div className="flex flex-col gap-3">
-            <button
-              onClick={() => setAddMoneyOpen(true)}
-              className="w-full px-4 py-2.5 bg-white border border-gray-200 rounded-lg text-sm font-medium text-black hover:bg-gray-50 flex items-center justify-start"
-            >
-              <ArrowDownLeft className="mr-2 h-4 w-4" />
-              Add Money
-            </button>
-            <button
-              onClick={() => setSendMoneyOpen(true)}
-              className="w-full px-4 py-2.5 text-white rounded-lg text-sm font-medium flex items-center justify-start"
-              style={{ backgroundColor: "#163300", color: "#9FE870" }}
-            >
-              <ArrowUpRight className="mr-2 h-4 w-4" />
-              Send Money
-            </button>
-          </div>
+        <div className="flex items-center gap-3 shrink-0">
+          <button
+            onClick={() => setAddMoneyOpen(true)}
+            className="px-6 py-3 rounded-full text-sm font-bold transition-opacity hover:opacity-90"
+            style={{ backgroundColor: '#9FE870', color: '#163300' }}
+          >
+            Add money
+          </button>
+          <button
+            onClick={() => setSendMoneyOpen(true)}
+            className="px-6 py-3 rounded-full text-sm font-bold bg-white/10 text-white hover:bg-white/20 transition-colors"
+          >
+            Send money
+          </button>
         </div>
       </div>
 

@@ -22,34 +22,35 @@ const Header = () => {
     <div className="absolute top-0 left-0 right-0 z-50 px-6 md:px-8 lg:px-14">
       <header className="max-w-7xl mx-auto py-5 flex items-center justify-between gap-4 relative">
 
-        {/* Logo */}
-        <a
-          href="/"
-          className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity"
-        >
-          <Logo />
-          <span className={`text-[22px] font-extrabold whitespace-nowrap ${textColor}`} style={{color: "#163300"}}>
-            PayBridge
-          </span>
-        </a>
-
-        {/* Center nav — absolutely centred in the header */}
-        <nav className="hidden md:flex items-center gap-2 absolute left-1/2 -translate-x-1/2">
-          <Link
+        {/* Logo + nav grouped on the left */}
+        <div className="flex items-center gap-2">
+          <a
             href="/"
-            className="text-[17px] font-medium whitespace-nowrap px-4 py-2 rounded-full transition-colors hover:bg-[#9FE870]/30 hover:rounded-full"
-            style={{color: "#163300"}}
+            className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity"
           >
-            Personal
-          </Link>
-          <Link
-            href="/business"
-            className="text-[17px] font-medium whitespace-nowrap px-4 py-2 rounded-full transition-colors hover:bg-[#9FE870]/30 hover:rounded-full"
-            style={{color: "#163300"}}
-          >
-            Business
-          </Link>
-        </nav>
+            <Logo />
+            <span className={`text-[22px] font-extrabold whitespace-nowrap ${textColor}`} style={{color: "#163300"}}>
+              PayBridge
+            </span>
+          </a>
+
+          <nav className="hidden md:flex items-center gap-2 ml-4">
+            <Link
+              href="/"
+              className="text-[17px] font-medium whitespace-nowrap px-4 py-2 rounded-full transition-colors hover:bg-[#9FE870]/30 hover:rounded-full"
+              style={{color: "#163300"}}
+            >
+              Personal
+            </Link>
+            <Link
+              href="/business"
+              className="text-[17px] font-medium whitespace-nowrap px-4 py-2 rounded-full transition-colors hover:bg-[#9FE870]/30 hover:rounded-full"
+              style={{color: "#163300"}}
+            >
+              Business
+            </Link>
+          </nav>
+        </div>
 
         {/* Right side */}
         <div className="flex items-center gap-4">

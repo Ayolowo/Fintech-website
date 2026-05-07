@@ -16,8 +16,8 @@ const BusinessPartnersRow = () => {
 
   return (
     <section className="w-full py-16" style={{ backgroundColor: "#faf9f9" }}>
-      <div className="max-w-8xl mx-auto text-center mb-20">
-        <h2 className="text-4xl sm:text-5xl md:text-6xl text-black font-semibold">
+      <div className="max-w-8xl mx-auto text-center mb-10 mt-10">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl text-black font-semibold">
           Built with financially regulated partners
         </h2>
       </div>

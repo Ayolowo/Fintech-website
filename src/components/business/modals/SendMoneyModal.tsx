@@ -491,13 +491,13 @@ export function SendMoneyModal({ open, onOpenChange, walletBalance, onSuccess }:
           placeholder="Search country or currency..."
           value={countrySearch}
           onChange={e => setCountrySearch(e.target.value)}
-          className="w-full pl-9 pr-4 py-3 border border-gray-200 rounded-xl text-sm outline-none focus:border-gray-400"
+          className="w-full pl-9 pr-4 py-3 border border-gray-200 rounded-xl text-base outline-none focus:border-gray-400"
           autoFocus
         />
       </div>
       <div className="space-y-1 max-h-[420px] overflow-y-auto">
         {filteredCountries.length === 0 ? (
-          <p className="text-sm text-gray-400 text-center py-8">No countries found</p>
+          <p className="text-base text-gray-400 text-center py-8">No countries found</p>
         ) : filteredCountries.map(c => (
           <button
             key={`${c.code}-${c.currency}`}
@@ -512,10 +512,10 @@ export function SendMoneyModal({ open, onOpenChange, walletBalance, onSuccess }:
           >
             <CircleFlag countryCode={c.countryCode} height="28" width="28" />
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-gray-900">{c.name}</p>
-              <p className="text-xs text-gray-500">{c.currency} · {getMethodLabel(c.currency)}</p>
+              <p className="text-base font-medium text-gray-900">{c.name}</p>
+              <p className="text-base text-gray-500">{c.currency} · {getMethodLabel(c.currency)}</p>
             </div>
-            <span className="text-xs font-semibold text-gray-400">{c.currencySymbol}</span>
+            <span className="text-base font-semibold text-gray-400">{c.currencySymbol}</span>
           </button>
         ))}
       </div>
@@ -524,7 +524,7 @@ export function SendMoneyModal({ open, onOpenChange, walletBalance, onSuccess }:
 
   const renderTransferType = () => (
     <div className="space-y-4">
-      <p className="text-sm text-gray-500">Choose how you want to send money to {selectedCountry?.name}</p>
+      <p className="text-base text-gray-500">Choose how you want to send money to {selectedCountry?.name}</p>
       <button
         onClick={() => { setTransferType("ach"); setStep("select_account"); }}
         className="w-full p-5 bg-white border-2 border-gray-200 hover:border-black rounded-xl text-left transition-colors"
@@ -532,7 +532,7 @@ export function SendMoneyModal({ open, onOpenChange, walletBalance, onSuccess }:
         <div className="flex items-center justify-between">
           <div>
             <p className="font-semibold text-black">ACH Bank Transfer</p>
-            <p className="text-sm text-gray-500 mt-0.5">$10 fee · 1–3 business days</p>
+            <p className="text-base text-gray-500 mt-0.5">$10 fee · 1–3 business days</p>
           </div>
           <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
         </div>
@@ -544,7 +544,7 @@ export function SendMoneyModal({ open, onOpenChange, walletBalance, onSuccess }:
         <div className="flex items-center justify-between">
           <div>
             <p className="font-semibold text-black">Wire Transfer</p>
-            <p className="text-sm text-gray-500 mt-0.5">$15 fee · Same day</p>
+            <p className="text-base text-gray-500 mt-0.5">$15 fee · Same day</p>
           </div>
           <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
         </div>
@@ -561,8 +561,8 @@ export function SendMoneyModal({ open, onOpenChange, walletBalance, onSuccess }:
         <div className="flex items-center gap-3 px-4 py-3 bg-gray-100 rounded-xl">
           <CircleFlag countryCode={selectedCountry.countryCode} height="24" width="24" />
           <div>
-            <p className="text-sm font-medium text-gray-900">{selectedCountry.name} · {selectedCountry.currency}</p>
-            <p className="text-xs text-gray-500">{isMomo ? "Mobile Money" : "Bank Transfer"}</p>
+            <p className="text-base font-medium text-gray-900">{selectedCountry.name} · {selectedCountry.currency}</p>
+            <p className="text-base text-gray-500">{isMomo ? "Mobile Money" : "Bank Transfer"}</p>
           </div>
         </div>
 
@@ -576,7 +576,7 @@ export function SendMoneyModal({ open, onOpenChange, walletBalance, onSuccess }:
             <div>
               <Label>Phone Number</Label>
               <div className="flex gap-2">
-                <span className="flex items-center px-3 py-2 border border-gray-200 rounded-lg text-sm bg-gray-50 text-gray-600 whitespace-nowrap">
+                <span className="flex items-center px-3 py-2 border border-gray-200 rounded-lg text-base bg-gray-50 text-gray-600 whitespace-nowrap">
                   {COUNTRY_PHONE_PREFIXES[selectedCountry.code] || "+?"}
                 </span>
                 <Input placeholder="7XXXXXXXX" value={ycRecipient.phoneNumber || ""}
@@ -635,7 +635,7 @@ export function SendMoneyModal({ open, onOpenChange, walletBalance, onSuccess }:
           </>
         )}
 
-        {error && <p className="text-sm text-red-500">{error}</p>}
+        {error && <p className="text-base text-red-500">{error}</p>}
 
         <button
           onClick={() => {
@@ -647,7 +647,7 @@ export function SendMoneyModal({ open, onOpenChange, walletBalance, onSuccess }:
             setStep("amount");
           }}
           disabled={loadingRate}
-          className="w-full py-3 rounded-xl font-semibold text-sm disabled:opacity-40"
+          className="w-full py-3 rounded-xl font-semibold text-base disabled:opacity-40"
           style={{ backgroundColor: '#9FE870', color: '#163300' }}
         >
           {loadingRate ? "Loading rate..." : "Continue"}
@@ -664,14 +664,14 @@ export function SendMoneyModal({ open, onOpenChange, walletBalance, onSuccess }:
         <>
           {externalAccounts.length > 0 && (
             <div className="space-y-2">
-              <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Saved accounts</p>
+              <p className="text-base font-medium text-gray-500 uppercase tracking-wide">Saved accounts</p>
               {externalAccounts.map(acc => (
                 <button key={acc.id} onClick={() => { setSelectedAccount(acc); setStep("amount"); }}
                   className="w-full p-4 bg-gray-50 hover:bg-gray-100 rounded-xl flex items-center justify-between text-left transition-colors"
                 >
                   <div>
                     <p className="font-medium text-black">{acc.account_owner_name}</p>
-                    <p className="text-sm text-gray-500">{acc.bank_name} ••••{acc.account?.account_number.slice(-4)}</p>
+                    <p className="text-base text-gray-500">{acc.bank_name} ••••{acc.account?.account_number.slice(-4)}</p>
                   </div>
                   <span className="text-gray-400">→</span>
                 </button>
@@ -716,14 +716,14 @@ export function SendMoneyModal({ open, onOpenChange, walletBalance, onSuccess }:
         <div className="flex gap-2 mt-2">
           {(["checking", "savings"] as const).map(type => (
             <button key={type} onClick={() => setBankDetails({ ...bankDetails, accountType: type })}
-              className={`flex-1 py-2 px-4 rounded-lg border text-sm font-medium capitalize ${bankDetails.accountType === type ? "border-transparent" : "bg-gray-50 text-gray-600 border-gray-200"}`}
+              className={`flex-1 py-2 px-4 rounded-lg border text-base font-medium capitalize ${bankDetails.accountType === type ? "border-transparent" : "bg-gray-50 text-gray-600 border-gray-200"}`}
               style={bankDetails.accountType === type ? { backgroundColor: '#163300', color: '#9FE870' } : {}}
             >{type}</button>
           ))}
         </div>
       </div>
       <div className="pt-3 border-t">
-        <p className="text-xs font-medium text-gray-500 mb-3 uppercase tracking-wide">Address</p>
+        <p className="text-base font-medium text-gray-500 mb-3 uppercase tracking-wide">Address</p>
         <div className="space-y-3">
           <div><Label>Street Address</Label><Input placeholder="123 Main St" value={address.street} onChange={e => setAddress({ ...address, street: e.target.value })} /></div>
           <div className="grid grid-cols-2 gap-3">
@@ -739,15 +739,15 @@ export function SendMoneyModal({ open, onOpenChange, walletBalance, onSuccess }:
           <div><Label>Postal Code</Label><Input placeholder="10001" value={address.postalCode} onChange={e => setAddress({ ...address, postalCode: e.target.value })} /></div>
         </div>
       </div>
-      {error && <p className="text-sm text-red-500">{error}</p>}
+      {error && <p className="text-base text-red-500">{error}</p>}
       {accountSaved ? (
-        <div className="w-full py-3 bg-green-100 text-green-700 rounded-xl font-medium text-center flex items-center justify-center gap-2 text-sm">
+        <div className="w-full py-3 bg-green-100 text-green-700 rounded-xl font-medium text-center flex items-center justify-center gap-2 text-base">
           <Check className="w-4 h-4" /> Account saved!
         </div>
       ) : (
         <button onClick={handleSaveBridgeAccount}
           disabled={savingAccount || !bankDetails.fullName || !bankDetails.bankName || !bankDetails.accountNumber || !bankDetails.routingNumber || !address.street || !address.city || !address.state || !address.postalCode}
-          className="w-full py-3 rounded-xl font-semibold text-sm disabled:opacity-40 disabled:cursor-not-allowed"
+          className="w-full py-3 rounded-xl font-semibold text-base disabled:opacity-40 disabled:cursor-not-allowed"
           style={{ backgroundColor: '#9FE870', color: '#163300' }}
         >{savingAccount ? "Saving..." : "Continue"}</button>
       )}
@@ -759,7 +759,7 @@ export function SendMoneyModal({ open, onOpenChange, walletBalance, onSuccess }:
     return (
       <div className="space-y-6">
         <div className="text-center">
-          <p className="text-sm text-gray-500 mb-6">
+          <p className="text-base text-gray-500 mb-6">
             Available balance: <span className="font-medium">${walletBalance.toFixed(2)}</span>
           </p>
           <div className="flex items-center justify-center gap-2 mb-2">
@@ -769,17 +769,17 @@ export function SendMoneyModal({ open, onOpenChange, walletBalance, onSuccess }:
             />
           </div>
           {isBridge && (
-            <p className="text-sm text-gray-500">{transferType === "wire" ? "Wire" : "ACH"} fee: ${currentFee}</p>
+            <p className="text-base text-gray-500">{transferType === "wire" ? "Wire" : "ACH"} fee: ${currentFee}</p>
           )}
           {!isBridge && exchangeRate && amount && (
-            <p className="text-sm text-gray-500">
+            <p className="text-base text-gray-500">
               ≈ ${(parseFloat(amount) / exchangeRate).toFixed(2)} USDC deducted from wallet
             </p>
           )}
         </div>
-        {error && <p className="text-sm text-red-500 text-center">{error}</p>}
+        {error && <p className="text-base text-red-500 text-center">{error}</p>}
         <button onClick={handleAmountSubmit} disabled={!amount || parseFloat(amount) <= 0}
-          className="w-full py-3 rounded-xl font-semibold text-sm disabled:opacity-40"
+          className="w-full py-3 rounded-xl font-semibold text-base disabled:opacity-40"
           style={{ backgroundColor: '#9FE870', color: '#163300' }}
         >Continue</button>
       </div>
@@ -805,16 +805,16 @@ export function SendMoneyModal({ open, onOpenChange, walletBalance, onSuccess }:
     return (
       <div className="space-y-5">
         <div className="p-4 bg-gray-50 rounded-xl">
-          <p className="text-xs text-gray-500 mb-1">Sending to</p>
+          <p className="text-base text-gray-500 mb-1">Sending to</p>
           <p className="font-semibold text-gray-900">{recipientName}</p>
-          {bankInfo && <p className="text-sm text-gray-500">{bankInfo}</p>}
+          {bankInfo && <p className="text-base text-gray-500">{bankInfo}</p>}
           <div className="flex items-center gap-2 mt-2">
             <CircleFlag countryCode={selectedCountry.countryCode} height="16" width="16" />
-            <span className="text-sm text-gray-600">{selectedCountry.name} · {selectedCountry.currency}</span>
+            <span className="text-base text-gray-600">{selectedCountry.name} · {selectedCountry.currency}</span>
           </div>
         </div>
 
-        <div className="space-y-3 text-sm">
+        <div className="space-y-3 text-base">
           <div className="flex justify-between">
             <span className="text-gray-500">Recipient gets</span>
             <span className="font-medium">{selectedCountry.currencySymbol}{fiatAmount.toLocaleString()} {selectedCountry.currency}</span>
@@ -841,20 +841,20 @@ export function SendMoneyModal({ open, onOpenChange, walletBalance, onSuccess }:
 
         {isBridge && transferType === "wire" && (
           <div>
-            <p className="text-sm font-medium text-gray-700 mb-1">Wire message <span className="text-gray-400 font-normal">(optional)</span></p>
+            <p className="text-base font-medium text-gray-700 mb-1">Wire message <span className="text-gray-400 font-normal">(optional)</span></p>
             <textarea placeholder="Message for recipient" value={wireMessage}
               onChange={e => { if (e.target.value.length <= 140) setWireMessage(e.target.value); }}
               maxLength={140} rows={3}
-              className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm outline-none focus:border-gray-400 resize-none"
+              className="w-full px-3 py-2 border border-gray-200 rounded-xl text-base outline-none focus:border-gray-400 resize-none"
             />
-            <p className="text-xs text-gray-400 text-right mt-1">{wireMessage.length}/140</p>
+            <p className="text-base text-gray-400 text-right mt-1">{wireMessage.length}/140</p>
           </div>
         )}
 
-        {error && <p className="text-sm text-red-500 text-center">{error}</p>}
+        {error && <p className="text-base text-red-500 text-center">{error}</p>}
 
         <button onClick={handleSubmit} disabled={loading}
-          className="w-full py-3 rounded-xl font-semibold text-sm disabled:opacity-40"
+          className="w-full py-3 rounded-xl font-semibold text-base disabled:opacity-40"
           style={{ backgroundColor: '#9FE870', color: '#163300' }}
         >{loading ? "Processing..." : "Confirm & Send"}</button>
       </div>
@@ -873,9 +873,9 @@ export function SendMoneyModal({ open, onOpenChange, walletBalance, onSuccess }:
       <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
         <Check className="w-8 h-8 text-green-600" />
       </div>
-      <h3 className="text-xl font-bold mb-2">Transfer Successful!</h3>
-      <p className="text-gray-500 mb-6 text-sm">Your money has been sent.</p>
-      <button onClick={() => onOpenChange(false)} className="w-full py-3 rounded-xl font-semibold text-sm" style={{ backgroundColor: '#9FE870', color: '#163300' }}>
+      <h3 className="text-2xl font-bold mb-2">Transfer Successful!</h3>
+      <p className="text-gray-500 mb-6 text-base">Your money has been sent.</p>
+      <button onClick={() => onOpenChange(false)} className="w-full py-3 rounded-xl font-semibold text-base" style={{ backgroundColor: '#9FE870', color: '#163300' }}>
         Done
       </button>
     </div>

@@ -340,25 +340,25 @@ export function AddMoneyModal({ open, onOpenChange, onSuccess }: AddMoneyModalPr
           placeholder="Search country or currency..."
           value={countrySearch}
           onChange={e => setCountrySearch(e.target.value)}
-          className="w-full pl-9 pr-4 py-3 border border-gray-200 rounded-xl text-sm outline-none focus:border-gray-400"
+          className="w-full pl-9 pr-4 py-3.5 border border-gray-200 rounded-xl text-base outline-none focus:border-gray-400"
           autoFocus
         />
       </div>
       <div className="space-y-1 max-h-[420px] overflow-y-auto">
         {filteredCountries.length === 0 ? (
-          <p className="text-sm text-gray-400 text-center py-8">No countries found</p>
+          <p className="text-base text-gray-400 text-center py-8">No countries found</p>
         ) : filteredCountries.map(c => (
           <button
             key={`${c.code}-${c.currency}`}
             onClick={() => { setSelectedCountry(c); setCountrySearch(""); setStep("input"); }}
-            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-50 transition-colors text-left"
+            className="w-full flex items-center gap-3 px-4 py-3.5 rounded-xl hover:bg-gray-50 transition-colors text-left"
           >
-            <CircleFlag countryCode={c.countryCode} height="28" width="28" />
+            <CircleFlag countryCode={c.countryCode} height="32" width="32" />
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-gray-900">{c.name}</p>
-              <p className="text-xs text-gray-500">{c.currency} · {getMethodLabel(c.currency)}</p>
+              <p className="text-base font-medium text-gray-900">{c.name}</p>
+              <p className="text-base text-gray-500">{c.currency} · {getMethodLabel(c.currency)}</p>
             </div>
-            <span className="text-xs font-semibold text-gray-400">{c.currencySymbol}</span>
+            <span className="text-base font-semibold text-gray-400">{c.currencySymbol}</span>
           </button>
         ))}
       </div>
@@ -377,15 +377,15 @@ export function AddMoneyModal({ open, onOpenChange, onSuccess }: AddMoneyModalPr
         >
           <CircleFlag countryCode={selectedCountry.countryCode} height="28" width="28" />
           <div className="text-left flex-1">
-            <p className="text-sm font-medium text-gray-900">{selectedCountry.name}</p>
-            <p className="text-xs text-gray-500">{getMethodLabel(selectedCountry.currency)}</p>
+            <p className="text-base font-medium text-gray-900">{selectedCountry.name}</p>
+            <p className="text-base text-gray-500">{getMethodLabel(selectedCountry.currency)}</p>
           </div>
-          <span className="text-xs text-gray-400">Change ›</span>
+          <span className="text-base text-gray-400">Change ›</span>
         </button>
 
         {/* Amount input */}
         <div>
-          <label className="text-sm text-gray-600 mb-2 block">Amount to send</label>
+          <label className="text-base text-gray-600 mb-2 block">Amount to send</label>
           <div className="relative">
             <input
               type="text"
@@ -397,25 +397,25 @@ export function AddMoneyModal({ open, onOpenChange, onSuccess }: AddMoneyModalPr
                 if (v.split(".").length <= 2) { setAmount(v); setError(""); }
               }}
               disabled={loadingRate}
-              className="w-full text-2xl font-semibold p-4 pr-20 border-2 border-gray-200 rounded-xl focus:border-gray-900 focus:outline-none disabled:bg-gray-50"
+              className="w-full text-3xl font-semibold p-4 pr-20 border-2 border-gray-200 rounded-xl focus:border-gray-900 focus:outline-none disabled:bg-gray-50"
             />
             <span className="absolute right-4 top-1/2 -translate-y-1/2 text-base font-semibold text-gray-700">
               {selectedCountry.currency}
             </span>
           </div>
           {usdEstimate !== null && (
-            <p className="text-xs text-gray-500 mt-1.5">
+            <p className="text-base text-gray-500 mt-1.5">
               ≈ ${usdEstimate.toFixed(2)} USD you receive
             </p>
           )}
         </div>
 
-        {error && <div className="p-3 bg-red-50 border border-red-200 rounded-lg"><p className="text-sm text-red-600">{error}</p></div>}
+        {error && <div className="p-3 bg-red-50 border border-red-200 rounded-lg"><p className="text-base text-red-600">{error}</p></div>}
 
         <button
           onClick={handleReview}
           disabled={!amount || parseFloat(amount) <= 0 || loadingRate}
-          className="w-full py-3 rounded-xl font-semibold text-sm transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+          className="w-full py-3 rounded-xl font-semibold text-base transition-all disabled:opacity-40 disabled:cursor-not-allowed"
           style={{ backgroundColor: '#9FE870', color: '#163300' }}
         >
           {loadingRate ? "Loading rate..." : "Continue"}
@@ -432,20 +432,20 @@ export function AddMoneyModal({ open, onOpenChange, onSuccess }: AddMoneyModalPr
     return (
       <div className="space-y-5">
         <div>
-          <label className="text-sm text-gray-500 mb-2 block">You send</label>
+          <label className="text-base text-gray-500 mb-2 block">You send</label>
           <div className="relative">
-            <input readOnly value={localAmount.toLocaleString()} className="w-full text-2xl font-semibold p-4 pr-20 bg-gray-50 border-2 border-gray-200 rounded-xl text-gray-900" />
+            <input readOnly value={localAmount.toLocaleString()} className="w-full text-3xl font-semibold p-4 pr-20 bg-gray-50 border-2 border-gray-200 rounded-xl text-gray-900" />
             <span className="absolute right-4 top-1/2 -translate-y-1/2 font-semibold text-gray-700">{selectedCountry.currency}</span>
           </div>
         </div>
         <div>
-          <label className="text-sm text-gray-500 mb-2 block">You receive</label>
+          <label className="text-base text-gray-500 mb-2 block">You receive</label>
           <div className="relative">
-            <input readOnly value={usdAmount.toFixed(2)} className="w-full text-2xl font-semibold p-4 pr-16 bg-gray-50 border-2 border-gray-200 rounded-xl text-gray-900" />
+            <input readOnly value={usdAmount.toFixed(2)} className="w-full text-3xl font-semibold p-4 pr-16 bg-gray-50 border-2 border-gray-200 rounded-xl text-gray-900" />
             <span className="absolute right-4 top-1/2 -translate-y-1/2 font-semibold text-gray-700">USD</span>
           </div>
         </div>
-        <div className="space-y-2 text-sm">
+        <div className="space-y-2 text-base">
           <div className="flex justify-between">
             <span className="text-gray-500">Exchange rate</span>
             <span className="text-gray-900">
@@ -465,7 +465,7 @@ export function AddMoneyModal({ open, onOpenChange, onSuccess }: AddMoneyModalPr
         </div>
         <div className="p-4 bg-gray-100 rounded-xl flex gap-3">
           <Info className="w-4 h-4 text-gray-500 shrink-0 mt-0.5" />
-          <p className="text-sm text-gray-700">
+          <p className="text-base text-gray-700">
             {selectedCountry.provider === 'bridge'
               ? "You'll receive bank account details to deposit in the next step. USDC will be credited once we receive your transfer."
               : selectedCountry.provider === 'paytrie'
@@ -473,11 +473,11 @@ export function AddMoneyModal({ open, onOpenChange, onSuccess }: AddMoneyModalPr
               : "You'll receive bank account details to complete your transfer in the next step."}
           </p>
         </div>
-        {error && <p className="text-sm text-red-500 text-center">{error}</p>}
+        {error && <p className="text-base text-red-500 text-center">{error}</p>}
         <button
           onClick={handleConfirm}
           disabled={loading}
-          className="w-full py-3 rounded-xl font-semibold text-sm disabled:opacity-40 disabled:cursor-not-allowed"
+          className="w-full py-3 rounded-xl font-semibold text-base disabled:opacity-40 disabled:cursor-not-allowed"
           style={{ backgroundColor: '#9FE870', color: '#163300' }}
         >
           {loading ? "Processing..." : "Confirm"}
@@ -493,7 +493,7 @@ export function AddMoneyModal({ open, onOpenChange, onSuccess }: AddMoneyModalPr
     >
       <div className="flex items-center justify-between">
         <div className="text-left">
-          <p className="text-xs text-gray-500 mb-0.5">{label}</p>
+          <p className="text-base text-gray-500 mb-0.5">{label}</p>
           <p className="font-semibold text-gray-900">{value}</p>
         </div>
         {copiedField === fieldKey
@@ -509,22 +509,22 @@ export function AddMoneyModal({ open, onOpenChange, onSuccess }: AddMoneyModalPr
       <div className="space-y-4">
         <div className="space-y-3">
           <div className="w-full p-4 bg-white rounded-xl border border-gray-200 text-left">
-            <p className="text-xs text-gray-500 mb-0.5">Bank Name</p>
+            <p className="text-base text-gray-500 mb-0.5">Bank Name</p>
             <p className="font-semibold text-gray-900">{virtualAccount.bankName}</p>
           </div>
           {renderCopyField("Account Number", virtualAccount.accountNumber, "account")}
           <div className="w-full p-4 bg-white rounded-xl border border-gray-200 text-left">
-            <p className="text-xs text-gray-500 mb-0.5">Account Name</p>
+            <p className="text-base text-gray-500 mb-0.5">Account Name</p>
             <p className="font-semibold text-gray-900">{virtualAccount.accountName}</p>
           </div>
         </div>
         <div className="p-4 bg-black rounded-xl flex gap-3">
           <Info className="w-4 h-4 text-white shrink-0 mt-0.5" />
-          <p className="text-sm text-white leading-relaxed">
+          <p className="text-base text-white leading-relaxed">
             Send exactly {selectedCountry.currencySymbol}{parseFloat(amount).toLocaleString()} {selectedCountry.currency} to the account above. Your name on the bank account must match your registered business name on PayBridge.
           </p>
         </div>
-        <button onClick={handleDone} className="w-full py-3 rounded-xl font-semibold text-sm" style={{ backgroundColor: '#9FE870', color: '#163300' }}>
+        <button onClick={handleDone} className="w-full py-3 rounded-xl font-semibold text-base" style={{ backgroundColor: '#9FE870', color: '#163300' }}>
           Done
         </button>
       </div>
@@ -536,12 +536,12 @@ export function AddMoneyModal({ open, onOpenChange, onSuccess }: AddMoneyModalPr
     const currency = selectedCountry.currency;
     return (
       <div className="space-y-4">
-        <p className="text-sm text-gray-500">
+        <p className="text-base text-gray-500">
           Transfer {selectedCountry.currencySymbol}{parseFloat(amount).toLocaleString()} {currency} to the account below. USDC will be credited to your wallet once received.
         </p>
         <div className="space-y-3">
           <div className="p-4 bg-white rounded-xl border border-gray-200">
-            <p className="text-xs text-gray-500 mb-0.5">Bank</p>
+            <p className="text-base text-gray-500 mb-0.5">Bank</p>
             <p className="font-semibold text-gray-900">{bridgeInstructions.bankName}</p>
           </div>
           {bridgeInstructions.iban && renderCopyField("IBAN", bridgeInstructions.iban, "iban")}
@@ -555,9 +555,9 @@ export function AddMoneyModal({ open, onOpenChange, onSuccess }: AddMoneyModalPr
         </div>
         <div className="p-4 bg-gray-100 rounded-xl flex gap-3">
           <Info className="w-4 h-4 text-gray-500 shrink-0 mt-0.5" />
-          <p className="text-sm text-gray-700">Include the reference code exactly as shown. Transfers without the correct reference may be delayed.</p>
+          <p className="text-base text-gray-700">Include the reference code exactly as shown. Transfers without the correct reference may be delayed.</p>
         </div>
-        <button onClick={handleDone} className="w-full py-3 rounded-xl font-semibold text-sm" style={{ backgroundColor: '#9FE870', color: '#163300' }}>
+        <button onClick={handleDone} className="w-full py-3 rounded-xl font-semibold text-base" style={{ backgroundColor: '#9FE870', color: '#163300' }}>
           Done
         </button>
       </div>
@@ -568,7 +568,7 @@ export function AddMoneyModal({ open, onOpenChange, onSuccess }: AddMoneyModalPr
     if (!paytrieInstructions) return null;
     return (
       <div className="space-y-4">
-        <p className="text-sm text-gray-500">
+        <p className="text-base text-gray-500">
           Send an Interac e-Transfer of CA${parseFloat(amount).toLocaleString()} to the details below.
         </p>
         <div className="space-y-3">
@@ -577,9 +577,9 @@ export function AddMoneyModal({ open, onOpenChange, onSuccess }: AddMoneyModalPr
         </div>
         <div className="p-4 bg-gray-100 rounded-xl flex gap-3">
           <Info className="w-4 h-4 text-gray-500 shrink-0 mt-0.5" />
-          <p className="text-sm text-gray-700">Include the reference exactly as shown in your Interac message field. USDC will be credited within minutes of confirmation.</p>
+          <p className="text-base text-gray-700">Include the reference exactly as shown in your Interac message field. USDC will be credited within minutes of confirmation.</p>
         </div>
-        <button onClick={handleDone} className="w-full py-3 rounded-xl font-semibold text-sm" style={{ backgroundColor: '#9FE870', color: '#163300' }}>
+        <button onClick={handleDone} className="w-full py-3 rounded-xl font-semibold text-base" style={{ backgroundColor: '#9FE870', color: '#163300' }}>
           Done
         </button>
       </div>
@@ -598,8 +598,8 @@ export function AddMoneyModal({ open, onOpenChange, onSuccess }: AddMoneyModalPr
       <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
         <Check className="w-8 h-8 text-green-600" />
       </div>
-      <h3 className="text-xl font-bold mb-2">Instructions Sent!</h3>
-      <p className="text-gray-500 text-sm">Complete the transfer to receive USDC in your wallet.</p>
+      <h3 className="text-2xl font-bold mb-2">Instructions Sent!</h3>
+      <p className="text-gray-500 text-base">Complete the transfer to receive USDC in your wallet.</p>
     </div>
   );
 

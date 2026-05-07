@@ -149,9 +149,9 @@ export function SendToUserModal({ open, onOpenChange, walletBalance, onSuccess }
   const renderSearch = () => (
     <>
       <DialogHeader>
-        <DialogTitle className="text-xl font-bold text-black">Send to PayBridge user</DialogTitle>
+        <DialogTitle className="text-2xl font-bold text-black">Send to PayBridge user</DialogTitle>
       </DialogHeader>
-      <p className="text-sm text-gray-500 mt-1 mb-4">Search by name or PayTag</p>
+      <p className="text-base text-gray-500 mt-1 mb-4">Search by name or PayTag</p>
 
       <div className="relative">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -168,12 +168,12 @@ export function SendToUserModal({ open, onOpenChange, walletBalance, onSuccess }
         {searching && (
           <div className="flex items-center justify-center py-8 text-gray-400">
             <Loader2 className="w-5 h-5 animate-spin mr-2" />
-            <span className="text-sm">Searching...</span>
+            <span className="text-base">Searching...</span>
           </div>
         )}
 
         {!searching && query.trim().length >= 2 && results.length === 0 && (
-          <div className="py-8 text-center text-sm text-gray-400">No users found</div>
+          <div className="py-8 text-center text-base text-gray-400">No users found</div>
         )}
 
         {!searching && results.map((u, i) => (
@@ -186,7 +186,7 @@ export function SendToUserModal({ open, onOpenChange, walletBalance, onSuccess }
             className="w-full flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-gray-50 transition-colors text-left"
           >
             <div
-              className="w-10 h-10 rounded-full flex items-center justify-center text-white text-sm font-bold shrink-0 overflow-hidden"
+              className="w-10 h-10 rounded-full flex items-center justify-center text-white text-base font-bold shrink-0 overflow-hidden"
               style={{ backgroundColor: "#163300" }}
             >
               {u.avatar_url ? (
@@ -197,13 +197,13 @@ export function SendToUserModal({ open, onOpenChange, walletBalance, onSuccess }
             </div>
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-1.5">
-                <span className="text-sm font-semibold text-black truncate">{u.name}</span>
+                <span className="text-base font-semibold text-black truncate">{u.name}</span>
                 {u.is_verified && (
                   <BadgeCheck className="w-4 h-4 shrink-0" style={{ color: "#163300" }} />
                 )}
               </div>
               {u.paytag && (
-                <span className="text-xs text-gray-500">@{u.paytag}</span>
+                <span className="text-base text-gray-500">@{u.paytag}</span>
               )}
             </div>
           </button>
@@ -220,14 +220,14 @@ export function SendToUserModal({ open, onOpenChange, walletBalance, onSuccess }
           <button onClick={() => setStep("search")} className="p-1 rounded-full hover:bg-gray-100">
             <ArrowLeft className="w-5 h-5 text-black" />
           </button>
-          <DialogTitle className="text-xl font-bold text-black">Enter amount</DialogTitle>
+          <DialogTitle className="text-2xl font-bold text-black">Enter amount</DialogTitle>
         </div>
       </DialogHeader>
 
       {selectedUser && (
         <div className="flex items-center gap-3 mt-4 p-3 rounded-xl bg-gray-50">
           <div
-            className="w-10 h-10 rounded-full flex items-center justify-center text-white text-sm font-bold shrink-0 overflow-hidden"
+            className="w-10 h-10 rounded-full flex items-center justify-center text-white text-base font-bold shrink-0 overflow-hidden"
             style={{ backgroundColor: "#163300" }}
           >
             {selectedUser.avatar_url ? (
@@ -238,13 +238,13 @@ export function SendToUserModal({ open, onOpenChange, walletBalance, onSuccess }
           </div>
           <div>
             <div className="flex items-center gap-1.5">
-              <span className="text-sm font-semibold text-black">{selectedUser.name}</span>
+              <span className="text-base font-semibold text-black">{selectedUser.name}</span>
               {selectedUser.is_verified && (
                 <BadgeCheck className="w-4 h-4" style={{ color: "#163300" }} />
               )}
             </div>
             {selectedUser.paytag && (
-              <span className="text-xs text-gray-500">@{selectedUser.paytag}</span>
+              <span className="text-base text-gray-500">@{selectedUser.paytag}</span>
             )}
           </div>
         </div>
@@ -252,7 +252,7 @@ export function SendToUserModal({ open, onOpenChange, walletBalance, onSuccess }
 
       <div className="mt-6 space-y-4">
         <div>
-          <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+          <label className="block text-base font-semibold text-gray-500 uppercase tracking-wider mb-2">
             Amount (USDC)
           </label>
           <div className="relative">
@@ -264,19 +264,19 @@ export function SendToUserModal({ open, onOpenChange, walletBalance, onSuccess }
               placeholder="0.00"
               value={amount}
               onChange={e => setAmount(e.target.value)}
-              className="pl-7 text-black text-lg font-semibold"
+              className="pl-7 text-black text-xl font-semibold"
             />
           </div>
-          <p className="text-xs text-gray-400 mt-1.5">
+          <p className="text-base text-gray-400 mt-1.5">
             Available balance: {formatUSD(walletBalance)}
           </p>
           {amountNum > walletBalance && (
-            <p className="text-xs text-red-500 mt-1">Amount exceeds your balance</p>
+            <p className="text-base text-red-500 mt-1">Amount exceeds your balance</p>
           )}
         </div>
 
         <div>
-          <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+          <label className="block text-base font-semibold text-gray-500 uppercase tracking-wider mb-2">
             Note (optional)
           </label>
           <Input
@@ -291,7 +291,7 @@ export function SendToUserModal({ open, onOpenChange, walletBalance, onSuccess }
       <button
         onClick={() => { setError(""); setStep("review"); }}
         disabled={!canSend}
-        className="w-full mt-6 py-3.5 rounded-full text-sm font-bold transition-opacity disabled:opacity-40"
+        className="w-full mt-6 py-3.5 rounded-full text-base font-bold transition-opacity disabled:opacity-40"
         style={{ backgroundColor: "#163300", color: "#9FE870" }}
       >
         Continue
@@ -307,16 +307,16 @@ export function SendToUserModal({ open, onOpenChange, walletBalance, onSuccess }
           <button onClick={() => setStep("amount")} className="p-1 rounded-full hover:bg-gray-100">
             <ArrowLeft className="w-5 h-5 text-black" />
           </button>
-          <DialogTitle className="text-xl font-bold text-black">Confirm transfer</DialogTitle>
+          <DialogTitle className="text-2xl font-bold text-black">Confirm transfer</DialogTitle>
         </div>
       </DialogHeader>
 
       <div className="mt-5 space-y-3">
         <div className="rounded-xl border border-gray-100 divide-y divide-gray-100 overflow-hidden">
           <div className="flex items-center justify-between px-4 py-3">
-            <span className="text-sm text-gray-500">Sending to</span>
+            <span className="text-base text-gray-500">Sending to</span>
             <div className="flex items-center gap-1.5">
-              <span className="text-sm font-semibold text-black">{selectedUser?.name}</span>
+              <span className="text-base font-semibold text-black">{selectedUser?.name}</span>
               {selectedUser?.is_verified && (
                 <BadgeCheck className="w-4 h-4" style={{ color: "#163300" }} />
               )}
@@ -324,43 +324,43 @@ export function SendToUserModal({ open, onOpenChange, walletBalance, onSuccess }
           </div>
           {selectedUser?.paytag && (
             <div className="flex items-center justify-between px-4 py-3">
-              <span className="text-sm text-gray-500">PayTag</span>
-              <span className="text-sm text-black">@{selectedUser.paytag}</span>
+              <span className="text-base text-gray-500">PayTag</span>
+              <span className="text-base text-black">@{selectedUser.paytag}</span>
             </div>
           )}
           <div className="flex items-center justify-between px-4 py-3">
-            <span className="text-sm text-gray-500">Amount</span>
-            <span className="text-sm font-bold text-black">{formatUSD(amountNum)} USDC</span>
+            <span className="text-base text-gray-500">Amount</span>
+            <span className="text-base font-bold text-black">{formatUSD(amountNum)} USDC</span>
           </div>
           <div className="flex items-center justify-between px-4 py-3">
-            <span className="text-sm text-gray-500">Network fee</span>
-            <span className="text-sm text-black">Sponsored (free)</span>
+            <span className="text-base text-gray-500">Network fee</span>
+            <span className="text-base text-black">Sponsored (free)</span>
           </div>
           {note && (
             <div className="flex items-center justify-between px-4 py-3">
-              <span className="text-sm text-gray-500">Note</span>
-              <span className="text-sm text-black">{note}</span>
+              <span className="text-base text-gray-500">Note</span>
+              <span className="text-base text-black">{note}</span>
             </div>
           )}
           <div className="flex items-center justify-between px-4 py-3 bg-gray-50">
-            <span className="text-sm font-semibold text-black">Total deducted</span>
-            <span className="text-sm font-bold text-black">{formatUSD(amountNum)} USDC</span>
+            <span className="text-base font-semibold text-black">Total deducted</span>
+            <span className="text-base font-bold text-black">{formatUSD(amountNum)} USDC</span>
           </div>
         </div>
 
-        <p className="text-xs text-gray-400 text-center px-2">
+        <p className="text-base text-gray-400 text-center px-2">
           This transfer is on-chain (Solana) and cannot be reversed once confirmed.
         </p>
       </div>
 
       {error && (
-        <div className="mt-3 p-3 rounded-xl bg-red-50 text-sm text-red-700">{error}</div>
+        <div className="mt-3 p-3 rounded-xl bg-red-50 text-base text-red-700">{error}</div>
       )}
 
       <button
         onClick={handleSend}
         disabled={loading}
-        className="w-full mt-5 py-3.5 rounded-full text-sm font-bold transition-opacity disabled:opacity-60"
+        className="w-full mt-5 py-3.5 rounded-full text-base font-bold transition-opacity disabled:opacity-60"
         style={{ backgroundColor: "#163300", color: "#9FE870" }}
       >
         Confirm &amp; Send
@@ -372,8 +372,8 @@ export function SendToUserModal({ open, onOpenChange, walletBalance, onSuccess }
   const renderProcessing = () => (
     <div className="flex flex-col items-center justify-center py-16 gap-4">
       <Loader2 className="w-12 h-12 animate-spin" style={{ color: "#163300" }} />
-      <p className="text-lg font-semibold text-black">Sending...</p>
-      <p className="text-sm text-gray-500 text-center max-w-xs">
+      <p className="text-xl font-semibold text-black">Sending...</p>
+      <p className="text-base text-gray-500 text-center max-w-xs">
         Please wait while your transaction is confirmed on-chain.
       </p>
     </div>
@@ -389,8 +389,8 @@ export function SendToUserModal({ open, onOpenChange, walletBalance, onSuccess }
         <Check className="w-8 h-8" style={{ color: "#163300" }} />
       </div>
       <div className="text-center">
-        <p className="text-xl font-bold text-black">Sent!</p>
-        <p className="text-gray-500 mt-1 text-sm">
+        <p className="text-2xl font-bold text-black">Sent!</p>
+        <p className="text-gray-500 mt-1 text-base">
           {formatUSD(amountNum)} USDC sent to {selectedUser?.name}
         </p>
       </div>
@@ -399,14 +399,14 @@ export function SendToUserModal({ open, onOpenChange, walletBalance, onSuccess }
           href={`https://solscan.io/tx/${txSignature}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-xs underline text-gray-400 hover:text-gray-600"
+          className="text-base underline text-gray-400 hover:text-gray-600"
         >
           View on Solscan
         </a>
       )}
       <button
         onClick={() => onOpenChange(false)}
-        className="mt-4 px-8 py-3 rounded-full text-sm font-bold"
+        className="mt-4 px-8 py-3 rounded-full text-base font-bold"
         style={{ backgroundColor: "#163300", color: "#9FE870" }}
       >
         Done

@@ -7,7 +7,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { SendMoneyModal } from "@/components/business/modals/SendMoneyModal";
 import { AddMoneyModal } from "@/components/business/modals/AddMoneyModal";
 import { SendToUserModal } from "@/components/business/modals/SendToUserModal";
-import { Search } from "lucide-react";
+import { Search, Users, Building2 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -33,6 +33,7 @@ export default function BusinessDashboardPage() {
   const [sendMoneyOpen, setSendMoneyOpen] = useState(false);
   const [addMoneyOpen, setAddMoneyOpen] = useState(false);
   const [sendToUserOpen, setSendToUserOpen] = useState(false);
+  const [sendPickerOpen, setSendPickerOpen] = useState(false);
   const [showTOS, setShowTOS] = useState(false);
   const [showKYCPrompt, setShowKYCPrompt] = useState(false);
   const [tosLink, setTosLink] = useState("");
@@ -232,18 +233,46 @@ export default function BusinessDashboardPage() {
           >
             Add money
           </button>
-          <button
-            onClick={() => setSendMoneyOpen(true)}
-            className="px-6 py-3 rounded-full text-sm font-bold bg-white/10 text-white hover:bg-white/20 transition-colors"
-          >
-            Send money
-          </button>
-          <button
-            onClick={() => setSendToUserOpen(true)}
-            className="px-6 py-3 rounded-full text-sm font-bold bg-white/10 text-white hover:bg-white/20 transition-colors"
-          >
-            Send to user
-          </button>
+          <div className="relative">
+            <button
+              onClick={() => setSendPickerOpen(v => !v)}
+              className="px-6 py-3 rounded-full text-sm font-bold bg-white/10 text-white hover:bg-white/20 transition-colors"
+            >
+              Send money
+            </button>
+            {sendPickerOpen && (
+              <>
+                <div className="fixed inset-0 z-10" onClick={() => setSendPickerOpen(false)} />
+                <div className="absolute right-0 mt-2 w-56 rounded-2xl bg-white shadow-xl border border-gray-100 overflow-hidden z-20">
+                  <button
+                    onClick={() => { setSendPickerOpen(false); setSendToUserOpen(true); }}
+                    className="w-full flex items-center gap-3 px-4 py-3.5 hover:bg-gray-50 transition-colors text-left"
+                  >
+                    <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: '#e8f5e1' }}>
+                      <Users className="w-4 h-4" style={{ color: '#163300' }} />
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-black">PayBridge user</p>
+                      <p className="text-xs text-gray-400">Send via PayTag</p>
+                    </div>
+                  </button>
+                  <div className="h-px bg-gray-100 mx-4" />
+                  <button
+                    onClick={() => { setSendPickerOpen(false); setSendMoneyOpen(true); }}
+                    className="w-full flex items-center gap-3 px-4 py-3.5 hover:bg-gray-50 transition-colors text-left"
+                  >
+                    <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: '#e8f5e1' }}>
+                      <Building2 className="w-4 h-4" style={{ color: '#163300' }} />
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-black">Bank account</p>
+                      <p className="text-xs text-gray-400">Send to any bank</p>
+                    </div>
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
         </div>
       </div>
 

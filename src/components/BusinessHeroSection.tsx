@@ -16,7 +16,7 @@ const BusinessHeroSection = () => {
 
       {/* Text content */}
       <div className="relative z-10 flex flex-col items-center text-center px-6 md:px-16 lg:px-24 pt-28 sm:pt-32 md:pt-40 pb-8 md:pb-10">
-        <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-[96px] font-black text-black mb-5 md:mb-6" style={{ lineHeight: 0.99 }}>
+        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[96px] font-black text-black mb-5 md:mb-6" style={{ lineHeight: 0.99 }}>
           Pay teams.<br /> Pay suppliers.<br /> Move money with <span className="underline"> ease.</span>
         </h1>
 

@@ -3,7 +3,7 @@ import Header from '@/components/Header';
 import BusinessHeroSection from '@/components/BusinessHeroSection';
 import BusinessStatement from '@/components/BusinessStatement';
 import BusinessPartnersRow from '@/components/BusinessPartnersRow';
-import Testimonials from '@/components/Testimonials';
+import BusinessTestimonials from '@/components/BusinessTestimonials';
 import BusinessFeatures from '@/components/BusinessFeatures';
 import BusinessCTA from '@/components/BusinessCTA';
 import Footer from '@/components/Footer';
@@ -18,7 +18,7 @@ export default function Business() {
       </div>
       <BusinessPartnersRow />
       <BusinessStatement />
-      <Testimonials />
+      <BusinessTestimonials />
       <BusinessFeatures />
       <BusinessCTA />
       <Footer />

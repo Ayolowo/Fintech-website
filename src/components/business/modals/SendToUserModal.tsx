@@ -111,38 +111,38 @@ export function SendToUserModal({ open, onOpenChange, walletBalance, onSuccess }
     setLoadingRate(true);
     setError("");
     try {
-      const token = await getAuthToken();
       if (selectedCountry.currency === "USD") {
         setExchangeRate(1.0);
-      } else if (selectedCountry.provider === "yellowcard") {
-        const res = await fetch(`/api/business/rates?currency=${selectedCountry.currency}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        if (!res.ok) throw new Error("Failed to load rate");
+        return;
+      }
+
+      if (selectedCountry.provider === "yellowcard") {
+        const res = await fetch(`/api/public/business/rates?currency=${selectedCountry.currency}`);
         const data = await res.json();
+        if (!res.ok) throw new Error(data?.error || `Rate fetch failed (${res.status})`);
         const rates = data.rates || data;
-        const rate = rates.find((r: any) => r.code === selectedCountry.currency);
-        if (!rate) throw new Error("Rate not found");
-        // sell rate = local currency units per 1 USDC (withdraw direction)
+        const rate = Array.isArray(rates) ? rates.find((r: any) => r.code === selectedCountry.currency) : null;
+        if (!rate) throw new Error(`Rate not found for ${selectedCountry.currency}`);
         setExchangeRate(rate.sell);
+
       } else if (selectedCountry.provider === "bridge") {
-        // fiat_to_usd + sell_rate: how many fiat units per 1 USDC (e.g. 1.06 EUR/USD)
         const res = await fetch(`/api/public/bridge/exchange-rates?currency=${selectedCountry.currency.toLowerCase()}&direction=fiat_to_usd`);
-        if (!res.ok) throw new Error("Failed to load rate");
         const data = await res.json();
+        if (!res.ok) throw new Error(data?.error || `Rate fetch failed (${res.status})`);
         const rate = data.sell_rate || data.midmarket_rate || data.buy_rate;
-        if (!rate) throw new Error("Rate not found");
+        if (!rate) throw new Error(`No rate in response for ${selectedCountry.currency}`);
         setExchangeRate(rate);
+
       } else if (selectedCountry.provider === "paytrie") {
-        // price = USDC per 1 CAD → store as CAD per USDC (1/price) so usdcCost = cadAmount / rate
         const res = await fetch(`/api/public/paytrie/price-quote?leftSideLabel=CAD&leftSideValue=1&rightSideLabel=USDC`);
-        if (!res.ok) throw new Error("Failed to load rate");
         const data = await res.json();
-        if (!data.price) throw new Error("Rate not found");
+        if (!res.ok) throw new Error(data?.error || `Rate fetch failed (${res.status})`);
+        if (!data.price) throw new Error("No price in Paytrie response");
         setExchangeRate(1 / data.price);
       }
-    } catch {
-      setError("Failed to load exchange rate");
+    } catch (err: any) {
+      console.error("[SendToUserModal] loadRate error:", err);
+      setError(err.message || "Failed to load exchange rate");
     } finally {
       setLoadingRate(false);
     }

@@ -8,6 +8,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import DashboardLogo from "@/assets/dashboard-logo";
 import {
   LayoutDashboard,
   Wallet,
@@ -61,23 +62,9 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
       {/* Sidebar - Desktop */}
       <aside className="hidden md:flex md:flex-col md:w-64 bg-white border-r">
         <div className="p-6 border-b">
-          <Link href="/business/dashboard" className="flex items-start gap-3">
-            <div
-              className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0"
-              style={{ backgroundColor: "#163300" }}
-            >
-              <span className="text-white font-bold text-lg">
-                {getBusinessInitials(profile?.business_name)}
-              </span>
-            </div>
-            <div className="flex flex-col">
-              <span className="font-bold text-xl leading-tight">PayBridge</span>
-              {profile?.business_name && (
-                <span className="text-sm text-gray-600 leading-tight mt-0.5">
-                  {profile.business_name}
-                </span>
-              )}
-            </div>
+          <Link href="/business/dashboard" className="flex items-center gap-2">
+            <DashboardLogo />
+            <span className="font-bold text-xl text-black">PayBridge</span>
           </Link>
         </div>
 
@@ -134,23 +121,9 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           />
           <aside className="fixed left-0 top-0 bottom-0 w-64 bg-white">
             <div className="p-6 border-b flex items-start justify-between">
-              <Link href="/business/dashboard" className="flex items-start gap-3 flex-1">
-                <div
-                  className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0"
-                  style={{ backgroundColor: "#163300" }}
-                >
-                  <span className="text-white font-bold text-sm">
-                    {getBusinessInitials(profile?.business_name)}
-                  </span>
-                </div>
-                <div className="flex flex-col">
-                  <span className="font-bold text-xl leading-tight">PayBridge</span>
-                  {profile?.business_name && (
-                    <span className="text-sm text-gray-600 leading-tight mt-0.5">
-                      {profile.business_name}
-                    </span>
-                  )}
-                </div>
+              <Link href="/business/dashboard" className="flex items-center gap-2 flex-1">
+                <DashboardLogo />
+                <span className="font-bold text-xl text-black">PayBridge</span>
               </Link>
               <Button
                 variant="ghost"

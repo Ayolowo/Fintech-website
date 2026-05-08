@@ -1,6 +1,6 @@
 "use client";
 
-import { useTransactions } from "@/hooks/useBusinessData";
+import { useTransactions, useBusinessProfile } from "@/hooks/useBusinessData";
 import { usePrivy } from "@privy-io/react-auth";
 import { useAuth } from "@/hooks/useAuth";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -14,6 +14,7 @@ import { useQueryClient } from "@tanstack/react-query";
 export default function BusinessDashboardPage() {
   const { user, ready } = usePrivy();
   const { getAuthToken, authenticated } = useAuth();
+  const { data: profile, isLoading: profileLoading } = useBusinessProfile();
   const queryClient = useQueryClient();
 
   // Auth and profile checks are handled by ProtectedRoute in the layout
@@ -198,19 +199,27 @@ export default function BusinessDashboardPage() {
     });
   };
 
-  const profile = queryClient.getQueryData(['business-profile', user?.email?.address]) as any;
-  const displayName = profile?.business_name ?? user?.email?.address?.split('@')[0] ?? 'there';
+  const displayName = profile?.business_name || profile?.name || null;
 
   return (
     <div className="space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-black">
-          Welcome, {displayName}
-        </h1>
-        <p className="text-gray-500 mt-1">
-          Here&apos;s an overview of your account activity.
-        </p>
+        {profileLoading ? (
+          <div className="space-y-2">
+            <Skeleton className="h-9 w-64" />
+            <Skeleton className="h-5 w-80" />
+          </div>
+        ) : (
+          <>
+            <h1 className="text-3xl font-bold text-black">
+              {displayName ? `Welcome, ${displayName}` : "Welcome"}
+            </h1>
+            <p className="text-gray-800 mt-1">
+              Here&apos;s an overview of your account activity.
+            </p>
+          </>
+        )}
       </div>
 
       {/* Total Balance Card */}
@@ -298,9 +307,20 @@ export default function BusinessDashboardPage() {
         {/* Table */}
         <div className="overflow-x-auto max-h-[500px] overflow-y-auto">
           {transactionsLoading ? (
-            <div className="p-6 space-y-3">
+            <div className="divide-y divide-gray-100">
               {[...Array(5)].map((_, i) => (
-                <Skeleton key={i} className="h-16 w-full" />
+                <div key={i} className="flex items-center gap-4 px-6 py-5">
+                  <div className="space-y-2 flex-1">
+                    <Skeleton className="h-4 w-24" />
+                    <Skeleton className="h-3 w-16" />
+                  </div>
+                  <Skeleton className="h-4 w-16 hidden md:block" />
+                  <Skeleton className="h-4 w-32 hidden md:block" />
+                  <Skeleton className="h-4 w-16 hidden md:block" />
+                  <Skeleton className="h-4 w-20" />
+                  <Skeleton className="h-4 w-16 hidden md:block" />
+                  <Skeleton className="h-6 w-20 rounded-md" />
+                </div>
               ))}
             </div>
           ) : transactionsData?.data &&

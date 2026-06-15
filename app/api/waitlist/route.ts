@@ -4,7 +4,7 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
 
-    const response = await fetch(`${process.env.API_BASE_URL}/waitlist`, {
+    const response = await fetch(`${process.env.API_BASE_URL}/public/waitlist`, {
       method: 'POST',
       headers: {
         'X-APP-KEY': process.env.APP_KEY!,

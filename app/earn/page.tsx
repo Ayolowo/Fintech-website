@@ -196,9 +196,9 @@ function WaitlistForm({ referredBy }: { referredBy: string }) {
           >
             <Check className="h-5 w-5" style={{ color: "#163300" }} />
           </div>
-          <p className="font-black text-black text-lg mb-1">You're on the list.</p>
+          <p className="font-black text-black text-lg mb-1">You&apos;re on the list.</p>
           <p className="text-sm" style={{ color: "#163300" }}>
-            We'll be in touch when early access opens. Stay tuned.
+            We&apos;ll be in touch when early access opens. Stay tuned.
           </p>
         </div>
       </div>
@@ -353,7 +353,7 @@ export default function EarnPage() {
 
             <h1 className="text-5xl sm:text-6xl md:text-7xl font-black text-black mb-5" style={{ lineHeight: 0.99 }}>
               Your money<br />
-              shouldn't<br />
+              shouldn&apos;t<br />
               sit still.
             </h1>
 

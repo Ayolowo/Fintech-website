@@ -267,7 +267,7 @@ const FEATURES = [
   {
     icon: ShoppingBag,
     title: "Pay at any point of sale",
-    body: "Tap to pay anywhere cards are accepted. In-store, online, or in-app. Your PayBridge card works everywhere.",
+    body: "Tap to pay anywhere cards are accepted. In-store, online, or in-app. Your PayBridge app works everywhere.",
   },
   {
     icon: Zap,
@@ -369,7 +369,7 @@ export default function EarnPage() {
             <div className="flex justify-center lg:justify-start">
               <WaitlistForm referredBy={referredBy} />
             </div>
-            <p className="text-xs text-gray-400 mt-3 pl-2">No card required. Early access spots are limited.</p>
+            <p className="text-xs text-gray-400 mt-3 pl-2">Early access spots are limited.</p>
           </div>
         </div>
       </section>
@@ -395,17 +395,6 @@ export default function EarnPage() {
         </div>
       </section>
 
-      {/* Trust row */}
-      <section className="px-6 md:px-16 lg:px-24 py-16 border-t border-black/5 max-w-7xl mx-auto w-full">
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-10 sm:gap-20">
-          {TRUST_STATS.map(({ value, label }) => (
-            <div key={label} className="text-center">
-              <p className="text-4xl font-black text-black mb-1">{value}</p>
-              <p className="text-sm" style={{ color: "#163300" }}>{label}</p>
-            </div>
-          ))}
-        </div>
-      </section>
 
       {/* Bottom CTA */}
       <section className="px-6 md:px-16 lg:px-24 py-24 border-t border-black/5">

@@ -397,7 +397,7 @@ export default function EarnPage() {
 
 
       {/* Bottom CTA */}
-      <section className="px-6 md:px-16 lg:px-24 py-24 border-t border-black/5">
+      <section className="px-6 md:px-16 lg:px-24 py-24">
         <div className="max-w-xl mx-auto text-center">
           <h2 className="text-4xl sm:text-5xl font-black text-black mb-4" style={{ lineHeight: 0.99 }}>
             Be first in line.

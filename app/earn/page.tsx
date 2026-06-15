@@ -49,7 +49,7 @@ function BalanceCard() {
   }, []);
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    const addItem = () => {
       const item = FEED_ITEMS[feedItemRef.current % FEED_ITEMS.length];
       feedItemRef.current += 1;
       feedCounterRef.current += 1;
@@ -61,7 +61,11 @@ function BalanceCard() {
       ]);
       setBalance((b) => b + item.cashback);
       setEarnedToday((e) => e + item.cashback);
-    }, 4000);
+    };
+
+    // Show first item immediately, then every 3s
+    addItem();
+    const interval = setInterval(addItem, 3000);
     return () => clearInterval(interval);
   }, []);
 
@@ -136,8 +140,7 @@ function BalanceCard() {
         </div>
 
         {/* Card footer */}
-        <div className="px-6 py-3 border-t border-black/5 flex items-center justify-between">
-          <p className="text-xs text-gray-400">PayBridge card</p>
+        <div className="px-6 py-3 border-t border-black/5 flex items-center justify-end">
           <div className="flex items-center gap-1.5 text-xs text-gray-400">
             <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: "#9FE870" }} />
             Live
@@ -342,7 +345,7 @@ export default function EarnPage() {
           </div>
 
           {/* Copy + form — second on mobile, left column on desktop */}
-          <div id="join" className="order-last lg:order-first">
+          <div id="join" className="order-last lg:order-first text-center lg:text-left">
             <div
               className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold mb-6"
               style={{ backgroundColor: "#9FE870", color: "#163300" }}
@@ -357,11 +360,13 @@ export default function EarnPage() {
               sit still.
             </h1>
 
-            <p className="text-sm md:text-lg font-normal mb-8 max-w-md leading-relaxed" style={{ color: "#163300" }}>
+            <p className="text-sm md:text-lg font-normal mb-8 max-w-md leading-relaxed mx-auto lg:mx-0" style={{ color: "#163300" }}>
               Earn on your balance, pay at any point of sale, and get instant cashback on every purchase.
             </p>
 
-            <WaitlistForm referredBy={referredBy} />
+            <div className="flex justify-center lg:justify-start">
+              <WaitlistForm referredBy={referredBy} />
+            </div>
             <p className="text-xs text-gray-400 mt-3 pl-2">No card required. Early access spots are limited.</p>
           </div>
         </div>

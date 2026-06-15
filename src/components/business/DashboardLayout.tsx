@@ -11,11 +11,7 @@ import { cn } from "@/lib/utils";
 import DashboardLogo from "@/assets/dashboard-logo";
 import {
   LayoutDashboard,
-  Wallet,
-  ArrowUpRight,
-  ArrowDownLeft,
   History,
-  Shield,
   Settings,
   LogOut,
   Search,
@@ -64,7 +60,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         <div className="p-6 border-b">
           <Link href="/business/dashboard" className="flex items-center gap-2">
             <DashboardLogo />
-            <span className="font-bold text-xl text-black">PayBridge</span>
+            <span className="font-bold text-lg text-black">PayBridge</span>
           </Link>
         </div>
 
@@ -194,14 +190,9 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           >
             <Menu className="h-5 w-5" />
           </Button>
-          <Link
-            href="/business/dashboard"
-            className="flex items-center space-x-2"
-          >
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold">P</span>
-            </div>
-            <span className="font-bold text-xl">PayBridge</span>
+          <Link href="/business/dashboard" className="flex items-center gap-2">
+            <DashboardLogo width={32} height={32} />
+            <span className="font-bold text-xl text-black">PayBridge</span>
           </Link>
           <div className="w-10" /> {/* Spacer for centering */}
         </header>

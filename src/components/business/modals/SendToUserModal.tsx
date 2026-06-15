@@ -260,9 +260,9 @@ export function SendToUserModal({ open, onOpenChange, walletBalance, onSuccess }
   const renderSearch = () => (
     <>
       <DialogHeader>
-        <DialogTitle className="text-2xl font-bold text-black">Send to PayBridge user</DialogTitle>
+        <DialogTitle className="text-2xl font-bold text-black">Send to a PayBridge user</DialogTitle>
       </DialogHeader>
-      <p className="text-base text-gray-800 mt-1 mb-4">Search by name or PayTag</p>
+      <p className="text-base text-gray-800 mb-4">Search by name or PayTag</p>
 
       <div className="relative">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-700" />

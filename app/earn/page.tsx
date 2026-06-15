@@ -32,11 +32,17 @@ function BalanceCard() {
   const startTimeRef = useRef(Date.now());
   const [balance, setBalance] = useState(START_BALANCE);
   const [earnedToday, setEarnedToday] = useState(3.14);
+  const now = new Date();
+  const ts = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
   const [feed, setFeed] = useState<
     { id: number; merchant: string; amount: number; cashback: number; emoji: string; ts: string }[]
-  >([]);
-  const feedItemRef = useRef(0);
-  const feedCounterRef = useRef(0);
+  >([
+    { id: 1, ...FEED_ITEMS[0], ts },
+    { id: 2, ...FEED_ITEMS[1], ts },
+    { id: 3, ...FEED_ITEMS[2], ts },
+  ]);
+  const feedItemRef = useRef(3);
+  const feedCounterRef = useRef(3);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -49,7 +55,7 @@ function BalanceCard() {
   }, []);
 
   useEffect(() => {
-    const addItem = () => {
+    const interval = setInterval(() => {
       const item = FEED_ITEMS[feedItemRef.current % FEED_ITEMS.length];
       feedItemRef.current += 1;
       feedCounterRef.current += 1;
@@ -61,11 +67,7 @@ function BalanceCard() {
       ]);
       setBalance((b) => b + item.cashback);
       setEarnedToday((e) => e + item.cashback);
-    };
-
-    // Show first item immediately, then every 3s
-    addItem();
-    const interval = setInterval(addItem, 3000);
+    }, 3000);
     return () => clearInterval(interval);
   }, []);
 
@@ -339,13 +341,13 @@ export default function EarnPage() {
         <Nav />
 
         <div className="relative z-10 grid lg:grid-cols-2 gap-10 lg:gap-16 items-center px-6 md:px-16 lg:px-24 pt-24 sm:pt-32 md:pt-40 pb-16 max-w-7xl mx-auto">
-          {/* Balance card — first on mobile, right column on desktop */}
-          <div className="order-first lg:order-last flex justify-center lg:justify-end">
+          {/* Balance card — second on mobile, right column on desktop */}
+          <div className="order-last lg:order-last flex justify-center lg:justify-end">
             <BalanceCard />
           </div>
 
-          {/* Copy + form — second on mobile, left column on desktop */}
-          <div id="join" className="order-last lg:order-first text-center lg:text-left">
+          {/* Copy + form — first on mobile, left column on desktop */}
+          <div id="join" className="order-first lg:order-first text-center lg:text-left">
             <div
               className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold mb-6"
               style={{ backgroundColor: "#9FE870", color: "#163300" }}
